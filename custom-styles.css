@@ -49,6 +49,7 @@ html, body {
 }
 .content {
     flex: 1; /* New */
+    overflow-y: auto; /* Allow content to scroll vertically */
     
 }
 footer {
