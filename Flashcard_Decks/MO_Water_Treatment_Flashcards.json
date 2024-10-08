@@ -1,0 +1,370 @@
+[
+    {
+        "question": "Secondary maximum contaminant levels relate to what?",
+        "answer": "Aesthetic concerns"
+    },
+    {
+        "question": "List the repair kit and corresponding container size for chlorine containers",
+        "answer": " A kit for 150 lbs, B kit for 1 ton cylinders, C kit for rail cars"
+    },
+    {
+        "question": "What tier is related to the following: Chronic potential to have serious health effects, 30 day notification, Direct delivery & another method?",
+        "answer": "Tier 2"
+    },
+    {
+        "question": "Why is sodium thiosulfate placed in bacteriological sample bottles?",
+        "answer": "It will neutralize any chlorine in the sample"
+    },
+    {
+        "question": "Black and/or dark brown water stains are caused by what?",
+        "answer": "Manganese"
+    },
+    {
+        "question": "What tier is related to the following: All other violations that don't pose a health risk, 1 year notification, Direct delivery & another method",
+        "answer": "Tier 3"
+    },
+    {
+        "question": "Orange and/or red stains are caused by what?",
+        "answer": "Iron"
+    },
+    {
+        "question": "Which water standards are enforceable?",
+        "answer": "Maximum Contaminant Level (MCL)"
+    },
+    {
+        "question": "What are the two most important safety concerns when entering a confined space?",
+        "answer": "Oxygen deficiency & hazardous gases"
+    },
+    {
+        "question": "How long must a system retain sample results for lead & copper?",
+        "answer": "12 years"
+    },
+    {
+        "question": "What are the different types of chlorine that can be used in water treatment?",
+        "answer": "Gas-cl2, liquid-sodium hypochlorite, solid-calcium hypochlorite"
+    },
+    {
+        "question": "Opening or closing a valve too rapidly can cause what?",
+        "answer": "Water Hammer"
+    },
+    {
+        "question": "A public water system in MO serves ______ connections or an average of _____ individuals 60 days out of the year",
+        "answer": "15 connections or 25 individuals"
+    },
+    {
+        "question": "Blue-green water stains are caused by what?",
+        "answer": "Acidic water"
+    },
+    {
+        "question": "What does anaerobic mean?",
+        "answer": "Low or no oxygen"
+    },
+    {
+        "question": "What is the minimum distance an overflow pipe needs to be from the ground?",
+        "answer": "12 to 24 inches"
+    },
+    {
+        "question": "Why do water storage tanks have vents?",
+        "answer": "To release pressure"
+    },
+    {
+        "question": "What degree angle does a new service get tapped at?",
+        "answer": "45 degrees"
+    },
+    {
+        "question": "What is the area affected around a pumping well called?",
+        "answer": "Zone of Influence"
+    },
+    {
+        "question": "the term \"aquifer\" relates to what?",
+        "answer": "Ground Water"
+    },
+    {
+        "question": "What is the maximum withdrawl rate for a 150 lb cylinder, a 1 ton tank, and a rail car?",
+        "answer": "150 lb cylinder - 40 lbs/day, 1 ton container - 400 lbs/day, rail car - 400 lbs/day"
+    },
+    {
+        "question": "Most pumps must be primed before startup in order to _______",
+        "answer": "Start the flow of water"
+    },
+    {
+        "question": "Maximum contaminant levels relate to what?",
+        "answer": "Health effects"
+    },
+    {
+        "question": "What type of meter reads high & low flow rates?",
+        "answer": "Combination or compound meter"
+    },
+    {
+        "question": "The Consumer Confidence Report (CCR) is delivered to customers when?",
+        "answer": "July 1st annually"
+    },
+    {
+        "question": "How high off the ground should a well casing extend?",
+        "answer": "18 inches"
+    },
+    {
+        "question": "What is the correct procedure for mixing acid & water?",
+        "answer": "Acid is slowly added to water"
+    },
+    {
+        "question": "What are two methods to soften water?",
+        "answer": "Ion exchange and chemical precipitation (lime softening)"
+    },
+    {
+        "question": "Chlorine gas is ___ times heavier than air?",
+        "answer": "2.5"
+    },
+    {
+        "question": "After a new water main is installed & pressure tested it should be _________",
+        "answer": "Filled with a solution of 20-50 ppm free chlorine for at least 24 hours prior to flushing"
+    },
+    {
+        "question": "_____ is a failsafe on a chlorine tank that melts at _____ to prevent the tank from exploding",
+        "answer": "Fusible plug, 160 - 165 degrees fahrenheit"
+    },
+    {
+        "question": "What is the seal at the top of a well called?",
+        "answer": "Sanitary Seal"
+    },
+    {
+        "question": "What is turbidity?",
+        "answer": "The cloudiness of water caused by suspended solids"
+    },
+    {
+        "question": "What is the formula for the volume of a rectangle?",
+        "answer": "V=LxWxH or Volume=LengthxWidthxHeight"
+    },
+    {
+        "question": "What is stratification?",
+        "answer": "Stratification is the formation of layers in water"
+    },
+    {
+        "question": "What device measures the flow rate of gases?",
+        "answer": "Rotameter"
+    },
+    {
+        "question": "What is the minimum contact time required for disinfection?",
+        "answer": "30 minutes"
+    },
+    {
+        "question": "\"Blue Baby Syndrome\" is caused by what chemical compound?",
+        "answer": "Nitrates"
+    },
+    {
+        "question": "What acts as an automatic shutoff valve when a pump stops or only allows flow in one direction?",
+        "answer": "Check Valve"
+    },
+    {
+        "question": "What is the MCL for lead?",
+        "answer": ".015 mg/L or .015 ppm"
+    },
+    {
+        "question": "What is the best safeguard against cross connections?",
+        "answer": "Air Gap"
+    },
+    {
+        "question": "What does \"permeation\" mean?",
+        "answer": "Penetrating or passing though"
+    },
+    {
+        "question": "What are the two types of displacement meters?",
+        "answer": "Nutating-disc and piston"
+    },
+    {
+        "question": "What is the most important factor from the health point of view when considering a location of a new well?",
+        "answer": "Vulnerability"
+    },
+    {
+        "question": "Ion exchange softening leaves _____ in the water",
+        "answer": "Sodium"
+    },
+    {
+        "question": "Which substance in the water influences the rate of corrosion in a storage facility?",
+        "answer": "Dissolved oxygen"
+    },
+    {
+        "question": "What is the MCL for Copper?",
+        "answer": "1.3 mg/L"
+    },
+    {
+        "question": "What is the recommended maximum concentration for iron in finished drinking water per MO regulations?",
+        "answer": "0.3 mg/L"
+    },
+    {
+        "question": "What are the two major types of electronic flow meters?",
+        "answer": "Magnetic & Sonic"
+    },
+    {
+        "question": "Why is a trench backfilled & tamped except at the joints?",
+        "answer": "Because the pipe has to be flushed & tested for leaks"
+    },
+    {
+        "question": "Intrusion of seawater into groundwater basins is caused by what?",
+        "answer": "Overpumping"
+    },
+    {
+        "question": "When should water quality samples for chlorine residual be analyzed?",
+        "answer": "Immediately"
+    },
+    {
+        "question": "What are the different types of velocity meters?",
+        "answer": "Turbine,propeller,venturi,electronic,insertion"
+    },
+    {
+        "question": "What are the two causes of backflow through a cross-connection?",
+        "answer": "Back pressure & backsiphonage"
+    },
+    {
+        "question": "Two main causes of hard water are:",
+        "answer": "Calcium & magnesium"
+    },
+    {
+        "question": "How many years are you required to keep bacteriological test results?",
+        "answer": "5 years"
+    },
+    {
+        "question": "A mixture of gas is considered hazardous when the mixture exceeds ___% of the LEL (Lower Explosive Limit):",
+        "answer": "10 percent"
+    },
+    {
+        "question": "A newly constructed water well must be a minimum of ___ft from sewer lines:",
+        "answer": "50 ft"
+    },
+    {
+        "question": "Water must be undisturbed for ___ hours when collecting lead & copper samples:",
+        "answer": "6 hours"
+    },
+    {
+        "question": "What is the reagent used to determine chlorine residual in water?",
+        "answer": "DPD (Diethyl-p-phenylendediamine)"
+    },
+    {
+        "question": "What mesh size is used for vent screens on water towers and wells?",
+        "answer": "18"
+    },
+    {
+        "question": "1 psi is equal to how many ft of water?",
+        "answer": "2.31 ft"
+    },
+    {
+        "question": "Yellow water stains are caused by what?",
+        "answer": "Tannins (earthy smell) or iron (orange stain)"
+    },
+    {
+        "question": "The maximum contaminant level for fluoride is:",
+        "answer": "4 mg/L"
+    },
+    {
+        "question": "Dosage =",
+        "answer": "Demand + Residual"
+    },
+    {
+        "question": "What is the most common type of valve used for isolating mains?",
+        "answer": "Gate Valve"
+    },
+    {
+        "question": "1 grain per gallon (gpg) is equal to how many parts per million (ppm)?",
+        "answer": "17.1 ppm"
+    },
+    {
+        "question": "1 cubic foot of water weighs ____ lbs:",
+        "answer": "62.4 pounds"
+    },
+    {
+        "question": "What is the most important reason for maintaining continuous positive pressure throughout the distribution system?",
+        "answer": "To prevent contamination from backflow"
+    },
+    {
+        "question": "1 gallon of water weighs _____ lbs",
+        "answer": "8.34 pounds"
+    },
+    {
+        "question": "White stains and/or spotting is caused by:",
+        "answer": "Calcium and magnesium"
+    },
+    {
+        "question": "What is the physical connection that provides the opportunity for nonpotable water to enter the water system?",
+        "answer": "Cross connection"
+    },
+    {
+        "question": "What is the minimum pressure to be maintained in the water distribution system at all times under normal conditions?",
+        "answer": "20 psi"
+    },
+    {
+        "question": "What is the minimum allowable level of free chlorine entering a distribution system?",
+        "answer": "0.5 mg/L"
+    },
+    {
+        "question": "Why should new plastic mains be covered before installation?",
+        "answer": "Sunlight will make plastic brittle"
+    },
+    {
+        "question": "What is the minimum allowable vertical distance between water mains & sewer lines that cross?",
+        "answer": "18 inches"
+    },
+    {
+        "question": "1 mile is how many feet?",
+        "answer": "5280 ft"
+    },
+    {
+        "question": "If the chief operator is no longer available, the department should be notified within ____ days",
+        "answer": "10 days"
+    },
+    {
+        "question": "What is commonly used as an indicator of possible health problems?",
+        "answer": "Coliform bacteria"
+    },
+    {
+        "question": "What are Trihalomethanes (THM)?",
+        "answer": "Chlorine by-product caused from organic compounds combining with chlorine"
+    },
+    {
+        "question": "At what depth is shoring required in a trench excavated in soil?",
+        "answer": "5ft or deeper"
+    },
+    {
+        "question": "1 cubic foot is equal to how many gallons?",
+        "answer": "7.48 gallons"
+    },
+    {
+        "question": "1 cuft/sec is equal to ___ gal/min",
+        "answer": "449 gal/min"
+    },
+    {
+        "question": "One volume of pressurized chlorine liquid will produce how many volumes of chlorine gas?",
+        "answer": "460"
+    },
+    {
+        "question": "What is used to detect a chlorine leak?",
+        "answer": "Ammonia solution"
+    },
+    {
+        "question": "What tier has the following: Acute-significant potential to have serious adverse health effects, 24 hour notification, direct delivery & another method",
+        "answer": "Tier 1"
+    },
+    {
+        "question": "How often to backflow prevention devices have to be inspected?",
+        "answer": "Annually"
+    },
+    {
+        "question": "Volume of a cylinder",
+        "answer": "Cylinder volume = \u03c0 \u00d7 cylinder radius\u00b2 \u00d7 cylinder height"
+    },
+    {
+        "question": "The smoothness of the inside of a pipe is called ____:",
+        "answer": "C Factor"
+    },
+    {
+        "question": "Chlorine residual monitoring is done a minimum of ____ hours for ground water treated with chlorine:",
+        "answer": "24 hours (Daily)"
+    },
+    {
+        "question": "Area of a circle:",
+        "answer": "A = \u03c0 x radius\u00b2"
+    },
+    {
+        "question": "Which form of chlorine is most effective against biofilms & why?",
+        "answer": "Chloramines because they last longest in the system"
+    }
+]
