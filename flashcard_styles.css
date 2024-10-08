@@ -6,8 +6,8 @@ body {
 
 #flashcard-container {
     display: inline-block;
-    width: 300px;
-    height: 200px;
+    width: 320px;
+    height: 210px;
     padding: 20px;
     background-color: #ffffff;
     border: 2px solid #333;
@@ -16,7 +16,7 @@ body {
 }
 
 #flashcard {
-    font-size: 14px;
+    font-size: 16px;
     margin-bottom: 20px;
 }
 .custom-button {
