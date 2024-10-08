@@ -31,12 +31,33 @@ body {
     background-color: var(--accent-color);
 }
 
-footer {
-    background-color: var(--primary-color);
-    color: white;
-}
-
 .navbar-logo {
     height: 40px; /* Adjust this size to fit the height of your navbar */
     width: auto; /* Maintain the aspect ratio */
+}
+
+.center-text {
+    text-align: center;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* New */
+
+}
+.content {
+    flex: 1; /* New */
+    
+}
+footer {
+    background-color: var(--primary-color);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
 }
