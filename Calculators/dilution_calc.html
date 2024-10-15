@@ -1,0 +1,84 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;"  id="myForm">
+        <br>
+        <h2 class="calc-title">Dilution Calculator</h2>
+        <label class="entry-label">Initial Concentration</label><br>
+        <input id="input_1" type="number" step="0.01" placeholder="">
+        <select id="selectType" style="width: 150px;">Selection            
+            <option value = "Percent">Percent</option>
+            <option value = "mg/L">mg/L</option>
+        </select>
+        <br>
+        <label class="entry-label">Desired Final Volume</label><br>
+        <input type="text" id="input_2" placeholder="">
+        <select id="selectType2" style="width: 150px;">Selection            
+            <option value = "Gallons">Gallons</option>
+            <option value = "Milliliters">Milliliters</option>
+            <option value = "Liters">Liters</option>
+        </select>
+        <label class="entry-label" style="width: 200px;">Desired Concentration</label><br>
+        <input type="number" id="input_3" step="0.1" placeholder="">
+        <select id="selectType3" style="width: 150px;">Selection            
+            <option value = "Percent">Percent</option>
+            <option value="mg/L">mg/L</option>
+        </select>
+        <br><br>
+        <button class="btn btn-primary" onclick=calculate()>Submit</button>
+        <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+        <br><br>
+        <label id="outputText" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        
+
+        function resetForm() {
+            document.getElementById("myForm").reset();
+            document.getElementById("outputText").innerHTML = "";
+        }
+
+        function calculate () {
+            let c1 = parseFloat(document.getElementById("input_1").value);
+            let v2 = parseFloat(document.getElementById("input_2").value);
+            let c2 = parseFloat(document.getElementById("input_3").value);
+
+            //Get the variable for amount of water
+            let selection = document.getElementById("selectType");
+            let txt = selection.options[selection.selectedIndex].text;
+            if (txt === "Percent") {
+                c1 = c1;
+            } else if (txt === "mg/L") {
+                c1 = c1/10000;
+            }
+
+            //Get the variable for amount of water
+            let selection3 = document.getElementById("selectType3");
+            let txt3 = selection3.options[selection3.selectedIndex].text;
+            if (txt3 === "Percent") {
+                c2 = c2;
+            } else if (txt3 === "mg/L") {
+                c2 = c2/10000;
+            }
+            
+            if (isNaN(c1) || isNaN(c2) || isNaN(v2)) {
+                document.getElementById("outputText").innerHTML = "Please Enter Valid Numbers";
+                return;
+            } else if (c2>c1) {
+                document.getElementById("outputText").innerHTML = "Desired conc. must be > Stock conc.";
+                return;
+            }
+            //Get the variable for volume
+            let selection2 = document.getElementById("selectType2");
+            let selectedOption2 = selection2.options[selection2.selectedIndex].value;
+            let txt2 = selection2.options[selection2.selectedIndex].text;
+
+            
+            let answer = Math.round(((c2*v2)/c1)*100000)/100000;
+            let answer2 = v2-answer;
+
+
+            document.getElementById("outputText").innerHTML = answer + " "+txt2+" of Initial Solution";
+        }
+    </script>

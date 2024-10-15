@@ -1,0 +1,133 @@
+        <div class="content" style="text-align: center;">
+            <form onsubmit="return false;"  id="myForm">
+                <br>
+                <h2 class="calc-title">Dose Calculator</h2><br>
+                <input id="input_1" type="number" step="0.001" placeholder="Required">
+                <select id="selectType" style="width: 150px;">Selection
+                    <option value="GPM">GPM (24 Hours)</option>
+                    <option value="Million Gallons">Million Gallons</option>
+                    <option value = "Gallons">Gallons</option>
+                </select>
+                <br>
+                <input type="number" id="input_2" step="0.01" placeholder="100% (Default)">
+                <select id="selectType2" style="width: 150px;" onchange="treatmentSelect()">Selection
+                    <option value="Gas">Chlorine Strength</option>
+                    <option value="Liquid">NaOCl Strength</option>
+                    <option value = "Solid">Ca(OCl)₂ Strength</option>
+                </select>
+                <input type="text" id="input_3" step="0.1" placeholder=" Required (mg/L)">
+                <label for="input_3">Desired Residual</label><br>
+                <input type="text" id="input_4" step="0.1" placeholder="(mg/L)">
+                <label for="input_4">Demand mg/L</label><br><br>
+                <button class="btn btn-primary" onclick=getVariables()>Submit</button>
+                <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+                <br><br>
+                <label id="outputText" class="answer"></label>
+                <br>
+            </form>
+            <br><br><br><br>
+            
+
+            <script>
+                //let strength = 100
+                function resetForm() {
+                    document.getElementById("myForm").reset();
+                    document.getElementById("outputText").innerHTML = "";
+                    document.getElementById("input_2").placeholder = "100% (Default)";
+
+                }
+                function treatmentSelect() {
+                    var selection = document.getElementById("selectType2");
+                    let selectedOption = selection.options[selection.selectedIndex].value;
+                    let inputField = document.getElementById("input_2");
+
+                    if (selectedOption === "Liquid") {
+                        inputField.placeholder = "12% (Default)"; 
+                        strength = 12                       
+                    } else if (selectedOption === "Solid") {
+                        inputField.placeholder = "65% (Default)"; 
+                        strength = 65 
+                    } else if (selectedOption === "Gas") {
+                        inputField.placeholder = "100% (Default)";
+                        strength = 100
+                    }
+                }
+
+                function getVariables() {
+                    let input1 = parseFloat(document.getElementById("input_1").value);
+                    let mgd = 0; // Declare mgd variable outside the if-else block
+                    strength = (parseFloat(document.getElementById("input_2").value))/100;
+                    let dose = parseFloat(document.getElementById("input_3").value);
+                    let demand = parseFloat(document.getElementById("input_4").value);
+                    let unit = "";
+                    let final = 0;
+                    let percent = 0;
+
+                    //Get the variable for amount of water
+                    let selection = document.getElementById("selectType");
+                    let txt = selection.options[selection.selectedIndex].text;
+
+                    //Get the variable for type of disinfectant
+                    let selection2 = document.getElementById("selectType2");
+                    let selectedOption2 = selection2.options[selection2.selectedIndex].value;
+                    let txt2 = selection2.options[selection.selectedIndex].text;
+
+                    if (isNaN(input1) || isNaN(dose)) {
+                        document.getElementById("outputText").innerHTML = "Please enter valid numbers.";
+                        return; // Exit the function if any input is invalid
+                    }
+
+                    if (txt === "GPM (24 Hours)") {  
+                        //document.getElementById("outputText").innerHTML = "test";                                          
+                        mgd = input1*1440/1000000;
+                    } else if (txt ==="Million Gallons") {
+                        mgd = input1;
+                    } else if(txt === "Gallons") {
+                        mgd = input1/1000000;
+                    }
+                    
+                    if (isNaN(demand)) {
+                        demand = 0;
+                    }
+
+                    //Get the type of disinfectant variable
+                    if (isNaN(strength)) {
+                        if (selectedOption2 === "Gas") {
+                            strength = 100/100;
+                            percent = strength*100
+                            final = (8.34*mgd*(dose+demand))/strength;
+                            unit = " pounds of chlorine gas";
+                        } else if (selectedOption2 === "Liquid") {
+                            strength = 12/100;
+                            percent = strength*100
+                            final = (mgd*(dose+demand))/strength;
+                            unit = " gallons of 12% strength sodium hypochlorite"
+                        } else if (selectedOption2 === "Solid") {
+                            strength = 65/100
+                            percent = strength*100
+                            final = (8.34*mgd*(dose+demand))/strength;
+                            unit = " pounds of 65% strength calcium hypochlorite"
+                        }
+                    } else {
+                        if (selectedOption2 === "Gas") {
+                            percent = Math.round(strength*10000)/100
+                            final = (8.34*mgd*(dose+demand))/strength;
+                            unit = " pounds of "+percent+"% chlorine gas";
+                        } else if (selectedOption2 === "Liquid") {
+                            percent = Math.round(strength*10000)/100
+                            final = (mgd*(dose+demand))/strength;
+                            unit = " gallons of "+percent+"% strength sodium hypochlorite";
+                        } else if (selectedOption2 === "Solid") {
+                            percent = Math.round(strength*10000)/100
+                            final = (8.34*mgd*(dose+demand))/strength;
+                            unit = " pounds of "+percent+"% strength calcium hypochlorite"
+                        }
+                    }
+                    document.getElementById("outputText").innerHTML = parseFloat(final.toFixed(2)) + unit;
+                    
+                    //let mgd = 50
+                    //document.getElementById("outputText").innerHTML = mgd;
+                }
+            </script>
+
+        </div>

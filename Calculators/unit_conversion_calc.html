@@ -1,0 +1,50 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;"  id="myForm">
+        <br>
+        <h2 class="calc-title">Liquid Unit Conversion (Inc)</h2>
+        <input id="input_1" type="number" step="0.01" placeholder="">
+        <select id="selectType" style="width: 150px;">Selection  
+            <option value = "gal">gal</option>          
+            <option value = "mL">mL</option>
+            <option value = "L">L</option>
+            <option value = "oz">oz</option>
+            <option value = "Cups">Cups</option>
+            <option value = "Pints">Pints</option>
+            <option value = "Quarts">Quarts</option>
+        </select>
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Output Unit</label><br>
+        <select id="selectType2" style="width: 150px;">Selection               
+            <option value = "mL">mL</option>
+            <option value = "L">L</option>
+            <option value = "gal">gal</option>
+            <option value = "oz">oz</option>
+            <option value = "Cups">Cups</option>
+            <option value = "Pints">Pints</option>
+            <option value = "Quarts">Quarts</option>
+        </select>
+        <br><br>
+        <button class="btn btn-primary" onclick=calculate()>Submit</button>
+        <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+        <br><br>
+        <label id="outputText" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        function resetForm() {
+            document.getElementById("myForm").reset();
+        }
+
+        function calculate() {
+            //Get the variable for source unit
+            let selection = document.getElementById("selectType");
+            let source = selection.options[selection.selectedIndex].text;
+            
+            //Test write to answer label
+            document.getElementById("outputText").innerHTML = "test";
+            
+        }
+    </script>
+</div>

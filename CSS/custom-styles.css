@@ -1,0 +1,69 @@
+:root {
+    --primary-color: #00577D; /* Main blue from the logo */
+    --accent-color: #00A7E1; /* Lighter blue for highlights */
+    --text-color: #333333; /* Dark gray for text */
+    --background-color: #F7F7F7; /* Light gray or white for background */
+}
+
+body {
+    background-color: var(--background-color);
+    color: var(--text-color);
+}
+
+.navbar {
+    background-color: var(--primary-color);
+}
+
+.navbar .nav-link {
+    color: white;
+}
+
+.navbar .nav-link:hover {
+    color: var(--accent-color);
+}
+
+.btn-primary {
+    background-color: var(--primary-color);
+    border: none;
+    width:100px;
+}
+
+.btn-primary:hover {
+    background-color: var(--accent-color);
+}
+
+.navbar-logo {
+    height: 40px; /* Adjust this size to fit the height of your navbar */
+    width: auto; /* Maintain the aspect ratio */
+}
+
+.center-text {
+    text-align: center;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    display: flex;
+    flex-direction: column; /* New */
+
+}
+.content {
+    flex: 1; /* New */
+    overflow-y: auto; /* Allow content to scroll vertically */
+    
+}
+footer {
+    background-color: var(--primary-color);
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    color: white;
+    text-align: center;
+    padding: 10px;
+    font-size: 16px;
+}
+.menu_drop {
+    background-color: var(--primary-color);
+    color: var(--background-color);
+}
