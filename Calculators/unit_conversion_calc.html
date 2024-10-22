@@ -1,16 +1,16 @@
 <div class="content" style="text-align: center;">
     <form onsubmit="return false;"  id="myForm">
         <br>
-        <h2 class="calc-title">Liquid Unit Conversion (Inc)</h2>
-        <input id="input_1" type="number" step="0.01" placeholder="">
+        <h2 class="calc-title">Liquid Unit Conversion</h2>
+        <input id="input_1" type="number" step="0.0001" placeholder="">
         <select id="selectType" style="width: 150px;">Selection  
             <option value = "gal">gal</option>          
             <option value = "mL">mL</option>
             <option value = "L">L</option>
             <option value = "oz">oz</option>
-            <option value = "Cups">Cups</option>
-            <option value = "Pints">Pints</option>
-            <option value = "Quarts">Quarts</option>
+            <option value = "c1">cups</option>
+            <option value = "pints">pints</option>
+            <option value = "quarts">quarts</option>
         </select>
         <br>
         <label class="entry-label" style="width: 350px; text-align: center;">Output Unit</label><br>
@@ -19,9 +19,9 @@
             <option value = "L">L</option>
             <option value = "gal">gal</option>
             <option value = "oz">oz</option>
-            <option value = "Cups">Cups</option>
-            <option value = "Pints">Pints</option>
-            <option value = "Quarts">Quarts</option>
+            <option value = "cups">cups</option>
+            <option value = "pints">pints</option>
+            <option value = "quarts">quarts</option>
         </select>
         <br><br>
         <button class="btn btn-primary" onclick=calculate()>Submit</button>
@@ -39,12 +39,222 @@
 
         function calculate() {
             //Get the variable for source unit
+            let answer_text = '';
+            let input_1 = parseFloat(document.getElementById("input_1").value);
             let selection = document.getElementById("selectType");
             let source = selection.options[selection.selectedIndex].text;
+            let selection2 = document.getElementById("selectType2");
+            let source2 = selection2.options[selection2.selectedIndex].text;
+//****************************************************************************//
+            if (source === 'gal' && source2 === 'gal') {
+                answer_text = input_1;
+            }
             
-            //Test write to answer label
-            document.getElementById("outputText").innerHTML = "test";
-            
+            if (source === 'gal' && source2 === 'mL') {
+                answer_text = input_1*3785.41;
+            }
+
+            if (source === 'gal' && source2 === 'L') {
+                answer_text = input_1*3.785;
+            }
+
+            if (source === 'gal' && source2 === 'oz') {
+                answer_text = input_1*128;
+            }
+
+            if (source === 'gal' && source2 === 'cups') {
+                answer_text = input_1*16;
+            }
+
+            if (source === 'gal' && source2 === 'pints') {
+                answer_text = input_1*8;
+            }
+
+            if (source === 'gal' && source2 === 'quarts') {
+                answer_text = input_1*4;
+            }
+//****************************************************************************//
+            if (source === 'mL' && source2 === 'mL') {
+                answer_text = input_1;
+            }
+
+            if (source === 'mL' && source2 === 'gal') {
+                answer_text = input_1*0.000264172;
+            }
+
+            if (source === 'mL' && source2 === 'L') {
+                answer_text = input_1*0.001;
+            }
+
+            if (source === 'mL' && source2 === 'oz') {
+                answer_text = input_1*0.033814;
+            }
+
+            if (source === 'mL' && source2 === 'cups') {
+                answer_text = input_1*0.00422675;
+            }
+
+            if (source === 'mL' && source2 === 'pints') {
+                answer_text = input_1*0.00211338;
+            }
+
+            if (source === 'mL' && source2 === 'quarts') {
+                answer_text = input_1*0.00105669;
+            }
+//****************************************************************************//
+            if (source === 'L' && source2 === 'mL') {
+                answer_text = input_1*1000;
+            }
+
+            if (source === 'L' && source2 === 'gal') {
+                answer_text = input_1*0.264172;
+            }
+
+            if (source === 'L' && source2 === 'L') {
+                answer_text = input_1;
+            }
+
+            if (source === 'L' && source2 === 'oz') {
+                answer_text = input_1*33.814;
+            }
+
+            if (source === 'L' && source2 === 'cups') {
+                answer_text = input_1*4.22675;
+            }
+
+            if (source === 'L' && source2 === 'pints') {
+                answer_text = input_1*2.11338;
+            }
+
+            if (source === 'L' && source2 === 'quarts') {
+                answer_text = input_1*1.05669;
+            }
+//****************************************************************************//
+            if (source === 'oz' && source2 === 'gal') {
+                answer_text = input_1*0.0078125;
+            }
+
+            if (source === 'oz' && source2 === 'mL') {
+                answer_text = input_1*29.5735;
+            }
+
+            if (source === 'oz' && source2 === 'L') {
+                answer_text = input_1*.02957;
+            }
+
+            if (source === 'oz' && source2 === 'oz') {
+                answer_text = input_1;
+            }
+
+            if (source === 'oz' && source2 === 'cups') {
+                answer_text = input_1*0.125;
+            }
+
+            if (source === 'oz' && source2 === 'pints') {
+                answer_text = input_1*0.0625;
+            }
+
+            if (source === 'oz' && source2 === 'quarts') {
+                answer_text = input_1*0.03125;
+            }
+
+//****************************************************************************//
+
+            if (source === 'cups' && source2 === 'cups') {
+                answer_text = input_1;
+            }
+
+            if (source === 'cups' && source2 === 'mL') {
+                answer_text = input_1*236.588;
+            }
+
+            if (source === 'cups' && source2 === 'L') {
+                answer_text = input_1*.2365;
+            }
+
+            if (source === 'cups' && source2 === 'gal') {
+                answer_text = input_1*0.0625;
+            }
+
+            if (source === 'cups' && source2 === 'pints') {
+                answer_text = input_1*0.5;
+            }
+
+            if (source === 'cups' && source2 === 'oz') {
+                answer_text = input_1*8;
+            }
+
+            if (source === 'cups' && source2 === 'quarts') {
+                answer_text = input_1*0.25;
+            }
+
+//****************************************************************************//
+            if (source === 'pints' && source2 === 'pints') {
+                answer_text = input_1;
+            }
+
+            if (source === 'pints' && source2 === 'mL') {
+                answer_text = input_1*473.176;
+            }
+
+            if (source === 'pints' && source2 === 'L') {
+                answer_text = input_1*.4731;
+            }
+
+            if (source === 'pints' && source2 === 'gal') {
+                answer_text = input_1*0.125;
+            }
+
+            if (source === 'pints' && source2 === 'oz') {
+                answer_text = input_1*16;
+            }
+
+            if (source === 'pints' && source2 === 'quarts') {
+                answer_text = input_1*.5;
+            }
+
+            if (source === 'pints' && source2 === 'cups') {
+                answer_text = input_1*2;
+            }
+//****************************************************************************//
+            if (source === 'quarts' && source2 === 'quarts') {
+                answer_text = input_1;
+            }
+
+            if (source === 'quarts' && source2 === 'mL') {
+                answer_text = input_1*946.353;
+            }
+
+            if (source === 'quarts' && source2 === 'L') {
+                answer_text = input_1*.9463;
+            }
+
+            if (source === 'quarts' && source2 === 'gal') {
+                answer_text = input_1*.25;
+            }
+
+            if (source === 'quarts' && source2 === 'oz') {
+                answer_text = input_1*32;
+            }
+
+            if (source === 'quarts' && source2 === 'cup') {
+                answer_text = input_1*4;
+            }
+
+            if (source === 'quarts' && source2 === 'pint') {
+                answer_text = input_1*2;
+            }
+
+            //write to answer label
+            if (isNaN(input_1)) {
+                document.getElementById("outputText").innerHTML = '***please enter a valid number***';
+            }
+                else {document.getElementById("outputText").innerHTML = parseFloat(answer_text.toFixed(3)) + " " +source2;
+
+                }
         }
+            
+            
+        
     </script>
 </div>
