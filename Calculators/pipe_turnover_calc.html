@@ -1,0 +1,61 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;"  id="myForm">
+        <br>
+        <h2 class="calc-title">Pipe Turnover Time</h2>
+        <label class="entry-label" style="width: 350px; text-align: center;">Pipe Diameter (Inches)</label>
+        <input id="input_1" type="number" step="0.0001" placeholder="">        
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Pipe Length (Feet)</label>
+        <input id="input_2" type="number" step="0.0001">
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Flush Rate (GPM)</label>
+        <input id="input_3" type="number" step="0.0001">
+        
+        <br><br>
+        <button class="btn btn-primary" onclick=calculate()>Submit</button>
+        <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+        <br><br>
+        <label id="outputText" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        function resetForm() {
+            document.getElementById("myForm").reset();
+            document.getElementById("outputText").innerHTML = "";
+        }
+
+        function calculate() {
+            let answer_text = '';
+            let input_1 = parseFloat(document.getElementById("input_1").value);
+            let input_2 = parseFloat(document.getElementById("input_2").value);
+            let input_3 = parseFloat(document.getElementById("input_3").value);
+            let volume = (((input_1/2)*(input_1/2)*3.14)/12)*input_2;
+            let gallons = volume*7.48;
+            let raw_minutes = gallons/input_3;
+            let hours = 0;
+            let minutes = 0;
+            let seconds = 0;
+            if (raw_minutes > 60) {
+                hours = Math.floor(raw_minutes/60);
+                minutes = raw_minutes - (hours*60);
+            } else {
+                minutes = Math.round(raw_minutes)
+            }
+
+            if (minutes != Math.floor(minutes)) {
+                seconds = Math.round((minutes - Math.floor(minutes))*60);
+                minutes = Math.floor(minutes);
+            }
+            if (isNaN(input_1)||isNaN(input_2)||isNaN(input_3)){
+                document.getElementById("outputText").innerHTML = "*Complete all fields*"
+            }else {
+                document.getElementById("outputText").innerHTML = hours + " Hours : " + minutes + " Minutes : " + seconds + " Seconds";
+            }
+            
+        }
+
+
+    </script>
+</div>

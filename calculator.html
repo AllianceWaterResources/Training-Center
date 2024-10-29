@@ -55,9 +55,15 @@
                 <option value="Calculators/dose_calc.html">Dose</option>
                 <option value="Calculators/dilution_calc.html">Dilution</option>
             </select>
+
+            <!--Distribution Calculators-->
+            <select id="calculatorSelect2" onchange="loadCalculator(this.value)" style="width: 200px;">
+                <option value="" disabled selected>Distribution Calculators</option>
+                <option value="Calculators/pipe_turnover_calc.html">Pipe Turnover Time</option>
+            </select>
     
             <!--Conversion Calculators-->
-            <select id="calculatorSelect2" onchange="loadCalculator(this.value)" style="width: 200px;">
+            <select id="calculatorSelect3" onchange="loadCalculator(this.value)" style="width: 200px;">
                 <option value="" disabled selected>Conversion Calculators</option>
                 <option value="Calculators/unit_conversion_calc.html">Liquid Units</option>
             </select>
