@@ -12,6 +12,7 @@ function loadCalculator(file) {
             document.getElementById("calculatorContainer").innerHTML = data;
             document.getElementById("calculatorSelect").selectedIndex = 0;
             document.getElementById("calculatorSelect2").selectedIndex = 0;
+            document.getElementById("calculatorSelect3").selectedIndex = 0;
 
             // Execute the scripts found in the loaded HTML content
             executeScripts(data);

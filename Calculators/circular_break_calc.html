@@ -1,0 +1,42 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;"  id="myForm">
+        <br>
+        <h2 class="calc-title">Water Loss: Circular Break</h2>
+        <label class="entry-label" style="width: 350px; text-align: center;">Diameter of Pipe (Inches)</label>
+        <input id="dia" type="number" step="0.0001" placeholder="">        
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Break Width (Inches)</label>
+        <input id="width" type="number" step="0.0001">
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Pipe Pressure (PSI)</label>
+        <input id="psi" type="number" step="0.0001">
+        
+        <br><br>
+        <button class="btn btn-primary" onclick=calculate()>Submit</button>
+        <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+        <br><br>
+        <label id="outputText" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        function resetForm() {
+            document.getElementById("myForm").reset();
+            document.getElementById("outputText").innerHTML = "";
+        }
+
+        function calculate() {
+            var dia = document.getElementById('dia').value;
+            var width = document.getElementById('width').value;
+            var psi = document.getElementById('psi').value;
+            //var hrs = document.getElementById('hrs').value;
+            var gpmLoss = (dia/12)*(width/12)*3.1416*Math.sqrt(psi*2.309*64.4)*0.7*7.48*60;
+            var gpmLosso = (gpmLoss.toFixed(2));
+            //var loss = hrs*gpmLoss*60;
+            //var losso = (loss.toFixed(2));
+
+            document.getElementById("outputText").innerHTML = "Loss Rate: " + gpmLosso + " GPM";            
+        }
+    </script>
+</div>
