@@ -1,0 +1,55 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;"  id="myForm">
+        <br>
+        <span>
+            <h2 class="calc-title">Hydrant or Pipe Flow</h2>
+            
+            
+        </span>
+        <label class="entry-label" style="width: 350px; text-align: center;">Diameter of Opening (inches)</label>
+        <input id="dia" type="number" step="0.0001">    
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Horizontal Distance (inches)</label>
+        <input id="horz" type="number" step="0.0001">
+        <br>
+        <label class="entry-label" style="width: 350px; text-align: center;">Vertical Distance (Inches)</label>
+        <input id="vert" type="number" step="0.0001">
+        
+        <br><br>
+        <button class="btn btn-primary"; onclick=alert1()>Help</button>
+        <button class="btn btn-primary" onclick=calculate()>Submit</button>
+        <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+         
+        <br><br>
+        <label id="outputText" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        function alert1() {
+            window.alert(
+            "Diameter of Opening: Diameter of the hydrant nozzle opening or the pipe opening"+
+            "\n"+"\n"+
+            "Horizontal Distance: The horizontal distance from the end of the Nozzle or Pipe Opening to the upper or outermost edge of the water where it hits the ground (keep ruler or tape measure level, extending out from the upper edge of the nozzle or pipe."+
+            "\n"+"\n"+
+            "Vertical Distance:  The vertical distance from the top rim of the nozzle or pipe to the ground:")
+        }
+
+        function resetForm() {
+            document.getElementById("myForm").reset();
+            document.getElementById("outputText").innerHTML = "";
+        }
+
+        function calculate() {
+            var dia = document.forms[0].dia.value;
+            var horz = document.forms[0].horz.value;
+            var vert = document.forms[0].vert.value;
+
+            gpm1 = (dia*dia*2.56*horz)/Math.sqrt(vert);
+            gpm2 = Math.round(gpm1*Math.pow(10,2))/Math.pow(10,2);
+
+            document.getElementById("outputText").innerHTML = gpm2 + " GPM";            
+        }
+    </script>
+</div>
