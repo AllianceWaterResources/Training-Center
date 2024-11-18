@@ -1,0 +1,114 @@
+        <div class="content" style="text-align: center;">
+            <form onsubmit="return false;"  id="myForm">
+                <br>
+                <h2 class="calc-title">Langelier Saturation Index</h2><br>
+                <input id="input_1" type="number" step="0.01" style="width: 75px; padding: 1px;">
+                <label for="input_1">Temperature (°C)</label>
+                <br>
+                <input type="number" id="input_2" step="0.01" style="width: 75px; padding: 1px;">
+                <label for="input_2">pH</label>
+                <br>
+                <input type="text" id="input_3" step="0.01" style="width: 75px; padding: 1px;">
+                <label for="input_3">Total Disolved Solids</label><br>
+                <input type="text" id="input_4" step="0.01" style="width: 75px; padding: 1px;">
+                <label for="input_4">Calcium Hardness</label><br>
+                <input type="text" id="input_5" step="0.01" style="width: 75px; padding: 1px;">
+                <label for="input_5">Total Alkalinity</label><br><br>
+                <button class="btn btn-primary" onclick=calculate()>Submit</button>
+                <button class="btn btn-primary" onclick=resetForm()>Reset</button>
+                <br><br>
+                <div>
+                <label style="width: 85px; font-weight: bold;">SI Calcite:</label>
+                <label id="si" style="width: 60px; font-weight: bold;"></label>
+                
+                <label style="width: 85px;">SI Argonite:</label>
+                <label id="sia" style="width: 60px;"></label>
+                <br>
+                <label style="width: 85px;">SI Vaterite:</label>
+                <label id="siv" style="width: 60px;"></label>
+                
+                <label style="width: 85px;">SI Average:</label>
+                <label id="siavg" style="width: 60px;"></label>
+                </div>
+            </form>
+            <br><br><br><br>
+            
+
+            <script>
+
+                function resetForm() {
+                    document.getElementById("myForm").reset();
+                    document.getElementById("si").innerHTML = "";
+                    document.getElementById("siavg").innerHTML = "";
+                    document.getElementById("sia").innerHTML = "";
+                    document.getElementById("siv").innerHTML = "";
+                }                
+
+                function calculate() {
+ 	                var temp = document.getElementById("input_1").value;
+ 	                var ph = document.getElementById("input_2").value;
+ 	                var tds = document.getElementById("input_3").value;
+ 	                var ca = document.getElementById("input_4").value; 
+ 	                ca /= 2.5;
+                    var alk = document.getElementById("input_5").value;
+ 	                var eps = 60954.0 / (389.0 + temp * 1) - 68.937;
+ 	                var aprime = 1820000.0 * Math.pow(((273.2 + temp * 1) * eps), -1.5);
+ 	                var u = tds / 40000;
+ 	                var sqrtu = Math.pow(u, .5);
+ 	                var pfm = Math.round((aprime * (sqrtu / (sqrtu * 1.0 + 1.0) - .3 * u))*1000)/1000;
+ 	                var t = temp * 1 + 273.2;
+ 	                var log10t = Math.log(t) / Math.log(10);
+ 	                var overt = 1 / t;
+ 	                var pkw = 4471 * overt + .01706 * t - 6.0875;
+ 	                var pks =  Math.round((171.9065 + .077993 * t - 2839.319 * overt - 71.595 * log10t)*100)/100;
+ 	                var pksa = Math.round((171.9773 + .077993 * t - 2903.293 * overt - 71.595 * log10t)*100)/100;
+ 	                var pksv = Math.round((172.1295 + .077993 * t - 3074.688 * overt - 71.595 * log10t)*100)/100;
+                    var pksavg = Math.round(((pks + pksa + pksv)/3)*100)/100;
+  	                var pk2 = Math.round((107.8871 + .03252849 * t - 5151.79 * overt - 38.92561 * log10t + 563713.9 * overt * overt)*100)/100;
+ 	                if(ca == 0 || ca == "") { ca += .02;}
+       	                var pca = Math.round((-(Math.log(ca / 40000) / Math.log(10)))*100)/100;
+ 	                if(alk == 0 || alk == "") { alk += .1;}
+                        var phco3 = (alk / 50000 + Math.pow(10, (pfm - ph * 1)) - Math.pow(10, (ph * 1 + pfm - pkw))) / (1 + .5 * Math.pow(10, (ph * 1 - pk2)));
+ 	                    phco3 = Math.round( - Math.log(phco3) / Math.log(10) *100)/100;
+                        var phs = Math.round( (pk2 - pks + pca + phco3 + (5 * pfm))*100)/100;
+                        var phsa = Math.round( (pk2 - pksa + pca + phco3 + (5 * pfm))*100)/100;
+                        var phsv = Math.round( (pk2 - pksv + pca + phco3 + (5 * pfm))*100)/100;
+                        var phsavg = Math.round( (pk2 - pksavg + pca + phco3 + (5 * pfm))*100)/100;
+                        var SI = Math.round( (ph * 1 - phs * 1)*100)/100; 	
+                        var SIa = Math.round( (ph * 1 - phsa * 1)*100)/100;
+                        var SIv = Math.round( (ph * 1 - phsv * 1)*100)/100; 	
+                        var SIavg = Math.round( (ph * 1 - phsavg * 1)*100)/100;
+                        if(SIavg > 0) { document.getElementById("siavg").innerHTML = "+" + SIavg;}
+                        else
+                	        {document.getElementById("siavg").innerHTML = SIavg;}
+                        if(SIa > 0) { document.getElementById("sia").innerHTML = "+" + SIa;}
+                        else
+                	        { document.getElementById("sia").innerHTML = Math.round(SIa*100)/100;}
+                        if(SIv > 0)
+                	        { document.getElementById("siv").innerHTML = "+" + SIv;}
+	                    else
+               		        { document.getElementById("siv").innerHTML = SIv;}
+	                    if(SI > 0)
+               		        { document.getElementById("si").innerHTML = "+" + SI;}
+	                    else
+               		        { document.getElementById("si").innerHTML = SI;}
+                            //document.langlier.eps.value = Math.round(eps*100)/100;
+                            //document.langlier.aprime.value = Math.round(aprime*1000)/1000;
+                            //document.langlier.u.value = Math.round(u*1000)/1000;
+                            //document.langlier.pfm.value = Math.round(pfm*1000)/1000;
+                            //document.langlier.phco3.value = Math.round(phco3*100)/100;
+                            //document.langlier.pks.value =   pks;
+                            //document.langlier.pksa.value = pksa;
+                            //document.langlier.pksv.value = pksv;
+                            //document.langlier.pksavg.value = pksavg;
+                            //document.langlier.pk2.value = Math.round(pk2*100)/100;
+	                        //document.langlier.pca.value = Math.round(pca*100)/100;
+	                        //document.langlier.phs.value = Math.round(phs*100)/100;
+
+                };
+                    
+                    
+                
+            </script>
+
+        </div>

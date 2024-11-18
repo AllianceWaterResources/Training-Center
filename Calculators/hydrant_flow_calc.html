@@ -29,11 +29,11 @@
     <script>
         function alert1() {
             window.alert(
-            "Diameter of Opening: Diameter of the hydrant nozzle opening or the pipe opening"+
+            "Diameter of Opening: The diameter of the hydrant nozzle opening or the pipe opening."+
             "\n"+"\n"+
-            "Horizontal Distance: The horizontal distance from the end of the Nozzle or Pipe Opening to the upper or outermost edge of the water where it hits the ground (keep ruler or tape measure level, extending out from the upper edge of the nozzle or pipe."+
+            "Horizontal Distance: The horizontal distance from the end of the Nozzle or Pipe Opening to the upper or outermost edge of the water where it hits the ground (keep the ruler or tape measure level, extending out from the upper edge of the nozzle or pipe.)"+
             "\n"+"\n"+
-            "Vertical Distance:  The vertical distance from the top rim of the nozzle or pipe to the ground:")
+            "Vertical Distance:  The vertical distance from the top rim of the nozzle or pipe to the ground.")
         }
 
         function resetForm() {
@@ -49,7 +49,7 @@
             gpm1 = (dia*dia*2.56*horz)/Math.sqrt(vert);
             gpm2 = Math.round(gpm1*Math.pow(10,2))/Math.pow(10,2);
 
-            document.getElementById("outputText").innerHTML = gpm2 + " GPM";            
+            document.getElementById("outputText").innerHTML ="Flush Rate: " + gpm2 + " GPM";            
         }
     </script>
 </div>
