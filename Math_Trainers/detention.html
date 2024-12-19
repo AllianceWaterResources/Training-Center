@@ -1,0 +1,97 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;"  id="myForm" style="height: 400px;">
+        <br>
+        <h2 class="calc-title">Detention Time</h2>
+        <br>
+        <label id="problem" style="width: 300px; height: 200px;"></label>
+        <br><br>
+
+        <button class="btn btn-primary" onclick=answer()>Answer</button>
+        <button class="btn btn-primary" onclick=randomize()>Randomize</button>
+        <button class="btn btn-primary" onclick=showHelp()>Help Me</button>
+        <br><br>
+        <label id="outputText" class="answer" style="font-weight: bold;"></label>
+        <br><br>
+        <label id="helpmessage" style="width:fit-content; height: fit-content; visibility: hidden;"></label>
+    </form>
+    
+    <br><br><br><br>
+
+    <script>
+        var flow = 0;
+        var length = 0;
+        var width = 0;
+        var depth = 0;
+        var storage = 0;
+        var detention = 0;
+        var rawhours = 0;
+        var hours = 0;
+        var rawminutes = 0;
+        var minutes = 0;
+        var rawseconds = 0;
+        var seconds = 0;
+
+        
+        function resetForm() {
+            document.getElementById("myForm").reset();
+            document.getElementById("outputText").innerHTML = "";
+        }
+
+        function randomize() {
+            flow = (Math.floor(Math.random() * (100 - 10 + 1)) + 10)*100;
+            length = (Math.floor(Math.random()*(100 - 30 + 1)) + 30);
+            width = (Math.floor(Math.random()*(75 - 25 + 1)) + 25);
+            depth = (Math.floor(Math.random()*(30 - 8 + 1)) + 8);
+            storage = Math.round((length*width*depth)*7.48)*1000/1000
+            //var storage = (Math.floor(Math.random() * (1000 - 100 + 1)) + 100)*1000;
+            detention = Math.round(storage/flow*1000)/1000;
+            rawhours = Math.round(detention/60*1000)/1000
+            hours = Math.floor(rawhours)
+            rawminutes = Math.round(((rawhours-hours)*60)*1000)/1000
+            minutes = Math.floor(rawminutes)
+            rawseconds = Math.round(((rawminutes - minutes)*60)*1000)/1000
+            seconds = Math.round(rawseconds)
+            
+            document.getElementById("problem").innerHTML = "A basin with a length of " + length+" feet, a width of " + width + " feet and a depth of " + depth +
+             " feet has " + flow + " GPM flowing through it.  What is the detention time in the basin?";
+             document.getElementById("outputText").innerHTML = "";
+             document.getElementById("helpmessage").innerHTML = "";
+            
+        }
+
+        function answer() {
+            document.getElementById("outputText").innerHTML = hours + " hours : " + minutes + " minutes : " + seconds + " seconds";            
+        }
+
+        function showHelp(){
+            document.getElementById("helpmessage").style.visibility = "visible";
+            document.getElementById("helpmessage").innerHTML = ("The first step is to find the volume of the basin in cubic feet.  Multiply the Length"+
+            " ("+length+" feet), Width ("+width+" feet) and Depth ("+depth+" feet). <br><br><strong>"+length+"*"+width+"*"+depth+"="+length*width*depth+" ft3 (cubic feet)</strong>.<br><br>" +
+
+            "Next, convert the volume of the basin from cubic feet to gallons by multiplying by 7.48 (There are 7.48 gallons in one cubic foot).  <br><br>"+
+            "<strong>"+length*width*depth+"* 7.48 = "+Math.round((length*width*depth*7.48*1000))/1000+" gallons.</strong><br><br>" +
+
+            "Now the detention time can be calculated by taking the basin volume ("+ Math.round((length*width*depth*7.48*1000))/1000+
+            " gallons) and divide it by the flow ("+flow+" GPM). <br><br><strong>"+  storage+"/"+flow+" = "+Math.round(storage/flow*1000)/1000+" minutes</strong><br><br>"+
+
+            "The final step is to convert the detention time from minutes to hours : minutes : seconds.  To get hours, divide "+detention+
+            " minutes by 60 (there are 60 minutes in one hour).  <strong><i>This step can be skipped if the total minutes is less than 60. </i><br><br>"+
+            detention+"/ 60 = "+Math.round(detention/60*1000)/1000+ " hours.</strong><br><br>"+
+
+            "The whole number to the left of the decimal is the number of hours in the detention time. <br><br><strong>"+hours+" hours</strong><br><br>"+
+
+            "Now, take the remainder from the hours calculation ("+Math.round((rawhours-hours)*1000)/1000+" hours) and multiply it by 60 to convert it back to minutes. <br><br><strong>"+
+            (Math.round((rawhours-hours)*1000)/1000)+" * 60 ="+rawminutes+" minutes </strong><br><br>"+
+
+            "The whole number to the left of the decimal is the number of minutes in the detention time. <br><br><strong>"+
+            minutes + " minutes</strong><br><br>"+
+
+            "If there is a remainder after calculating minutes, you can take this remainder (" + ((Math.round((rawminutes-minutes)*1000))/1000)+" minutes)"+
+            " and multiply it by 60 to get the seconds just like calculating minutes before.  Round this number to the nearest whole number<br><br><strong>"+
+                ((Math.round((rawminutes-minutes)*1000))/1000)+" * 60 = "+ rawseconds + " seconds<br>"+
+            seconds + " seconds<br><br>"+
+            "The final answer is:<br> "+ hours+" hours : "+minutes+" minutes : "+seconds+" seconds");
+            
+        }
+    </script>
+</div>
