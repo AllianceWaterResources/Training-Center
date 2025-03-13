@@ -1,0 +1,147 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;" id="chlorineForm" style="height: 400px;">
+        <br>
+        <h2 class="calc-title">Chlorine Dose Trainer</h2>
+        <br>
+        <label id="problem" style="width: 300px; height: 200px;"></label>
+        <br><br>
+
+        <button class="btn btn-primary" onclick=answer()>Answer</button>
+        <button class="btn btn-primary" onclick=randomize()>Randomize</button>
+        <button class="btn btn-primary" onclick=showHelp()>Help Me</button>
+        <br><br>
+        <label id="outputText" class="answer" style="font-weight: bold;"></label>
+        <br><br>
+        <label id="helpmessage" style="width: fit-content; height: fit-content; visibility: hidden;"></label>
+    </form>
+
+    <br><br><br><br>
+
+    <script>
+        let problemType, pounds, MGD, GPM, dose, strength, chlorineRequired;
+
+        function randomize() {
+            problemType = Math.floor(Math.random() * 5);
+            MGD = Math.round((Math.random() * 9 + 1) * 100) / 100;
+            GPM = MGD * 694.4;
+            dose = Math.round((Math.random() * 9 + 1) * 10) / 10;
+            pounds = Math.round(8.34 * MGD * dose * 10) / 10;;
+            strength = Math.random() < 0.5 ? 12.5 : 65;
+            chlorineRequired = Math.round(pounds / (strength / 100) * 100) / 100;
+
+            const problems = [
+                `A system treats ${MGD} MGD with a target chlorine dose of ${dose} ppm. How many pounds of chlorine are needed?`,
+                `A plant feeds ${pounds} lbs of chlorine per day and treats ${MGD} MGD. What is the chlorine dose in ppm?`,
+                `A plant feeds ${pounds} lbs of chlorine daily and wants to maintain a dose of ${dose} ppm. How many MGD can it treat?`,
+                `A system has a flow rate of ${Math.round(GPM)} GPM and wants to achieve a chlorine dose of ${dose} ppm. How many pounds of chlorine are needed per day?`,
+                `A plant needs ${pounds} lbs of chlorine per day. If using ${strength}% ${strength === 12.5 ? "sodium" : "calcium"} hypochlorite, how many pounds of product will be required to achieve the same dose?`
+            ];
+
+            document.getElementById("problem").innerHTML = problems[problemType];
+            document.getElementById("outputText").innerHTML = "";
+            document.getElementById("helpmessage").style.visibility = "hidden";
+            document.getElementById("helpmessage").innerHTML = "";
+        }
+
+        function answer() {
+    // Ensure all calculations round to the nearest tenth
+    pounds = Math.round(8.34 * MGD * dose * 10) / 10;
+    let doseAnswer = Math.round((pounds / (8.34 * MGD)) * 10) / 10;
+    let mgdAnswer = Math.round((pounds / (8.34 * dose)) * 10) / 10;
+    let hypochloriteAnswer = Math.round((pounds / (strength / 100)) * 10) / 10;
+
+    // Select the correct answer format based on the problem type
+    const answers = [
+        `${pounds.toFixed(1)} lbs of chlorine`,  // Solve for pounds
+        `${doseAnswer.toFixed(1)} ppm`,          // Solve for dose
+        `${mgdAnswer.toFixed(1)} MGD`,           // Solve for MGD
+        `${pounds.toFixed(1)} lbs of chlorine`,  // Solve for pounds with GPM conversion
+        `${hypochloriteAnswer.toFixed(1)} lbs of ${strength}% hypochlorite` // Solve for hypochlorite
+    ];
+
+    // Display the correct answer in the output label
+    document.getElementById("outputText").innerHTML = answers[problemType];
+}
+
+        function showHelp() {
+            document.getElementById("helpmessage").style.visibility = "visible";
+
+            const helpTexts = [
+                // Problem Type 0: Solve for Pounds of Chlorine
+                `
+                    <p><strong>Step 1: Use the chlorine dosage formula</strong></p>
+                    <p>Pounds of Chlorine = 8.34 × MGD × Dose (ppm)</p>
+                    <ul>
+                        <li>8.34 = Weight of one gallon of water in pounds</li>
+                        <li>MGD = Flow rate in million gallons per day</li>
+                        <li>Dose = Desired chlorine dose in parts per million (ppm) or mg/L</li>
+                    </ul>
+                    <p><strong>Step 2: Plug in values</strong></p>
+                    <p>Pounds = 8.34 × ${MGD} MGD × ${dose} ppm</p>
+                    <p><strong>Step 3: Solve</strong></p>
+                    <p>${pounds} lbs of chlorine</p>
+                `,
+                // Problem Type 1: Solve for Dose (ppm)
+                `   
+                    <p><strong>Step 1: Use the chlorine dosage formula</strong></p>
+                    <p>Pounds of Chlorine = 8.34 × MGD × Dose (ppm)</p>
+                    <ul>
+                        <li>One gallon weighs 8.34 lbs</li>
+                    </ul>
+                    <p><strong>Step 2: Rearrange formula to solve for Dose</strong></p>
+                     <ul>
+                        <li>Divide both sides by 8.34 × MGD to get only Dose on one side</li>
+                    </ul>
+                    <p>Dose (ppm) = Pounds ÷ (8.34 × MGD)</p>
+                    <p><strong>Step 3: Plug in values</strong></p>
+                    <p>Dose = ${pounds} lbs ÷ (8.34 × ${MGD} MGD)</p>
+                    <p><strong>Step 4: Solve</strong></p>
+                    <p>${Math.round((pounds / (8.34 * MGD)) * 100) / 100} ppm</p>
+                `,
+                // Problem Type 2: Solve for MGD
+                `   
+                    <p><strong>Step 1: Use the chlorine dosage formula</strong></p>
+                    <p>Pounds of Chlorine = 8.34 × MGD × Dose (ppm)</p>
+                    <ul>
+                        <li>Divide both sides by 8.34 × Dose (ppm) to get MGD on one side</li>
+                    <p><strong>Step 2: Rearrange formula to solve for MGD</strong></p>
+                    <p>MGD = Pounds ÷ (8.34 × Dose)</p>
+                    <p><strong>Step 2: Plug in values</strong></p>
+                    <p>MGD = ${pounds} ÷ (8.34 × ${dose})</p>
+                    <p><strong>Step 3: Solve</strong></p>
+                    <p>${Math.round((pounds / (8.34 * dose)) * 10) / 10} MGD</p>
+                `,
+                // Problem Type 3: Convert GPM to MGD
+                `
+                    <p><strong>Step 1: Convert GPM to MGD</strong></p>
+                    <p>MGD = (GPM × 1440) ÷ 1,000,000</p>
+                    <ul>
+                        <li>there are 1440 minutes in a day</li>
+                        <li>Dividing GPD (gallons per day) by 1,000,000 Converts to MGD (million gallons per day)</li>
+                    </ul>
+                    <p><strong>Step 2: Calculate MGD</strong></p>
+                    <p>MGD = (${Math.round(GPM * 1000)/1000} GPM × 1440 min/day) ÷ 1,000,000</p>
+                    <p>MGD = ${Math.round(MGD*100)/100} MGD</p>
+                    <p><strong>Step 3: Use chlorine formula</strong></p>
+                    <p>Pounds = 8.34 × ${MGD} MGD × ${dose} ppm</p>
+                    <p><strong>Step 4: Solve</strong></p>
+                    <p>${pounds} lbs of chlorine</p>
+                `,
+                // Problem Type 4: Adjust for Hypochlorite Strength
+                `
+                    <p><strong>Step 1: Adjust for product strength</strong></p>
+                    <p>Pounds of Hypochlorite = Pounds of Chlorine ÷ (% Strength of Hypochlorite ÷ 100)</p>
+                    <ul>
+                        <li>Dividing the strength percentage by 100 converts it to a decimal number</li>
+                    </ul>
+                    <p><strong>Step 2: Plug in values</strong></p>
+                    <p>${pounds} lbs of chlorine ÷ (${strength}% hypochlorite strength ÷ 100)</p>
+                    <p><strong>Step 3: Solve</strong></p>
+                    <p>${chlorineRequired} lbs of ${strength}% hypochlorite</p>
+                `
+            ];
+
+            document.getElementById("helpmessage").innerHTML = helpTexts[problemType];
+        }
+    </script>
+</div>
