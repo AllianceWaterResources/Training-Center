@@ -1,0 +1,201 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pressure Trainer</title>
+    <!-- Include Bootstrap and Custom Styles -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/calculator-styles.css">
+    <link rel="stylesheet" href="../CSS/custom-styles.css">
+</head>
+<body>
+    <div class="content" style="text-align: center;">
+        <form onsubmit="return false;" id="pressureForm" style="height: 400px;">
+            <br>
+            <h2 class="calc-title">Pressure Trainer</h2>
+            <br>
+            <label id="problem" style="width: 300px; height: 200px;"></label>
+            <br><br>
+
+            <button class="btn btn-primary" onclick="answer()">Answer</button>
+            <button class="btn btn-primary" onclick="randomize()">Randomize</button>
+            <button class="btn btn-primary" onclick="showHelp()">Help Me</button>
+            <br><br>
+            <label id="outputText" class="answer" style="font-weight: bold;"></label>
+            <br><br>
+            <label id="helpmessage" style="width: fit-content; height: fit-content; visibility: hidden;"></label>
+        </form>
+        
+        <br><br><br><br>
+    </div>
+
+    <script>
+        var problemType;
+        var height, waterLevel, psi, lift, finalPsi, requiredPsi;
+        var length, width, gaugeHeight, gaugePsi, P_offset, P_adjusted, waterHeight, volumeGallons;
+
+        function randomize() {
+            problemType = Math.floor(Math.random() * 4);
+
+            if (problemType === 0) {
+                // Pressure at bottom of a tank with a randomized water level
+                height = Math.floor(Math.random() * (100 - 10 + 1)) + 10; // Tank height
+                waterLevel = Math.floor(Math.random() * (height - 1 + 1)) + 1; // Water level (1 ft to tank height)
+                psi = Math.round((0.433 * waterLevel) * 10) / 10;
+
+                document.getElementById("problem").innerHTML = 
+                    `A ${height}-foot tall tank has ${waterLevel} ft of water in storage. 
+                    What is the pressure (psi) at the bottom of the tank?`;
+            } 
+            else if (problemType === 1) {
+                // Pump pressure required for elevation
+                lift = Math.floor(Math.random() * (200 - 10 + 1)) + 10;
+                finalPsi = Math.floor(Math.random() * (80 - 20 + 1)) + 20;
+                requiredPsi = Math.round((0.433 * lift + finalPsi) * 10) / 10;
+
+                document.getElementById("problem").innerHTML = 
+                    `A pump needs to lift water ${lift} feet higher than the pump. 
+                    How much pressure (psi) will be required to achieve ${finalPsi} psi at the highest point?`;
+            }
+            else if (problemType === 2) {
+                // Pump pressure needed to fill a storage tank
+                height = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+                requiredPsi = Math.round((0.433 * height) * 10) / 10;
+
+                document.getElementById("problem").innerHTML = 
+                    `If a storage tank is ${height} feet tall, what pumping psi is required at the bottom of the tank to fill the tank completely?`;
+            }
+            else {
+                // Tank volume based on gauge pressure
+                length = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
+                width = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                height = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
+                gaugeHeight = Math.floor(Math.random() * (height - 5)) + 5;
+
+                let P_offset = Math.round(0.433 * gaugeHeight);
+                let P_max = Math.round((0.433 * height + P_offset) * 100) / 100;
+                gaugePsi = Math.round(Math.random() * (P_max - P_offset + 1)) + P_offset;
+
+                P_adjusted = gaugePsi - P_offset;
+                
+                if (P_adjusted <= 0) {
+                    waterHeight = 0;
+                    volumeGallons = 0;
+                } else {
+                    waterHeight = Math.round((P_adjusted / 0.433) * 100) / 100;
+                    volumeGallons = Math.round((length * width * waterHeight * 7.48) * 10) / 10;
+                }
+
+                document.getElementById("problem").innerHTML = 
+                    `If a rectangular storage tank with a length of ${length} ft, width of ${width} ft, 
+                    height of ${height} ft, and a pressure gauge located ${gaugeHeight} ft lower than the tank reads 
+                    ${gaugePsi} psi, how many gallons of water are in the tank?`;
+            }
+
+            document.getElementById("outputText").innerHTML = "";
+            document.getElementById("helpmessage").innerHTML = "";
+        }
+
+        function answer() {
+            if (problemType === 0) {
+                document.getElementById("outputText").innerHTML = `${psi} psi`;
+            } 
+            else if (problemType === 1) {
+                document.getElementById("outputText").innerHTML = `${requiredPsi} psi`;
+            }
+            else if (problemType === 2) {
+                document.getElementById("outputText").innerHTML = `${requiredPsi} psi`;
+            }
+            else {
+                document.getElementById("outputText").innerHTML = `${volumeGallons} gallons`;
+            }
+        }
+
+        function showHelp() {
+            document.getElementById("helpmessage").style.visibility = "visible";
+            // Ensure P_offset is recalculated before using it
+            let updated_P_offset = Math.round((0.433 * gaugeHeight) * 100) / 100;
+            let updated_P_adjusted = gaugePsi - updated_P_offset;
+            let updated_waterHeight = updated_P_adjusted > 0 ? Math.round((updated_P_adjusted / 0.433) * 100) / 100 : 0;
+            let updated_volumeGallons = Math.round((length * width * updated_waterHeight * 7.48) * 10) / 10;
+
+            if (problemType === 0) {
+                document.getElementById("helpmessage").innerHTML = `
+                    <p><strong>Step 1: Use the hydrostatic pressure formula</strong></p>
+                    <p><code>P = 0.433 × h</code></p>
+                    <p><strong>Step 2: Plug in values</strong></p>
+                    <p><code>P = 0.433 × ${waterLevel}</code></p>
+                    <p><strong>Step 3: Solve</strong></p>
+                    <p><code>${psi} psi</code></p>
+                `;
+            } 
+            else if (problemType === 1) {
+                document.getElementById("helpmessage").innerHTML = `
+                    <p><strong>Step 1: Use the pump pressure formula</strong></p>
+                    <p><code>P_required = 0.433 × h + P_final</code></p>
+                    <p><strong>Step 2: Plug in values</strong></p>
+                    <p><code>P_required = 0.433 × ${lift} + ${finalPsi}</code></p>
+                    <p><strong>Step 3: Solve</strong></p>
+                    <p><code>${requiredPsi} psi</code></p>
+                `;
+            } 
+            else if(problemType === 2) {
+                document.getElementById("helpmessage").innerHTML = `
+                    <p><strong>Step 1: Convert feet to psi</strong></p>
+                    <ul>
+                        <li>Height (Ft) × .433 (psi/ft)</li>
+                    </ul>
+                    <p>${height} ft * .433 psi/ft</p>
+                    <p><strong>Step 2: Calculate</strong></p>
+                    <p>${Math.round(height * .433*100)/100} psi</p>
+                `;
+            }
+            else{
+                document.getElementById("helpmessage").innerHTML = `
+                    <p><strong>Step 1: Convert the ${gaugeHeight} ft offset to psi</strong></p>
+                    <ul>
+                        <li>The pressure gauge is <strong>${gaugeHeight} ft</strong> lower than the tank.  This must be converted to pressure and subtracted from the gauge's pressure reading.  What remains is the pressure exerted from the bottom of the tank to the top of the water in the tank.</li>
+                        <li>psi =  vertical distance (ft) × .433 (psi/ft)</li>
+                        <li>psi = <strong>${gaugeHeight} ft</strong> × .433 (psi/ft)</li>                                      
+                        <li><strong>${updated_P_offset} psi</strong> represents the vertical distance between the bottom of the tank and the pressure gauge.</li>
+                    </ul>
+                    <p>&nbsp;</p> <!-- Adds a small space -->
+
+                    <p><strong>Step 2: Subtract the vertical distance from the gauge psi</strong></p>
+                    <ul>
+                        <li>water height (psi) = gauge (psi) - vertical distance (psi)</li>
+                        <li>water height (psi) = <strong>${gaugePsi} psi</strong> - <strong>${updated_P_offset} psi</strong></li>
+                        <li><strong>${Math.round((gaugePsi - updated_P_offset)*100)/100} psi</strong></li>
+                    </ul>
+                    <p>&nbsp;</p> <!-- Adds a small space -->
+
+                    <p><strong>Step 3: Convert the water height psi to feet</strong></p>
+                    <ul>
+
+                        <li>height (ft) = psi * 2.31 (ft/psi)</li>
+                        <li>height (ft) = <strong>${Math.round((gaugePsi - updated_P_offset)*100)/100} psi</strong> × 2.31 (ft/psi)</li>
+                        <li><strong>${updated_waterHeight} ft</strong> of water in the tank.</li>
+                    </ul>
+                    <p>&nbsp;</p> <!-- Adds a small space -->
+
+                    <p><strong>Step 4: Calculate the volume of water in the tank</strong></p>
+                    <ul>
+                        <li>Volume (cuft) = Length (ft) × Width (ft) × Height (ft)</li>
+                        <li>Use the length and width of the tank, and the water height.  <i>Note: the tank height was given, but it isn't needed for this calculation.</i></li>
+                        <li>Volume (cuft) = <strong>${length} ft</strong> × <strong>${width} ft</strong> × <strong>${updated_waterHeight} ft</strong> </li>
+                        <li><strong>${Math.round(volumeGallons/7.48*100)/100} cuft</strong></li>
+                    </ul>
+                    <p>&nbsp;</p> <!-- Adds a small space -->
+
+                    <p><strong>Step 5: Convert cubic feet to gallons</strong></p>
+                    <ul>
+                        <li>gallons = cubic feet × 7.48 gal/cuft</li>
+                        <li><strong>gallons = ${Math.round(volumeGallons/7.48*100)/100}</strong> × 7.48 gal/cuft</li>
+                        <li><strong>${volumeGallons} gallons</strong></li>
+
+                `;
+            }
+            document.getElementById("helpmessage").style.paddingBottom = "100px";
+            document.getElementById("helpmessage").style.paddingTop = "20px";
+        }
+    </script>
+</body>
