@@ -121,32 +121,33 @@
             if (problemType === 0) {
                 document.getElementById("helpmessage").innerHTML = `
                     <p><strong>Step 1: Use the hydrostatic pressure formula</strong></p>
-                    <p><code>P = 0.433 × h</code></p>
-                    <p><strong>Step 2: Plug in values</strong></p>
-                    <p><code>P = 0.433 × ${waterLevel}</code></p>
-                    <p><strong>Step 3: Solve</strong></p>
-                    <p><code>${psi} psi</code></p>
+                    <ul>
+                        <li>psi = 0.433 (psi/ft) × height (ft)</li>
+                        <li><i>Note: The tank height is not needed for this problem.  Use the water height.</i></li>
+                        <li>psi = 0.433 psi/ft × <strong>${waterLevel} ft</strong></li>
+                        <li><strong>${psi} psi</strong></li>
+                    </ul>
                 `;
             } 
             else if (problemType === 1) {
                 document.getElementById("helpmessage").innerHTML = `
-                    <p><strong>Step 1: Use the pump pressure formula</strong></p>
-                    <p><code>P_required = 0.433 × h + P_final</code></p>
-                    <p><strong>Step 2: Plug in values</strong></p>
-                    <p><code>P_required = 0.433 × ${lift} + ${finalPsi}</code></p>
-                    <p><strong>Step 3: Solve</strong></p>
-                    <p><code>${requiredPsi} psi</code></p>
+                    <p><strong>Use the pump pressure formula</strong></p>
+                    <ul>
+                        <li>psi required = 0.433 (psi/ft) × h (ft) + psi final</li>
+                        <li><i>Order of operations is important.  Multiply first and then add.<i></li>
+                        <li>psi = 0.433 × <strong>${lift} ft</strong> + <strong>${finalPsi} psi</strong></li>
+                        <li><strong>${requiredPsi} psi</strong></li>
+                    </ul>
                 `;
             } 
             else if(problemType === 2) {
                 document.getElementById("helpmessage").innerHTML = `
-                    <p><strong>Step 1: Convert feet to psi</strong></p>
+                    <p><strong>Convert feet to psi</strong></p>
                     <ul>
                         <li>Height (Ft) × .433 (psi/ft)</li>
+                        <li><strong>${height} ft</strong> * .433 psi/ft</li>
+                        <li><strong>${Math.round(height * .433*100)/100} psi</strong></li>
                     </ul>
-                    <p>${height} ft * .433 psi/ft</p>
-                    <p><strong>Step 2: Calculate</strong></p>
-                    <p>${Math.round(height * .433*100)/100} psi</p>
                 `;
             }
             else{
@@ -180,7 +181,8 @@
                     <p><strong>Step 4: Calculate the volume of water in the tank</strong></p>
                     <ul>
                         <li>Volume (cuft) = Length (ft) × Width (ft) × Height (ft)</li>
-                        <li>Use the length and width of the tank, and the water height.  <i>Note: the tank height was given, but it isn't needed for this calculation.</i></li>
+                        <li>Use the length and width of the tank, and the water height.</li>
+                        <li><i>Note: the tank height was given, but it isn't needed for this calculation.</i></li>
                         <li>Volume (cuft) = <strong>${length} ft</strong> × <strong>${width} ft</strong> × <strong>${updated_waterHeight} ft</strong> </li>
                         <li><strong>${Math.round(volumeGallons/7.48*100)/100} cuft</strong></li>
                     </ul>
