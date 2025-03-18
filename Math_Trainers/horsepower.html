@@ -1,0 +1,288 @@
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pump HP Trainer</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="../CSS/calculator-styles.css">
+    <link rel="stylesheet" href="../CSS/custom-styles.css">
+</head>
+<body>
+    <div class="content" style="text-align: center;">
+        <form onsubmit="return false;" id="pumpHPForm" style="height: 400px;">
+            <br>
+            <h2 class="calc-title">Pump HP Trainer</h2>
+            <br>
+            <label id="problem" style="width: 300px; height: 200px;"></label>
+            <br><br>
+
+            <button class="btn btn-primary" onclick="answer()">Answer</button>
+            <button class="btn btn-primary" onclick="randomize()">Randomize</button>
+            <button class="btn btn-primary" onclick="showHelp()">Help Me</button>
+            <br><br>
+            <label id="outputText" class="answer" style="font-weight: bold;"></label>
+            <br><br>
+            <label id="helpmessage" style="width: fit-content; height: fit-content; visibility: hidden;"></label>
+        </form>
+        <br><br><br><br>
+    </div>
+
+    <script>
+        var problemType, GPM, head, pumpEfficiency, motorEfficiency, waterHP, brakeHP, motorHP, kW, answerValue, helpText;
+
+        function randomize() {
+            problemType = Math.floor(Math.random() * 9);
+            switch (problemType) {
+                case 0: generateWaterHP(); break;
+                case 1: generateBrakeHP(); break;
+                case 2: generateMotorHP(); break;
+                case 3: generateMotorEfficiency(); break;
+                case 4: generateGPM(); break;
+                case 5: generateHead(); break;
+                case 6: generatePumpEfficiency(); break;
+                case 7: generateMotorEfficiencyFromHP(); break;
+                case 8: generatePowerKW(); break;
+            }
+            document.getElementById("outputText").innerHTML = "";
+            document.getElementById("helpmessage").style.visibility = "hidden";
+        }
+
+        function generateWaterHP() {
+            GPM = getRandom(50, 500);
+            head = getRandom(10, 250);
+            waterHP = (GPM * head) / 3960;
+
+            document.getElementById("problem").innerHTML = 
+                `A pump moves ${GPM} GPM against a head of ${head} ft. What is the Water HP?`;
+            answerValue = `${waterHP.toFixed(2)} HP`;
+            helpText = `
+                <p><strong>Step 1: Use the formula</strong></p>
+                <ul>
+                    <li>Water HP = (GPM × Head) ÷ 3960</li>
+                    <li>Water HP = (${GPM} × ${head}) ÷ 3960</li>
+                    <li><strong>Answer: ${waterHP.toFixed(2)} HP</strong></li>
+                </ul>
+            `;
+        }
+
+        function generateBrakeHP() {
+            generateWaterHP();
+            pumpEfficiency = getRandomEfficiency();
+            brakeHP = waterHP / pumpEfficiency;
+
+            document.getElementById("problem").innerHTML = 
+                `A pump moves ${GPM} GPM against a head of ${head} ft with a pump efficiency of ${(pumpEfficiency * 100).toFixed(1)}%. What is the Brake HP?`;
+            answerValue = `${brakeHP.toFixed(2)} HP`;
+            helpText = `
+                <p><strong>Step 1: Use the formula</strong></p>
+                <ul>
+                    <li>Brake HP = (GPM × Head) ÷ (3960 × Pump Efficiency)</li>
+                    <li>Brake HP = (${GPM} × ${head}) ÷ (3960 × ${(pumpEfficiency * 100).toFixed(1)}%)</li>
+                    <li><strong>Answer: ${brakeHP.toFixed(2)} HP</strong></li>
+                </ul>
+            `;
+        }
+
+        function generateMotorHP() {
+            generateBrakeHP();
+            motorEfficiency = getRandomEfficiency();
+            motorHP = brakeHP / motorEfficiency;
+
+            document.getElementById("problem").innerHTML = 
+                `A pump moves ${GPM} GPM against a head of ${head} ft with a pump efficiency of ${(pumpEfficiency * 100).toFixed(1)}% and a motor efficiency of ${(motorEfficiency * 100).toFixed(1)}%. What is the Motor HP?`;
+            answerValue = `${motorHP.toFixed(2)} HP`;
+            helpText = `
+                <p><strong>Step 1: Use the formula</strong></p>
+                <ul>
+                    <li>Motor HP = (GPM × Head) ÷ (3960 × Pump Eff × Motor Eff)</li>
+                    <li>Motor HP = (${GPM} × ${head}) ÷ (3960 × ${(pumpEfficiency * 100).toFixed(1)}% × ${(motorEfficiency * 100).toFixed(1)}%)</li>
+                    <li><strong>Answer: ${motorHP.toFixed(2)} HP</strong></li>
+                </ul>
+            `;
+        }
+
+        function generateMotorEfficiency() {
+            // Randomize GPM and head within realistic ranges
+            GPM = getRandom(50, 500);
+            head = getRandom(10, 250);
+
+            // Compute the valid kW range that ensures efficiency is between 70% and 95%
+            let minKW = (GPM * head * 0.746) / (3960 * 0.95); // Max efficiency (95%)
+            let maxKW = (GPM * head * 0.746) / (3960 * 0.70); // Min efficiency (70%)
+
+            // Ensure that kW stays within the calculated range
+            kW = getRandom(minKW, maxKW);
+
+            // **Recalculate efficiency after selecting a valid kW value**
+            motorEfficiency = (GPM * head * 0.746) / (3960 * kW);
+
+            // **If efficiency falls outside 70%-95%, regenerate kW**
+            while (motorEfficiency < 0.7 || motorEfficiency > 0.95) {
+                kW = getRandom(minKW, maxKW);
+                motorEfficiency = (GPM * head * 0.746) / (3960 * kW);
+            }
+
+            // Generate the question
+            document.getElementById("problem").innerHTML = 
+                `A motor is moving ${GPM} GPM against a head of ${head} ft with a power of ${kW.toFixed(2)} kW. What is the Motor Efficiency?`;
+
+            answerValue = `${(motorEfficiency * 100).toFixed(2)}%`;
+
+            // Generate the Help Me section
+            helpText = `
+                <p><strong>Step 1: Use the formula</strong></p>
+                <ul>
+                    <li>Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × Power kW)</li>
+                    <li>Motor Efficiency = (${GPM} × ${head} × 0.746) ÷ (3960 × ${kW.toFixed(2)})</li>
+                    <li><strong>Answer: ${(motorEfficiency * 100).toFixed(2)}%</strong></li>
+                </ul>
+            `;
+        }
+
+
+        function generateGPM() {
+            // Generate a random Water HP between 1 and 100
+            waterHP = getRandom(1, 100);
+            // Generate a random Head between 10 and 250 ft
+            head = getRandom(10, 250);
+            // Solve for GPM using the formula: GPM = (Water HP × 3960) ÷ Head
+            GPM = (waterHP * 3960) / head;
+
+            document.getElementById("problem").innerHTML = 
+                `A pump has a Water HP of ${waterHP.toFixed(2)} HP and is moving water against a head of ${head} ft. What is the GPM?`;
+
+            answerValue = `${GPM.toFixed(2)} GPM`;
+
+            helpText = `
+                <p><strong>Step 1:</strong> Use the formula GPM = (Water HP × 3960) ÷ Head</p>
+                <p><strong>Step 2:</strong> Plug in values: (${waterHP.toFixed(2)} × 3960) ÷ ${head}</p>
+                <p><strong>Step 3:</strong> Solve: ${GPM.toFixed(2)} GPM</p>
+            `;
+        }
+
+        function generateHead() {
+            // Generate a random Water HP between 1 and 100
+            waterHP = getRandom(1, 100);
+            // Generate a random GPM between 50 and 500
+            GPM = getRandom(50, 500);
+            // Solve for Head using the formula: Head = (Water HP × 3960) ÷ GPM
+            head = (waterHP * 3960) / GPM;
+
+            document.getElementById("problem").innerHTML = 
+                `A pump has a Water HP of ${waterHP.toFixed(2)} HP and is pumping at ${GPM.toFixed(2)} GPM. What is the Head (ft)?`;
+
+            answerValue = `${head.toFixed(2)} ft`;
+
+            helpText = `
+                <p><strong>Step 1:</strong> Use the formula Head = (Water HP × 3960) ÷ GPM</p>
+                <p><strong>Step 2:</strong> Plug in values: (${waterHP.toFixed(2)} × 3960) ÷ ${GPM.toFixed(2)}</p>
+                <p><strong>Step 3:</strong> Solve: ${head.toFixed(2)} ft</p>
+            `;
+        }
+
+        function generatePumpEfficiency() {
+            let validEfficiency = false;
+
+            while (!validEfficiency) {
+                // Generate a random Brake HP between 1 and 100
+                brakeHP = getRandom(1, 100);
+                // Generate a random GPM between 50 and 500
+                GPM = getRandom(50, 500);
+                // Generate a random Head between 10 and 250 ft
+                head = getRandom(10, 250);
+                
+                // Solve for Pump Efficiency using the formula: Pump Eff = (GPM × Head) ÷ (3960 × Brake HP)
+                pumpEfficiency = (GPM * head) / (3960 * brakeHP);
+
+                // Check if efficiency is within 70% to 95%, otherwise regenerate numbers
+                if (pumpEfficiency >= 0.7 && pumpEfficiency <= 0.95) {
+                    validEfficiency = true;
+                }
+            }
+
+            document.getElementById("problem").innerHTML = 
+                `A pump has a Brake HP of ${brakeHP.toFixed(2)} HP and is moving ${GPM.toFixed(2)} GPM against a head of ${head.toFixed(2)} ft. What is the Pump Efficiency?`;
+
+            answerValue = `${(pumpEfficiency * 100).toFixed(2)}%`;
+
+            helpText = `
+                <p><strong>Step 1:</strong> Use the formula Pump Efficiency = (GPM × Head) ÷ (3960 × Brake HP)</p>
+                <p><strong>Step 2:</strong> Plug in values: (${GPM.toFixed(2)} × ${head.toFixed(2)}) ÷ (3960 × ${brakeHP.toFixed(2)})</p>
+                <p><strong>Step 3:</strong> Solve: ${(pumpEfficiency * 100).toFixed(2)}%</p>
+            `;
+        }
+
+        function generateMotorEfficiencyFromHP() {
+            let validEfficiency = false;
+
+            while (!validEfficiency) {
+                // Generate random values for Motor HP, GPM, and Head
+                motorHP = getRandom(1, 100); // Motor HP between 1 and 100
+                GPM = getRandom(50, 500); // GPM between 50 and 500
+                head = getRandom(10, 250); // Head between 10 and 250 ft
+                pumpEfficiency = getRandom(70, 95) / 100; // Pump Efficiency between 70% and 95%
+                kW = getRandom(5, 100); // Power (kW) between 5 and 100
+
+                // Solve for Motor Efficiency using the formula:
+                // Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × kW)
+                motorEfficiency = (GPM * head * 0.746) / (3960 * kW);
+
+                // Ensure the Motor Efficiency falls within 70% - 95%
+                if (motorEfficiency >= 0.7 && motorEfficiency <= 0.95) {
+                    validEfficiency = true;
+                }
+            }
+
+            document.getElementById("problem").innerHTML = 
+                `A motor has a Motor HP of ${motorHP.toFixed(2)} HP and is moving ${GPM.toFixed(2)} GPM against a head of ${head.toFixed(2)} ft with a pump efficiency of ${(pumpEfficiency * 100).toFixed(2)}% and the power draw is ${kW} kW. What is the Motor Efficiency?`;
+
+            answerValue = `${(motorEfficiency * 100).toFixed(2)}%`;
+
+            helpText = `
+                <p><strong>Step 1:</strong> Use the formula Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × kW)</p>
+                <p><strong>Step 2:</strong> Plug in values: (${GPM.toFixed(2)} × ${head.toFixed(2)} × 0.746) ÷ (3960 × ${kW.toFixed(2)})</p>
+                <p><strong>Step 3:</strong> Solve: ${(motorEfficiency * 100).toFixed(2)}%</p>
+            `;
+        }
+
+        function generatePowerKW() {
+            // Ensure Motor Efficiency is random between 70% and 95%
+            motorEfficiency = getRandom(70, 95) / 100; 
+
+            // Solve for Power (kW) using:
+            // Power (kW) = (GPM × Head × 0.746) ÷ (3960 × Motor Efficiency)
+            kW = (GPM * head * 0.746) / (3960 * motorEfficiency);
+
+            document.getElementById("problem").innerHTML = 
+                `A motor has an efficiency of ${(motorEfficiency * 100).toFixed(1)}% and is moving ${GPM} GPM against a head of ${head} ft. How much power (kW) is required?`;
+
+            answerValue = `${kW.toFixed(2)} kW`;
+
+            helpText = `
+                <p><strong>Step 1:</strong> Use the formula Power (kW) = (GPM × Head × 0.746) ÷ (3960 × Motor Efficiency)</p>
+                <p><strong>Step 2:</strong> Plug in values: (${GPM} × ${head} × 0.746) ÷ (3960 × ${(motorEfficiency * 100).toFixed(1)}%)</p>
+                <p><strong>Step 3:</strong> Solve: ${kW.toFixed(2)} kW</p>
+            `;
+        }
+
+        function answer() {
+            document.getElementById("outputText").innerHTML = answerValue;
+        }
+
+        function showHelp() {
+            document.getElementById("helpmessage").style.visibility = "visible";
+            document.getElementById("helpmessage").innerHTML = helpText;
+        }
+
+        function getRandom(min, max) {
+            return Math.floor(Math.random() * (max - min + 1)) + min;
+        }
+
+        function getRandomEfficiency() {
+            return (getRandom(70, 95)) / 100;
+        }
+
+        document.getElementById("helpmessage").innerHTML = helpmessage[problemType];
+        document.getElementById("helpmessage").style.paddingBottom = "100px";
+        document.getElementById("helpmessage").style.paddingTop = "20px";
+    </script>
+</body>
