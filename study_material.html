@@ -1,69 +1,161 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alliance Water Resources Training Center</title>
-    <!-- Bootstrap CSS -->
-    <link rel="icon" href="Images/home_drop.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="CSS\calculator-styles.css">
-    <link rel="stylesheet" href="CSS\custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alliance Water Resources Training Center</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="icon" href="Images/home_drop.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="CSS/calculator-styles.css">
+  <link rel="stylesheet" href="CSS/custom-styles.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      padding-bottom: 60px; /* space for footer */
+    }
+
+    .main-content {
+      padding: 20px;
+    }
+
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .card-hover:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+      z-index: 1;
+    }
+
+    /*footer {
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+      z-index: 999;
+    }*/
+  </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00577D;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height="50">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculators</a></li>
+          <li class="nav-item"><a class="nav-link" href="study_material.html">Study Material</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
 
-            <a class="navbar-brand" href="https://alliancewater.com" >
-                <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height = "50" justify>
-            </a>
+  <!-- Main Content -->
+  <div class="main-content container">
+    <h1 class="text-center mb-5">MODNR Exam Study Material</h1>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-             <br><br><br>   
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="calculator.html">Calculators</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="study_material.html">Study Material</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                </ul>
+    <div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 g-4 mb-5">
+
+      <!-- Card 1 -->
+      <div class="col">
+        <a href="formulas.html" class="text-decoration-none">
+          <div class="card h-100 text-center shadow-sm card-hover">
+            <div class="card-body">
+              <h5 class="card-title">Formula Sheet</h5>
+              <img src="Images/formula.jpg" class="card-img-top img-fluid p-3" alt="Formula Sheet">
+              <p class="card-text">Formula sheet provided on exam day</p>
             </div>
-        </div>
-    </nav>
-    <!--*****************************************************************************************************-->
-    <!--Make sure you link to all necessary CSS files********************************************************-->
-    <!--Body Content Goes Here*******************************************************************************-->
-    <br><h3 style="text-align: center;">In Progress</h3>
+          </div>
+        </a>
+      </div>
 
+      <!-- Card 2 -->
+      <div class="col">
+        <a href="Chlorine_guide.html" class="text-decoration-none">
+          <div class="card h-100 text-center shadow-sm card-hover">
+            <div class="card-body">
+              <h5 class="card-title">Chlorine Study Guide</h5>
+              <img src="Images/Chlorine_symbol.jpg" class="card-img-top img-fluid p-3" alt="Chlorine Guide">
+              <p class="card-text">Exam specific chlorine guide</p>
+            </div>
+          </div>
+        </a>
+      </div>
 
+      <!-- Card 3 -->
+      <div class="col">
+        <a href="regulations_guide.html" class="text-decoration-none">
+          <div class="card h-100 text-center shadow-sm card-hover">
+            <div class="card-body">
+              <h5 class="card-title">Regulations Study Guide</h5>
+              <img src="Images/Rules.jpg" class="card-img-top img-fluid p-3" alt="Regulations">
+              <p class="card-text">Exam specific regulation guide</p>
+            </div>
+          </div>
+        </a>
+      </div>
 
+      <!-- Card 4 -->
+      <div class="col">
+        <a href="math_trainer.html" class="text-decoration-none">
+          <div class="card h-100 text-center shadow-sm card-hover">
+            <div class="card-body">
+              <h5 class="card-title">Math Training</h5>
+              <img src="Images/Math_Pun.jpg" class="card-img-top img-fluid p-3" alt="Math Training">
+              <p class="card-text">Practice your math skills</p>
+            </div>
+          </div>
+        </a>
+      </div>
 
+      <!-- Card 5 -->
+      <div class="col">
+        <a href="flashcards.html" class="text-decoration-none">
+          <div class="card h-100 text-center shadow-sm card-hover">
+            <div class="card-body">
+              <h5 class="card-title">Flashcards</h5>
+              <img src="Images/Bolt.jpg" class="card-img-top img-fluid p-3" alt="Flashcards">
+              <p class="card-text">Test your DW and DS knowledge</p>
+            </div>
+          </div>
+        </a>
+      </div>
 
-    <!--*****************************************************************************************************-->
-    <!--*****************************************************************************************************-->
-    <!--*****************************************************************************************************-->
-    <!-- Footer -->
-    <footer class="text-white mt-5 p-4 text-center">
-        &copy; 2024 Alliance Water Resources. All rights reserved.
-    </footer>
+    </div>
+  </div>
 
-    <!-- Bootstrap JS and dependencies -->
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Fixed Footer -->
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
 </body>
 </html>
