@@ -19,35 +19,67 @@
     }
 
     body {
-      padding-bottom: 60px; /* space for footer */
+      display: flex;
+      flex-direction: column;
+    }
+
+    main {
+      flex: 1;
     }
 
     .hero {
-      background-color: #00A7E1; /* Your custom secondary color */
+      background-image: url('Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
       color: white;
-      padding: 60px 20px;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
       text-align: center;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 87, 125, 0.6);
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
     }
 
     .hero h1 {
       font-size: 2.5rem;
-      margin-bottom: 20px;
+      margin-bottom: 1rem;
     }
 
     .hero p {
       font-size: 1.25rem;
-      margin-bottom: 30px;
+      margin-bottom: 2rem;
     }
 
-    .card-hover {
+    .card-glass {
+      background: rgba(255, 255, 255, 0.2);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px;
       transition: transform 0.3s ease, box-shadow 0.3s ease;
-      border-radius: 10px;
     }
 
-    .card-hover:hover {
+    .card-glass:hover {
       transform: scale(1.03);
-      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
-      z-index: 1;
+      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.25);
     }
 
     footer {
@@ -82,66 +114,35 @@
     </div>
   </nav>
 
-  <!-- Hero Banner -->
-<section class="hero d-flex align-items-center" style="
-background-image: url('Images/banner_water.jpg'); 
-background-size: cover; 
-background-position: center; 
-background-repeat: no-repeat;
-min-height: 60vh;
-color: white;
-position: relative;
-">
-<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 87, 125, 0.5);"></div>
-<div class="container text-center position-relative" style="z-index: 1;">
-  <h1 class="display-5 fw-bold">Welcome to the Alliance Water Training Center</h1>
-  <p class="lead mt-3 mb-4">Your source for water and wastewater operator study tools and resources.</p>
-  <!--<a href="study_material.html" class="btn btn-light btn-lg">Start Learning</a>-->
-</div>
-</section>
+  <!-- Main Hero Section -->
+  <main class="hero">
+    <div class="container">
+      <h1 class="display-5 fw-bold">Welcome to the Alliance Water Training Center</h1>
+      <p class="lead mb-5">Your source for water and wastewater operator study tools and resources.</p>
 
-  <!-- Card Section -->
-  <div class="container mt-5 mb-5">
-    <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
-
-      <!-- Study Material -->
-      <div class="col">
-        <a href="study_material.html" class="text-decoration-none text-dark">
-          <div class="card shadow-sm card-hover h-100">
-            <div class="card-body">
+      <div class="row justify-content-center g-4">
+        <!-- Study Material Card -->
+        <div class="col-12 col-md-5 col-lg-4">
+          <a href="study_material.html" class="text-decoration-none">
+            <div class="card card-glass h-100 p-4 text-center">
               <h5 class="card-title">Study Material</h5>
-              <p class="card-text">Guides, flashcards, and reference material for MODNR certification exams.</p>
+              <p class="card-text">Guides, flashcards, and references for MODNR certification exams.</p>
             </div>
-          </div>
-        </a>
-      </div>
+          </a>
+        </div>
 
-      <!-- Calculators -->
-      <div class="col">
-        <a href="calculator.html" class="text-decoration-none text-dark">
-          <div class="card shadow-sm card-hover h-100">
-            <div class="card-body">
+        <!-- Calculator Card -->
+        <div class="col-12 col-md-5 col-lg-4">
+          <a href="calculator.html" class="text-decoration-none">
+            <div class="card card-glass h-100 p-4 text-center">
               <h5 class="card-title">Operator Calculators</h5>
-              <p class="card-text">Interactive tools for detention time, chlorine dose, LSI, pipe volume, and more.</p>
+              <p class="card-text">Interactive tools for chlorine dosing, detention time, LSI, and more.</p>
             </div>
-          </div>
-        </a>
+          </a>
+        </div>
       </div>
-
-      <!-- Flashcards -->
-      <div class="col">
-        <a href="flashcards.html" class="text-decoration-none text-dark">
-          <div class="card shadow-sm card-hover h-100">
-            <div class="card-body">
-              <h5 class="card-title">Flashcards</h5>
-              <p class="card-text">Quiz yourself on common terms, formulas, and operator trivia to reinforce knowledge.</p>
-            </div>
-          </div>
-        </a>
-      </div>
-
     </div>
-  </div>
+  </main>
 
   <!-- Footer -->
   <footer>
