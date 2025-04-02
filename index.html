@@ -1,91 +1,155 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alliance Water Resources Training Center</title>
-    <!-- Bootstrap CSS -->
-    <link rel="icon" href="Images/home_drop.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <!--link rel="stylesheet" href="styles.css"-->
-    <link rel="stylesheet" href="CSS\custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alliance Water Resources Training Center</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="icon" href="Images/home_drop.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="CSS/custom-styles.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+    }
+
+    body {
+      padding-bottom: 60px; /* space for footer */
+    }
+
+    .hero {
+      background-color: #00A7E1; /* Your custom secondary color */
+      color: white;
+      padding: 60px 20px;
+      text-align: center;
+    }
+
+    .hero h1 {
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+    }
+
+    .hero p {
+      font-size: 1.25rem;
+      margin-bottom: 30px;
+    }
+
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      border-radius: 10px;
+    }
+
+    .card-hover:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.15);
+      z-index: 1;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-
-            <a class="navbar-brand" href="https://alliancewater.com" >
-                <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height = "50" justify>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-             <br><br><br>   
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="calculator.html">Calculators</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="study_material.html">Study Material</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="content">
-    <div class="container mt-5">
-        <div class="row">
-            <div class="col-md-8">
-                <h1>Alliance Water Repository</h1>
-                <p>Tools and training materials for utility operators.</p>
-                <button onclick="window.location.href='about.html';" class="btn btn-primary" style="width: 200px;">Learn More</button>
-            </div>
-            <div class="col-md-4">
-                <div class="card">
-                    <div class="card-body">
-                        <h5 class="card-title">Quick Links</h5>
-                        <ul class="list-unstyled">
-                            <li><a href="Math_Trainers/formulas.pdf" class="text-decoration-none" style="color: var(--primary-color);" target="_blank" rel="noopener noreferrer">Exam Formulas</a></li>
-                            <li><a href="flashcards.html" class="text-decoration-none" style="color: var(--primary-color);">Study Flashcards</a></li>
-                            <li><a href="calculator.html" class="text-decoration-none" style="color: var(--primary-color);">Calculators</a></li>
-                            <li><a href="chlorine_guide.html" class="text-decoration-none" style="color: var(--primary-color);">Chlorine Study Guide</a></li>
-                            <li><a href="regulations_guide.html" class="text-decoration-none" style="color: var(--primary-color);">Regulations Study Guide</a></li>
-                            <li><a href="math_trainer.html" class="text-decoration-none" style="color: var(--primary-color);">Practice Math</a></li>
-                        </ul>
-                        <br>
-                        <h5 class="card-title">Scan the QR code to open on your mobile device</h5>
-                        <img src="Images/qr.png" alt="QR Code" class="img-fluid" style="height: 100px;">
-                    </div>
-                </div>
-                <br><br><br><br>
-                <br>
-            </div>
-        </div>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00577D;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height="50">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculators</a></li>
+          <li class="nav-item"><a class="nav-link" href="study_material.html">Study Material</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
     </div>
+  </nav>
+
+  <!-- Hero Banner -->
+<section class="hero d-flex align-items-center" style="
+background-image: url('Images/banner_water.jpg'); 
+background-size: cover; 
+background-position: center; 
+background-repeat: no-repeat;
+min-height: 60vh;
+color: white;
+position: relative;
+">
+<div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 87, 125, 0.5);"></div>
+<div class="container text-center position-relative" style="z-index: 1;">
+  <h1 class="display-5 fw-bold">Welcome to the Alliance Water Training Center</h1>
+  <p class="lead mt-3 mb-4">Your source for water and wastewater operator study tools and resources.</p>
+  <!--<a href="study_material.html" class="btn btn-light btn-lg">Start Learning</a>-->
+</div>
+</section>
+
+  <!-- Card Section -->
+  <div class="container mt-5 mb-5">
+    <div class="row row-cols-1 row-cols-md-3 g-4 text-center">
+
+      <!-- Study Material -->
+      <div class="col">
+        <a href="study_material.html" class="text-decoration-none text-dark">
+          <div class="card shadow-sm card-hover h-100">
+            <div class="card-body">
+              <h5 class="card-title">Study Material</h5>
+              <p class="card-text">Guides, flashcards, and reference material for MODNR certification exams.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Calculators -->
+      <div class="col">
+        <a href="calculator.html" class="text-decoration-none text-dark">
+          <div class="card shadow-sm card-hover h-100">
+            <div class="card-body">
+              <h5 class="card-title">Operator Calculators</h5>
+              <p class="card-text">Interactive tools for detention time, chlorine dose, LSI, pipe volume, and more.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
+      <!-- Flashcards -->
+      <div class="col">
+        <a href="flashcards.html" class="text-decoration-none text-dark">
+          <div class="card shadow-sm card-hover h-100">
+            <div class="card-body">
+              <h5 class="card-title">Flashcards</h5>
+              <p class="card-text">Quiz yourself on common terms, formulas, and operator trivia to reinforce knowledge.</p>
+            </div>
+          </div>
+        </a>
+      </div>
+
     </div>
-    <!-- Footer -->
-    <footer>
-        &copy; 2024 Alliance Water Resources. All rights reserved.
-      </footer>
-    
-      <!-- Bootstrap JS -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    </body>
-    </html>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
