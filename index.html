@@ -21,10 +21,13 @@
     body {
       display: flex;
       flex-direction: column;
+      min-height: 100vh;
     }
 
     main {
       flex: 1;
+      display: flex;
+      flex-direction: column;
     }
 
     .hero {
@@ -34,20 +37,18 @@
       background-repeat: no-repeat;
       color: white;
       position: relative;
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
       text-align: center;
+      padding: 60px 20px;
     }
 
     .hero::before {
       content: "";
       position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+      top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0, 87, 125, 0.6);
       z-index: 0;
     }
@@ -90,8 +91,10 @@
     }
   </style>
 </head>
-<!-- QR Code Modal -->
-<div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
+<body>
+
+  <!-- QR Code Modal -->
+  <div class="modal fade" id="qrModal" tabindex="-1" aria-labelledby="qrModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content bg-dark text-white border-0 rounded">
         <div class="modal-header border-0">
@@ -105,7 +108,6 @@
       </div>
     </div>
   </div>
-<body>
 
   <!-- Navbar -->
   <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00577D;">
@@ -129,40 +131,43 @@
     </div>
   </nav>
 
-  <!-- Main Hero Section -->
-  <main class="hero">
-    <div class="container">
-      <h1 class="display-5 fw-bold">Welcome to the Alliance Water Training Center</h1>
-      <p class="lead mb-5">Your source for water and wastewater operator study tools and resources.</p>
+  <!-- Main Content -->
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1 class="display-5 fw-bold">Welcome to the Alliance Water Training Resource</h1>
+        <p class="lead mb-5">Your source for water and wastewater study tools and resources.</p>
 
-      <div class="row justify-content-center g-4">
-        <!-- Study Material Card -->
-        <div class="col-12 col-md-5 col-lg-4">
-          <a href="study_material.html" class="text-decoration-none">
-            <div class="card card-glass h-100 p-4 text-center">
-              <h5 class="card-title">Study Material</h5>
-              <p class="card-text">Guides, flashcards, and references for MODNR certification exams.</p>
-            </div>
-          </a>
+        <div class="row justify-content-center g-4">
+          <!-- Study Material Card -->
+          <div class="col-12 col-md-5 col-lg-4">
+            <a href="study_material.html" class="text-decoration-none">
+              <div class="card card-glass h-100 p-4 text-center">
+                <h5 class="card-title">Study Material</h5>
+                <p class="card-text">Guides, flashcards, and references for MODNR certification exams.</p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Calculator Card -->
+          <div class="col-12 col-md-5 col-lg-4">
+            <a href="calculator.html" class="text-decoration-none">
+              <div class="card card-glass h-100 p-4 text-center">
+                <h5 class="card-title">Operator Calculators</h5>
+                <p class="card-text">Interactive tools for chlorine dosing, detention time, LSI, and more.</p>
+              </div>
+            </a>
+          </div>
         </div>
 
-        <!-- Calculator Card -->
-        <div class="col-12 col-md-5 col-lg-4">
-          <a href="calculator.html" class="text-decoration-none">
-            <div class="card card-glass h-100 p-4 text-center">
-              <h5 class="card-title">Operator Calculators</h5>
-              <p class="card-text">Interactive tools for chlorine dosing, detention time, LSI, and more.</p>
-            </div>
-          </a>
+        <!-- QR Button -->
+        <div class="mt-4 text-center">
+          <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#qrModal">
+            Share via QR Code
+          </button>
         </div>
-        <!-- QR Code Button -->
-<div class="mt-4 text-center">
-    <button type="button" class="btn btn-outline-light" data-bs-toggle="modal" data-bs-target="#qrModal">
-      Share via QR Code
-    </button>
-  </div>
       </div>
-    </div>
+    </section>
   </main>
 
   <!-- Footer -->
