@@ -1,65 +1,154 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alliance Water Utility Training Center</title>
-    <!-- Bootstrap CSS -->
-    <link rel="icon" href="Images/home_drop.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="CSS\custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Alliance Water Utility Training Center</title>
+
+  <!-- Bootstrap CSS -->
+  <link rel="icon" href="Images/home_drop.png" type="image/png">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="CSS/custom-styles.css">
+
+  <style>
+    html, body {
+      height: 100%;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      background-image: url('Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: scroll;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: rgba(0, 87, 125, 0.6);
+      z-index: -1;
+    }
+
+    main {
+      flex: 1 0 auto;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding: 4rem 1rem;
+    }
+
+    .about-wrapper {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border-radius: 10px;
+      padding: 2rem;
+      color: white;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
+      max-width: 1100px;
+      width: 100%;
+    }
+
+    .about-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    @media (min-width: 992px) {
+      .about-content {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+      }
+    }
+
+    .about-text {
+      flex: 1;
+      max-width: 600px;
+    }
+
+    .about-img {
+      width: 100%;
+      max-width: 240px;
+      height: auto;
+      border-radius: 10px;
+      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+    }
+
+    footer {
+      flex-shrink: 0;
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 15px 0;
+      margin-top: auto;
+    }
+  </style>
 </head>
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
-
-            <a class="navbar-brand" href="https://alliancewater.com" >
-                <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height = "50" justify>
-            </a>
-
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-             <br><br><br>   
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="calculator.html">Calculators</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="study_material.html">Study Material</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                </ul>
-            </div>
-        </div>
-    </nav>
-
-    <!-- Main Content -->
-    <div class="container mt-5 text-center">
-            <h1>About</h1>
-            <p>Under construction.  This site will provide interactive study materials, specialized calculators and more.</p>
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark" style="background-color: #00577D;">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height="50">
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+              aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+          <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="calculator.html">Calculators</a></li>
+          <li class="nav-item"><a class="nav-link" href="study_material.html">Study Material</a></li>
+          <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+          <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+        </ul>
+      </div>
     </div>
+  </nav>
 
-    <!-- Footer -->
-    <footer>
-        &copy; 2024 Alliance Water Resources. All rights reserved.
-      </footer>
-    
-      <!-- Bootstrap JS -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    </body>
-    </html>
+  <!-- Main Content -->
+  <main>
+    <div class="about-wrapper">
+      <h1 class="text-center mb-4">About This Site</h1>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            The Alliance Water Utility Training Center is a free resource for water and wastewater professionals preparing for certification exams or looking to sharpen their skills.
+          </p>
+          <p>
+            This site offers interactive calculators, study guides, formula sheets, flashcards, and more — all tailored to meet the needs of utility operators and technicians in the field.
+          </p>
+          <p>
+            Whether you're studying for your first exam or brushing up on chlorination, hydraulics, or regulations — this platform was built with you in mind.
+          </p>
+        </div>
+        <img src="Images/working.jpg" alt="Operators working" class="about-img">
+      </div>
+    </div>
+  </main>
+
+  <!-- Footer -->
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+</html>
