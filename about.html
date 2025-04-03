@@ -11,27 +11,21 @@
   <link rel="stylesheet" href="CSS/custom-styles.css">
 
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      display: flex;
-      flex-direction: column;
+      margin: 0;
       background-image: url('Images/banner_water.jpg');
       background-size: cover;
+      background-attachment: fixed;
       background-position: center;
       background-repeat: no-repeat;
-      background-attachment: fixed;
       position: relative;
-      overflow-x: hidden;
+      min-height: 100vh;
+      padding-bottom: 80px;
     }
 
     body::before {
       content: "";
-      position: absolute;
+      position: fixed;
       top: 0;
       left: 0;
       height: 100%;
@@ -40,60 +34,47 @@
       z-index: -1;
     }
 
-    main {
-      flex: 1 0 auto;
-      display: flex;
-      justify-content: center;
-      align-items: flex-start;
-      padding: 4rem 1rem;
+    .about-wrapper {
+      background-image: url('Images/working.jpg');
+      background-size: cover;
+      background-position:center;
+      background-repeat: no-repeat;
+      border-radius: 12px;
+      position: relative;
+      color: white;
+      margin: 5rem auto;
+      padding: 2rem;
+      max-width: 800px;
+      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
     }
 
-    .about-wrapper {
-      background: rgba(255, 255, 255, 0.15);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border-radius: 10px;
-      padding: 2rem;
-      color: white;
-      box-shadow: 0 0 1rem rgba(0, 0, 0, 0.2);
-      max-width: 1100px;
-      width: 100%;
+    .about-wrapper::before {
+      content: "";
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(21, 45, 61, 0.5); /* Dark overlay for readability */
+      border-radius: 12px;
+      z-index: 0;
     }
 
     .about-content {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-    }
-
-    @media (min-width: 992px) {
-      .about-content {
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
-      }
-    }
-
-    .about-text {
-      flex: 1;
-      max-width: 600px;
-    }
-
-    .about-img {
-      width: 100%;
-      max-width: 240px;
-      height: auto;
-      border-radius: 10px;
-      box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
+      position: relative;
+      z-index: 1;
     }
 
     footer {
-      flex-shrink: 0;
       background-color: #00577D;
       color: white;
       text-align: center;
       padding: 15px 0;
-      margin-top: auto;
+      width: 100%;
+    }
+
+    @media (max-width: 768px) {
+      .about-wrapper {
+        margin: 2rem 1rem;
+        padding: 1.5rem;
+      }
     }
   </style>
 </head>
@@ -122,25 +103,22 @@
   </nav>
 
   <!-- Main Content -->
-  <main>
+  <div class="container">
     <div class="about-wrapper">
-      <h1 class="text-center mb-4">About This Site</h1>
-      <div class="about-content">
-        <div class="about-text">
-          <p>
-            The Alliance Water Utility Training Center is a free resource for water and wastewater professionals preparing for certification exams or looking to sharpen their skills.
-          </p>
-          <p>
-            This site offers interactive calculators, study guides, formula sheets, flashcards, and more — all tailored to meet the needs of utility operators and technicians in the field.
-          </p>
-          <p>
-            Whether you're studying for your first exam or brushing up on chlorination, hydraulics, or regulations — this platform was built with you in mind.
-          </p>
-        </div>
-        <img src="Images/working.jpg" alt="Operators working" class="about-img">
+      <div class="about-content text-center">
+        <h1 class="mb-4">About This Site</h1>
+        <p>
+          The Alliance Water Utility Training Center is a free resource for water and wastewater professionals preparing for certification exams or looking to sharpen their skills.
+        </p>
+        <p>
+          This site offers interactive calculators, study guides, formula sheets, flashcards, and more — all tailored to meet the needs of utility operators and technicians in the field.
+        </p>
+        <p>
+          Whether you're studying for your first exam or brushing up on chlorination, hydraulics, or regulations — this platform was built with you in mind.
+        </p>
       </div>
     </div>
-  </main>
+  </div>
 
   <!-- Footer -->
   <footer>
