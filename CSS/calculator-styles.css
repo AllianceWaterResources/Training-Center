@@ -145,9 +145,10 @@ form {
     border-radius: 5px;
     padding: 5px 16px;
     font-weight: 500;
+    font-size: small;
     transition: background 0.3s ease;
     box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1);
-    width: 100px;
+    width: 75px;
     height: auto;
     display: inline-block;
     margin:5px;

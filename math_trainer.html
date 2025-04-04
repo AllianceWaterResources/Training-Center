@@ -10,6 +10,90 @@
     <!-- Custom CSS -->
     <link rel="stylesheet" href="CSS\calculator-styles.css">
     <link rel="stylesheet" href="CSS\custom-styles.css">
+
+    <style>
+        body {
+          margin: 0;
+          background-image: url('Images/banner_water.jpg');
+          background-size: cover;
+          background-attachment: fixed;
+          background-position: center;
+          background-repeat: no-repeat;
+          position: relative;
+          min-height: 100vh;
+          padding-bottom: 80px; /* Prevents footer from overlapping */
+        }
+      
+        body::before {
+          content: "";
+          position: fixed;
+          top: 0;
+          left: 0;
+          height: 100%;
+          width: 100%;
+          background-color: rgba(0, 87, 125, 0.6);
+          z-index: -1;
+        }
+      
+        /*#trainer-menu {
+          margin: 2rem auto;
+          text-align: center;
+          background: rgba(255, 255, 255, 0.0);
+          color: white;
+        }*/
+      
+        select {
+          color: white;
+          width: 250px;
+          height: 36px;
+          border: solid 1px;
+          border-color: #00577D;
+          border-radius: 5px;
+          margin-right: 10px;
+          margin-bottom: 10px;
+        }
+      
+        select:hover {
+          border-color: #00A7E1;
+        }
+      
+        select:focus {
+          outline: none;
+        }
+
+        .trainer-iframe {
+            width: 100%;
+            height: 500px; /* or 750px if needed */
+            border: none;
+           /* margin-top: 2rem;*/
+        }
+      
+        /*.calc-menu {
+          margin-top: 2rem;
+          margin-bottom: 1rem;
+          background-color: rgba(0, 87, 125, 0.75);
+          color: white;
+          border: 1px solid rgba(255, 255, 255, 0.3);
+          border-radius: 5px;
+          padding: 8px 16px;
+          backdrop-filter: blur(6px);
+          -webkit-backdrop-filter: blur(6px);
+          transition: background 0.3s ease;
+        }
+      
+        .calc-menu:hover {
+          background-color: rgba(0, 167, 225, 0.8);
+          color: white;
+        }
+      
+        footer {
+          background-color: #00577D;
+          color: white;
+          text-align: center;
+          padding: 15px 0;
+          width: 100%;
+        }*/
+      </style>
 </head>
 <body>
 
@@ -50,11 +134,11 @@
     <!--Make sure you link to all necessary CSS files********************************************************-->
     <!--Body Content Goes Here*******************************************************************************-->
     <div style="text-align: center;">
-        <button class="calc-menu" onclick="showHide()">Show/Hide Math Trainer Menu</button>
+        <button class="frosted-button" style="width: 260px;" onclick="showHide()">Show/Hide Math Trainer Menu</button>
     </div>
     <div id= "trainer-menu" style="text-align: center; display: block;">            
         <!--Treatment Calculators-->
-        <select id="mathSelect" onchange="loadTrainer(this.value)" style="width: 225px;">
+        <select id="mathSelect" onchange="loadTrainer(this.value)" style="width: 260px; margin: 5px;">
             <option value="" disabled selected>Select a Trainer</option>
             <option value="Math_Trainers/detention.html">Detention Time</option>
             <option value="Math_Trainers/dose.html">Dose</option>
@@ -66,7 +150,7 @@
         ">Dose Calculator</button>-->
     </div>
 <!--Calculator Container-->
-<iframe id="mathContainer" class="content" style="width: 100%; height: 500px; border: none;"></iframe>
+<iframe id="mathContainer" class="trainer-iframe"></iframe>
 
 
  <!--Script to Show and Hide the Calculator Menu--> 
@@ -80,6 +164,13 @@
         calcMenu.style.display = "none";  // Hide the element
     }
 }
+
+window.addEventListener('message', function(event) {
+  if (event.data.iframeHeight) {
+    const iframe = document.getElementById('mathContainer');
+    iframe.style.height = event.data.iframeHeight + 'px';
+  }
+});
 </script>
 
 <!--Call Script for loading calculators-->
