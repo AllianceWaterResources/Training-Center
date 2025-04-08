@@ -1,0 +1,61 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;" id="pipeForm">
+        <br>
+        <h2 class="calc-title">Pipe Dose Calculator</h2><br>
+
+        <input id="pipe_diameter" type="number" step="0.01" placeholder="Required">
+        <label for="pipe_diameter">Pipe Diameter (in)</label><br>
+
+        <input id="pipe_length" type="number" step="0.01" placeholder="Required">
+        <label for="pipe_length">Pipe Length (ft)</label><br>
+
+        <input id="hypo_strength" type="number" step="0.1" placeholder="70%">
+        <label for="hypo_strength">Hypo Strength %</label><br>
+
+        <input id="dose_mgl" type="number" step="0.1" placeholder="50 mg/L">
+        <label for="dose_mgl">Dose (mg/L)</label><br><br>
+
+        <button class="frosted-button" onclick="calculatePipeDose()">Submit</button>
+        <button class="frosted-button" onclick="resetPipeForm()">Reset</button>
+        <br><br>
+
+        <label id="pipeOutput" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        function resetPipeForm() {
+            document.getElementById("pipeForm").reset();
+            document.getElementById("pipeOutput").innerHTML = "";
+            document.getElementById("hypo_strength").placeholder = "70% (Default)";
+            document.getElementById("dose_mgl").placeholder = "50 mg/L (Default)";
+        }
+
+        function calculatePipeDose() {
+            let diameter = parseFloat(document.getElementById("pipe_diameter").value);
+            let length = parseFloat(document.getElementById("pipe_length").value);
+            let strengthInput = parseFloat(document.getElementById("hypo_strength").value);
+            let doseInput = parseFloat(document.getElementById("dose_mgl").value);
+
+            let strength = isNaN(strengthInput) ? 70 : strengthInput;
+            strength = strength / 100;
+
+            let dose = isNaN(doseInput) ? 50 : doseInput;
+
+            if (isNaN(diameter) || isNaN(length) || strength <= 0 || dose <= 0) {
+                document.getElementById("pipeOutput").innerHTML = "Please enter valid values.";
+                return;
+            }
+
+            let diameterFeet = diameter / 12;
+            let volumeCubicFeet = Math.PI * Math.pow((diameterFeet / 2), 2) * length;
+            let gallons = volumeCubicFeet * 7.48;
+
+            let pounds = (gallons * dose / 1000000) * 8.34 / strength;
+
+            let result = "Approx. " + pounds.toFixed(2) + " pounds of " + Math.round(strength * 100) + "% hypochlorite needed to dose " + gallons.toFixed(0) + " gallons at " + dose + " mg/L.";
+            document.getElementById("pipeOutput").innerHTML = result;
+        }
+    </script>
+</div>
