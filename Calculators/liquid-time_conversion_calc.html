@@ -1,0 +1,89 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;" id="flowForm">
+        <br>
+        <h2 class="calc-title">Liquid/Time Conversion</h2><br>
+
+        <input id="flow_value" type="number" step="0.0001" style="width: 150px;" placeholder="Required">
+        <label for="flow_value">Flow Unit</label><br>
+
+        <select id="input_volume_unit" style="width: 150px; margin-left: 10px;">
+            <option value="mL">mL</option>
+            <option value="gal">gal</option>
+        </select>
+        <label for="input_volume_unit">Input Volume Unit</label><br>
+
+        <select id="input_time_unit" style="width: 150px; margin-left: 10px;">
+            <option value="sec">per second</option>
+            <option value="min">per minute</option>
+            <option value="day">per day</option>
+        </select>
+        <label for="input_time_unit">Input Time Unit</label><br>
+
+        <select id="output_volume_unit" style="width: 150px; margin-left: 10px;">
+            <option value="mL">mL</option>
+            <option value="gal">gal</option>
+        </select>
+        <label for="output_volume_unit">Output Volume Unit</label><br>
+
+        <select id="output_time_unit" style="width: 150px; margin-left: 10px;">
+            <option value="sec">per second</option>
+            <option value="min">per minute</option>
+            <option value="day">per day</option>
+        </select>
+        <label for="output_time_unit">Output Time Unit</label><br><br>
+
+        <button class="frosted-button" onclick="convertFlow()">Submit</button>
+        <button class="frosted-button" onclick="resetFlowForm()">Reset</button>
+        <br><br>
+        <label id="flowOutput" class="answer"></label>
+        <br>
+    </form>
+    <br><br><br><br>
+
+    <script>
+        function resetFlowForm() {
+            document.getElementById("flowForm").reset();
+            document.getElementById("flowOutput").innerHTML = "";
+        }
+
+        function convertFlow() {
+            let value = parseFloat(document.getElementById("flow_value").value);
+            let inVol = document.getElementById("input_volume_unit").value;
+            let inTime = document.getElementById("input_time_unit").value;
+            let outVol = document.getElementById("output_volume_unit").value;
+            let outTime = document.getElementById("output_time_unit").value;
+
+            if (isNaN(value)) {
+                document.getElementById("flowOutput").innerHTML = "***please enter a valid number***";
+                return;
+            }
+
+            // Volume conversion (mL ↔ gal)
+            let fluidFactor = 1;
+            if (inVol === "mL" && outVol === "gal") {
+                fluidFactor = 1 / 3785.41;
+            } else if (inVol === "gal" && outVol === "mL") {
+                fluidFactor = 3785.41;
+            } else if (inVol === outVol) {
+                fluidFactor = 1;
+            }
+
+            // Time unit in seconds
+            const seconds = {
+                "sec": 1,
+                "min": 60,
+                "day": 86400
+            };
+
+            // Calculate time factor (e.g., convert "per min" to "per day")
+            let timeFactor = seconds[outTime] / seconds[inTime];
+
+            // Final conversion
+            let result = value * fluidFactor * timeFactor;
+            let rounded = parseFloat(result.toFixed(3)).toString();
+            document.getElementById("flowOutput").innerHTML =
+                rounded + " " + outVol + " per " + outTime;
+
+        }
+    </script>
+</div>
