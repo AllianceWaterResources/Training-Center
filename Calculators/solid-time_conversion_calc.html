@@ -1,0 +1,98 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;" id="solidForm">
+      <br>
+      <h2 class="calc-title">Solids/Time Conversion</h2><br>
+  
+      <input id="mass_value" type="number" step="0.0001" style="width: 150px;" placeholder="Required">
+      <label for="mass_value">Mass Rate</label><br>
+  
+      <select id="input_mass_unit" style="width: 150px; margin-left: 10px;">
+        <option value="mg">mg</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+        <option value="oz">oz</option>
+        <option value="lb">lb</option>
+      </select>
+      <label for="input_mass_unit">Input Mass Unit</label><br>
+  
+      <select id="input_time_unit" style="width: 150px; margin-left: 10px;">
+        <option value="sec">per second</option>
+        <option value="min" selected>per minute</option>
+        <option value="hour">per hour</option>
+        <option value="day">per day</option>
+      </select>
+      <label for="input_time_unit">Input Time Unit</label><br>
+  
+      <select id="output_mass_unit" style="width: 150px; margin-left: 10px;">
+        <option value="mg">mg</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+        <option value="oz">oz</option>
+        <option value="lb" selected>lb</option>
+      </select>
+      <label for="output_mass_unit">Output Mass Unit</label><br>
+  
+      <select id="output_time_unit" style="width: 150px; margin-left: 10px;">
+        <option value="sec">per second</option>
+        <option value="min">per minute</option>
+        <option value="hour">per hour</option>
+        <option value="day" selected>per day</option>
+      </select>
+      <label for="output_time_unit">Output Time Unit</label><br><br>
+  
+      <button class="frosted-button" onclick="convertMass()">Submit</button>
+      <button class="frosted-button" onclick="resetSolidForm()">Reset</button>
+      <br><br>
+      <label id="solidOutput" class="answer"></label>
+      <br>
+    </form>
+    <br><br><br><br>
+  
+    <script>
+      function resetSolidForm() {
+        document.getElementById("solidForm").reset();
+        document.getElementById("solidOutput").innerHTML = "";
+      }
+  
+      function convertMass() {
+        let value = parseFloat(document.getElementById("mass_value").value);
+        let inMass = document.getElementById("input_mass_unit").value;
+        let inTime = document.getElementById("input_time_unit").value;
+        let outMass = document.getElementById("output_mass_unit").value;
+        let outTime = document.getElementById("output_time_unit").value;
+  
+        if (isNaN(value)) {
+          document.getElementById("solidOutput").innerHTML = "***please enter a valid number***";
+          return;
+        }
+  
+        // Conversion factors to grams
+        const massToGrams = {
+          "mg": 0.001,
+          "g": 1,
+          "kg": 1000,
+          "oz": 28.3495,
+          "lb": 453.592
+        };
+  
+        // Time conversion to seconds
+        const timeToSeconds = {
+          "sec": 1,
+          "min": 60,
+          "hour": 3600,
+          "day": 86400
+        };
+  
+        // Convert input mass/time to grams per second
+        let gramsPerSecond = (value * massToGrams[inMass]) / timeToSeconds[inTime];
+  
+        // Convert to target unit/time
+        let convertedMass = gramsPerSecond * timeToSeconds[outTime] / massToGrams[outMass];
+  
+        let rounded = parseFloat(convertedMass.toFixed(3)).toString();
+        document.getElementById("solidOutput").innerHTML =
+          rounded + " " + outMass + " per " + outTime;
+      }
+    </script>
+  </div>
+  
