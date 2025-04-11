@@ -1,0 +1,81 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;" id="chloramForm">
+      <br>
+      <h2 class="calc-title">Chloramination Calculator</h2><br>
+  
+      <input id="flow_input" type="number" step="0.001" placeholder="Required">
+      <select id="flow_unit" style="width: 150px;">
+        <option value="GPM">GPM (24 Hours)</option>
+        <option value="Million Gallons">Million Gallons</option>
+        <option value="Gallons">Gallons</option>
+      </select>
+      <br>
+  
+      <input type="number" id="residual_cl" step="0.01" placeholder="(mg/L)">
+      <label for="residual_cl" style="margin-left: 10px;">Free Cl₂ Residual</label><br>
+  
+      <input type="number" id="target_ratio" step="0.01" value="4.5">
+      <label for="target_ratio" style="margin-left: 10px;">Target Cl₂:NH₃ Ratio</label><br>
+  
+      <input type="number" id="ammonia_strength" step="0.1" value="19">
+      <label for="ammonia_strength" style="margin-left: 10px;">NH₃ Strength (%)</label><br><br>
+  
+      <button class="frosted-button" onclick="calculateChloramination()">Submit</button>
+      <button class="frosted-button" onclick="resetChloramForm()">Reset</button>
+      <br><br>
+      <label id="chloramOutput" class="answer"></label>
+      <br>
+    </form>
+    <br><br><br><br>
+  
+    <script>
+      function resetChloramForm() {
+        document.getElementById("chloramForm").reset();
+        document.getElementById("chloramOutput").innerHTML = "";
+      }
+  
+      function calculateChloramination() {
+        let flow = parseFloat(document.getElementById("flow_input").value);
+        let flowUnit = document.getElementById("flow_unit").value;
+        let residualCl = parseFloat(document.getElementById("residual_cl").value);
+        let ratio = parseFloat(document.getElementById("target_ratio").value);
+        let strength = parseFloat(document.getElementById("ammonia_strength").value);
+  
+        // Use defaults if fields are cleared
+        if (isNaN(ratio)) ratio = 4.5;
+        if (isNaN(strength)) strength = 19;
+  
+        if (isNaN(flow) || isNaN(residualCl)) {
+          document.getElementById("chloramOutput").innerHTML = "***please enter valid values***";
+          return;
+        }
+  
+        // Convert flow to MGD
+        let mgd = 0;
+        if (flowUnit === "GPM") {
+          mgd = flow * 1440 / 1000000;
+        } else if (flowUnit === "Million Gallons") {
+          mgd = flow;
+        } else if (flowUnit === "Gallons") {
+          mgd = flow / 1000000;
+        }
+  
+        // NH3 dose (mg/L) = Cl2 / ratio
+        let ammoniaDose = residualCl / ratio;
+  
+        // Pounds of NH3/day
+        let poundsPerDay = 8.34 * mgd * ammoniaDose;
+  
+        // Assume ammonia solution weight = 7.49 lbs/gal
+        let ammoniaStrengthDecimal = strength / 100;
+        let ammoniaWeightPerGallon = 7.49;
+  
+        let gallonsPerDay = poundsPerDay / (ammoniaStrengthDecimal * ammoniaWeightPerGallon);
+        let rounded = parseFloat(gallonsPerDay.toFixed(3)).toString();
+  
+        document.getElementById("chloramOutput").innerHTML =
+          rounded + " gallons/day of ammonia solution";
+      }
+    </script>
+  </div>
+  
