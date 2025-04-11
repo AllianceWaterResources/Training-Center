@@ -1,0 +1,75 @@
+<div class="content" style="text-align: center;">
+    <form onsubmit="return false;" id="solidUnitForm">
+      <br>
+      <h2 class="calc-title">Solids Unit Conversion</h2>
+  
+      <input id="solid_input" type="number" step="0.0001" placeholder="Enter value">
+      <select id="solid_input_unit" style="width: 150px;">
+        <option value="mg">mg</option>
+        <option value="g" selected>g</option>
+        <option value="kg">kg</option>
+        <option value="oz">oz</option>
+        <option value="lb">lb</option>
+      </select>
+      <br>
+  
+      <label class="entry-label" style="width: 350px; text-align: center;">Output Unit</label><br>
+      <select id="solid_output_unit" style="width: 150px;">
+        <option value="mg">mg</option>
+        <option value="g">g</option>
+        <option value="kg">kg</option>
+        <option value="oz">oz</option>
+        <option value="lb" selected>lb</option>
+      </select>
+      <br><br>
+  
+      <button class="frosted-button" onclick="convertSolidUnit()">Submit</button>
+      <button class="frosted-button" onclick="resetSolidUnitForm()">Reset</button>
+      <br><br>
+      <label id="solidUnitOutput" class="answer"></label>
+      <br>
+    </form>
+    <br><br><br><br>
+  
+    <script>
+      function resetSolidUnitForm() {
+        document.getElementById("solidUnitForm").reset();
+        document.getElementById("solidUnitOutput").innerHTML = "";
+      }
+  
+      function convertSolidUnit() {
+        let input = parseFloat(document.getElementById("solid_input").value);
+        let from = document.getElementById("solid_input_unit").value;
+        let to = document.getElementById("solid_output_unit").value;
+  
+        if (isNaN(input)) {
+          document.getElementById("solidUnitOutput").innerHTML = "***please enter a valid number***";
+          return;
+        }
+  
+        // Convert everything to grams
+        const toGrams = {
+          "mg": 0.001,
+          "g": 1,
+          "kg": 1000,
+          "oz": 28.3495,
+          "lb": 453.592
+        };
+  
+        const fromGrams = {
+          "mg": 1 / 0.001,
+          "g": 1,
+          "kg": 1 / 1000,
+          "oz": 1 / 28.3495,
+          "lb": 1 / 453.592
+        };
+  
+        let grams = input * toGrams[from];
+        let result = grams * fromGrams[to];
+  
+        let rounded = parseFloat(result.toFixed(3)).toString();
+        document.getElementById("solidUnitOutput").innerHTML = rounded + " " + to;
+      }
+    </script>
+  </div>
+  
