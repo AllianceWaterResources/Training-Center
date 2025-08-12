@@ -12,100 +12,83 @@
   <link rel="stylesheet" href="CSS/custom-styles.css">
 
   <style>
-    html, body {
-      height: 100%;
-      margin: 0;
-    }
-
+    html, body { height: 100%; margin: 0; }
     body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
+      display: flex; flex-direction: column; min-height: 100vh; font-family: Arial, sans-serif;
     }
-
-    main {
-      flex: 1;
-    }
+    main { flex: 1; }
 
     .hero {
       background-image: url('Images/banner_water.jpg');
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      color: white;
-      position: relative;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 60px 20px;
-      min-height: 100vh;
-      text-align: center;
+      background-size: cover; background-position: center; background-repeat: no-repeat;
+      color: white; position: relative; display: flex; align-items: center; justify-content: center;
+      padding: 60px 20px; min-height: 100vh; text-align: center; overflow: hidden;
     }
-
     .hero::before {
-      content: "";
-      position: absolute;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: rgba(0, 87, 125, 0.6);
-      z-index: 0;
+      content: ""; position: absolute; inset: 0; background: rgba(0, 87, 125, 0.6); z-index: 0;
+      /* gentle shimmer */
+      background-image:
+        radial-gradient(1200px 400px at -20% -20%, rgba(255,255,255,0.08), transparent 60%),
+        radial-gradient(900px 300px at 120% 120%, rgba(255,255,255,0.08), transparent 60%);
+      animation: shimmer 18s linear infinite;
+    }
+    @keyframes shimmer {
+      0%   { background-position: 0% 0%, 100% 100%; }
+      50%  { background-position: 100% 0%, 0% 100%; }
+      100% { background-position: 0% 0%, 100% 100%; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero::before { animation: none; }
     }
 
-    .hero .container {
-      position: relative;
-      z-index: 1;
-    }
+    .hero .container { position: relative; z-index: 1; }
 
     .card-glass {
       background: rgba(255, 255, 255, 0.2);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      color: white;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 12px;
-      padding: 2rem;
-      max-width: 600px;
-      margin: auto;
+      backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+      color: white; border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 12px; padding: 2rem; max-width: 640px; margin: auto;
       box-shadow: 0 0.75rem 1.5rem rgba(0, 0, 0, 0.25);
+      animation: rise-in 600ms ease both;
+    }
+    @keyframes rise-in {
+      from { opacity: 0; transform: translateY(10px) scale(0.995); }
+      to   { opacity: 1; transform: translateY(0)     scale(1); }
     }
 
-    .card-glass h2 {
-      font-size: 2rem;
-      margin-bottom: 1rem;
+    /* Flip-card container */
+    .flip-card { perspective: 1200px; width: 100%; margin: 0 auto 1rem; min-height: 120px; }
+    .flip-card-inner {
+      position: relative; width: 100%; min-height: 120px;
+      transform-style: preserve-3d; transition: transform 420ms ease;
     }
+    .flip-card.flipped .flip-card-inner { transform: rotateY(180deg); }
+    .flip-card-face {
+      position: absolute; inset: 0; backface-visibility: hidden; -webkit-backface-visibility: hidden;
+      display: flex; align-items: center; justify-content: center; padding: .5rem 1rem;
+      border-radius: 8px;
+    }
+    .flip-front { }
+    .flip-back  { transform: rotateY(180deg); background: rgba(0,0,0,0.15); }
 
-    #flashcard {
-      font-size: 1.25rem;
-      min-height: 80px;
-      margin-bottom: 1rem;
-    }
+    #question, #answer { font-size: 1.25rem; line-height: 1.4; margin: 0; }
+
+    /* Slide transitions for Next */
+    .flip-card.slide-out { animation: slideOut 250ms ease both; }
+    .flip-card.slide-in  { animation: slideIn  380ms ease both 60ms; }
+    @keyframes slideOut { from { opacity:1; transform: translateY(0); } to { opacity:.0; transform: translateY(8px); } }
+    @keyframes slideIn  { from { opacity:0; transform: translateY(-6px);} to { opacity:1; transform: translateY(0);} }
 
     .custom-button {
-      background-color: #ffffff33;
-      border: 1px solid rgba(255, 255, 255, 0.4);
-      color: white;
-      padding: 10px 20px;
-      margin: 5px;
-      border-radius: 8px;
-      font-weight: bold;
-      transition: background 0.2s ease;
+      background-color: #ffffff33; border: 1px solid rgba(255, 255, 255, 0.4);
+      color: white; padding: 10px 20px; margin: 5px; border-radius: 8px; font-weight: bold;
+      transition: transform .08s ease, box-shadow .2s ease, background .2s ease;
+      will-change: transform;
     }
+    .custom-button:hover { background-color: #ffffff55; box-shadow: 0 6px 14px rgba(0,0,0,.18); }
+    .custom-button:active { transform: translateY(1px) scale(0.99); }
 
-    .custom-button:hover {
-      background-color: #ffffff55;
-    }
-
-    #answer {
-      margin-top: 20px;
-      font-style: italic;
-    }
-
-    footer {
-      background-color: #00577D;
-      color: white;
-      text-align: center;
-      padding: 10px;
-    }
+    footer { background-color: #00577D; color: white; text-align: center; padding: 10px; }
   </style>
 </head>
 <body>
@@ -136,13 +119,20 @@
   <main class="hero">
     <div class="container">
       <div class="card-glass">
-        <!--<h2>Water Treatment Flashcards</h2>-->
-        <div id="flashcard">
-          <p id="question">Loading flashcards...</p>
+        <!-- Flip card -->
+        <div class="flip-card" id="flipCard">
+          <div class="flip-card-inner">
+            <div class="flip-card-face flip-front">
+              <p id="question">Loading flashcards...</p>
+            </div>
+            <div class="flip-card-face flip-back" aria-live="polite">
+              <p id="answer"></p>
+            </div>
+          </div>
         </div>
+
         <button onclick="showAnswer()" class="custom-button">Show Answer</button>
         <button onclick="nextFlashcard()" class="custom-button">Next</button>
-        <div id="answer"></div>
       </div>
     </div>
   </main>
@@ -152,9 +142,69 @@
     &copy; 2024 Alliance Water Resources. All rights reserved.
   </footer>
 
-  <!-- Scripts -->
+  <!-- Your logic -->
   <script src="Scripts/flashcard_script.js"></script>
+
+  <!-- Bootstrap JS -->
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+  <!-- Animation glue: wraps your existing functions without breaking them -->
+  <script>
+    (function(){
+      const flipCard      = document.getElementById('flipCard');
+      const flipInner     = flipCard.querySelector('.flip-card-inner');
+      const answerEl      = document.getElementById('answer');
+      const questionEl    = document.getElementById('question');
+
+      // Keep references to your original functions if they exist
+      const _showAnswer   = typeof window.showAnswer === 'function' ? window.showAnswer : null;
+      const _nextFlash    = typeof window.nextFlashcard === 'function' ? window.nextFlashcard : null;
+
+      // Flip on Show Answer
+      window.showAnswer = function(){
+        if (_showAnswer) _showAnswer();
+        // If your script fills #answer on demand, we just animate the flip
+        flipCard.classList.add('flipped');
+      };
+
+      // Slide + reset flip on Next
+      window.nextFlashcard = function(){
+        // quick slide-out
+        flipCard.classList.add('slide-out');
+        setTimeout(() => {
+          // reset flip state before loading next Q
+          flipCard.classList.remove('flipped');
+          if (_nextFlash) _nextFlash();
+
+          // clear stale answer content (in case your script doesn’t)
+          if (answerEl && !answerEl.textContent) { answerEl.textContent = ""; }
+
+          // slide-in
+          flipCard.classList.remove('slide-out');
+          flipCard.classList.add('slide-in');
+          setTimeout(() => flipCard.classList.remove('slide-in'), 420);
+        }, 240);
+      };
+
+      // Accessibility: flip back if user clicks the back face
+      flipCard.addEventListener('click', (e) => {
+        if (flipCard.classList.contains('flipped') && e.target.closest('.flip-back')) {
+          flipCard.classList.remove('flipped');
+        }
+      });
+
+      // Respect reduced motion: disable transforms
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.style.setProperty('--noanim', '1');
+        // Remove transitions/animations by toggling classes if you like; here we simply skip flips
+        window.showAnswer = function(){
+          if (_showAnswer) _showAnswer();
+        };
+        window.nextFlashcard = function(){
+          if (_nextFlash) _nextFlash();
+        };
+      }
+    })();
+  </script>
 </body>
 </html>
