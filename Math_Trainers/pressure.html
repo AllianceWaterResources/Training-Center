@@ -138,7 +138,7 @@
             let updated_P_adjusted = gaugePsi - updated_P_offset;
             let updated_waterHeight = updated_P_adjusted > 0 ? Math.round((updated_P_adjusted / 0.433) * 100) / 100 : 0;
             let updated_volume = Math.round(length*width*updated_waterHeight*100)/100;
-            let updated_volumeGallons = Math.round((length * width * updated_waterHeight * 7.48) * 10) / 10;
+            let updated_volumeGallons = Math.round((updated_volume * updated_waterHeight * 7.48) * 10) / 10;
 
             if (problemType === 0) {
                 document.getElementById("helpmessage").innerHTML = `
@@ -206,7 +206,6 @@
                         <li>Use the length and width of the tank, and the water height.</li>
                         <li><i>Note: the tank height was given, but it isn't needed for this calculation.</i></li>
                         <li>Volume (cuft) = <strong>${length} ft</strong> × <strong>${width} ft</strong> × <strong>${updated_waterHeight} ft</strong> </li>
-                        <li><strong>${Math.round(volumeGallons/7.48*100)/100} cuft</strong></li>
                         <li><strong>${updated_volume} cuft</strong></li>
                     </ul>
                     <p>&nbsp;</p> <!-- Adds a small space -->
@@ -214,7 +213,6 @@
                     <p><strong>Step 5: Convert cubic feet to gallons</strong></p>
                     <ul>
                         <li>gallons = cubic feet × 7.48 gal/cuft</li>
-                        <li><strong>gallons = ${Math.round(volumeGallons/7.48*100)/100}</strong> × 7.48 gal/cuft</li>
                         <li><strong>gallons = ${updated_volume}</strong> × 7.48 gal/cuft</li>
                         <li><strong>${volumeGallons} gallons</strong></li>
 
