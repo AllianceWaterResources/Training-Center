@@ -92,17 +92,17 @@
                 height = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
                 gaugeHeight = Math.floor(Math.random() * (height - 5)) + 5;
 
-                let P_offset = Math.round(0.433 * gaugeHeight);
+                let P_offset = Math.round(0.433 * gaugeHeight * 100)/100;
                 let P_max = Math.round((0.433 * height + P_offset) * 100) / 100;
-                gaugePsi = Math.round(Math.random() * (P_max - P_offset + 1)) + P_offset;
+                gaugePsi = Math.round(Math.random() * (P_max - P_offset)*100)/100;
 
-                P_adjusted = gaugePsi - P_offset;
+                P_adjusted = Math.round((gaugePsi - P_offset) * 100) / 100;
                 
                 if (P_adjusted <= 0) {
                     waterHeight = 0;
                     volumeGallons = 0;
                 } else {
-                    waterHeight = Math.round((P_adjusted / 0.433) * 100) / 100;
+                    waterHeight = Math.round((P_adjusted * 2.31) * 100) / 100;
                     volumeGallons = Math.round((length * width * waterHeight * 7.48) * 10) / 10;
                 }
 
