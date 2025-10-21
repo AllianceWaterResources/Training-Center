@@ -137,6 +137,7 @@
             let updated_P_offset = Math.round((0.433 * gaugeHeight) * 100) / 100;
             let updated_P_adjusted = gaugePsi - updated_P_offset;
             let updated_waterHeight = updated_P_adjusted > 0 ? Math.round((updated_P_adjusted / 0.433) * 100) / 100 : 0;
+            let updated_volume = ${Math.round(length*width*updated_waterHeight*100)/100}
             let updated_volumeGallons = Math.round((length * width * updated_waterHeight * 7.48) * 10) / 10;
 
             if (problemType === 0) {
@@ -206,7 +207,7 @@
                         <li><i>Note: the tank height was given, but it isn't needed for this calculation.</i></li>
                         <li>Volume (cuft) = <strong>${length} ft</strong> × <strong>${width} ft</strong> × <strong>${updated_waterHeight} ft</strong> </li>
                         <li><strong>${Math.round(volumeGallons/7.48*100)/100} cuft</strong></li>
-                        <li><strong>${length*width*updated_waterHeight} cuft</strong></li>
+                        <li><strong>${updated_volume} cuft</strong></li>
                         <li><strong>${length*width*height} cuft</strong></li>
                     </ul>
                     <p>&nbsp;</p> <!-- Adds a small space -->
@@ -215,6 +216,7 @@
                     <ul>
                         <li>gallons = cubic feet × 7.48 gal/cuft</li>
                         <li><strong>gallons = ${Math.round(volumeGallons/7.48*100)/100}</strong> × 7.48 gal/cuft</li>
+                        <li><strong>gallons = ${updated_volume}</strong> × 7.48 gal/cuft</li>
                         <li><strong>${volumeGallons} gallons</strong></li>
 
                 `;
