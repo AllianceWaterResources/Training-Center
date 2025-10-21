@@ -102,7 +102,7 @@
                     waterHeight = 0;
                     volumeGallons = 0;
                 } else {
-                    waterHeight = Math.round((P_adjusted / 0.433) * 100) / 100;
+                    waterHeight = Math.round((P_adjusted * 2.31) * 100) / 100;
                     volumeGallons = Math.round((length * width * waterHeight * 7.48) * 10) / 10;
                 }
 
@@ -127,7 +127,7 @@
                 document.getElementById("outputText").innerHTML = `${requiredPsi} psi`;
             }
             else {
-                document.getElementById("outputText").innerHTML = `${updated_volumeGallons} gallons`;
+                document.getElementById("outputText").innerHTML = `${volumeGallons} gallons`;
             }
         }
 
