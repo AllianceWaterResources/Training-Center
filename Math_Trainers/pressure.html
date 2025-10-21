@@ -137,7 +137,7 @@
             let updated_P_offset = Math.round((0.433 * gaugeHeight) * 100) / 100;
             let updated_P_adjusted = gaugePsi - updated_P_offset;
             let updated_waterHeight = updated_P_adjusted > 0 ? Math.round((updated_P_adjusted / 0.433) * 100) / 100 : 0;
-            let updated_volume = ${Math.round(length*width*updated_waterHeight*100)/100};
+            let updated_volume = Math.round(length*width*updated_waterHeight*100)/100;
             let updated_volumeGallons = Math.round((length * width * updated_waterHeight * 7.48) * 10) / 10;
 
             if (problemType === 0) {
