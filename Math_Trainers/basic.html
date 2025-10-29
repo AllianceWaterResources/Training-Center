@@ -100,7 +100,7 @@
     function lengthofpipe() {
       const a = randInt(10, 250)*10;
       const b = choose([2, 6, 8, 12, 16, 24, 30]);
-      const ans = Math.round(((b/24)*(b/24)*3.14*a*7.48)*100)/100;
+      const ans = Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100;
       return {
         prompt: `Calculate how many gallons ${a} feet of ${b}" pipe holds.`,
         answerText: String(ans)+" gallons",
