@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Basic Math Trainer</title>
+
+  <!-- Keep the same relative CSS paths as your other trainers -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../CSS/calculator-styles.css">
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    :root { color-scheme: light dark; }
+    body { margin: 0; background: transparent; }
+
+    .trainer-form {
+      background: rgba(255, 255, 255, 0.15);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      text-align: center;
+      color: white;
+      max-width: 350px;
+      margin: 16px auto 0 auto;
+      padding: 16px 16px 24px 16px;
+      border-radius: 12px;
+    }
+
+    .trainer-form .btn-row button { margin: 0.5rem; }
+    .calc-title { margin-top: 8px; }
+
+    #problem {
+      display: inline-block;
+      width: 300px;
+      min-height: 120px;
+      white-space: pre-wrap;
+    }
+
+    #outputText { display: inline-block; margin-top: 8px; font-weight: bold; }
+
+    /* Help box is OUTSIDE the form so it doesn't stretch the form */
+    .help-box {
+      margin-top: 20px;
+      max-width: 350px;
+      margin-left: auto;
+      margin-right: auto;
+      background: rgba(255, 255, 255, 0.10);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      color: white;
+      text-align: left;
+      padding: 20px;
+      border-radius: 10px;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+    }
+    .help-box.visible { opacity: 1; visibility: visible; }
+  </style>
+</head>
+
+<body>
+  <div class="content" style="text-align:center;">
+    <form onsubmit="return false;" class="trainer-form" id="myForm" aria-label="Basic Math Trainer">
+      <h2 class="calc-title">Basic Math Trainer</h2>
+
+      <div id="problem" aria-live="polite"></div>
+
+      <div class="btn-row">
+        <button type="button" class="frosted-button" style="width:110px;" onclick="answer()">Answer</button>
+        <button type="button" class="frosted-button" style="width:110px;" onclick="randomize()">Randomize</button>
+        <button type="button" class="frosted-button" style="width:110px;" onclick="showHelp()">Help Me</button>
+      </div>
+
+      <div id="outputText" class="answer"></div>
+    </form>
+
+    <!-- Help section BELOW the form -->
+    <div id="helpmessage" class="help-box" role="region" aria-live="polite"></div>
+  </div>
+
+  <script>
+    // ----- Minimal, safe iframe height post -----
+    function postHeight() {
+      // use a short delay so DOM has applied layout
+      setTimeout(() => {
+        const height = Math.max(
+          document.documentElement.scrollHeight,
+          document.body.scrollHeight
+        );
+        try { window.parent.postMessage({ iframeHeight: height }, "*"); } catch (e) { /* ignore */ }
+      }, 0);
+    }
+
+    // ----- Utilities -----
+    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
+    function choose(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+
+    // ----- Problem Generators (return { prompt, answerText, helpHtml }) -----
+    function lengthofpipe() {
+      const a = randInt(10, 250)*10;
+      const b = choose([2, 6, 8, 12, 16, 24, 30]);
+      const ans = Math.round(((b/24)*(b/24)*3.14*a*7.48)*100)/100;
+      return {
+        prompt: `Calculate how many gallons ${a} feet of ${b}" pipe holds.`,
+        answerText: String(ans)+" gallons",
+        helpHtml: `
+          <strong>Step 1:</strong> Convert the pipe diameter (<strong>${b}"</strong>) to radius.<br><br>
+          <ul>
+          <li><strong>${b}" ÷ 2 = ${b/2}"</strong></li>
+          </ul><br>
+          <strong>Step 2:</strong> Convert the radius (<strong>${b/2}"</strong>) from inches to feet by dividing by 12 (there are 12 inches per foot).<br><br>
+          <ul>
+          <li><strong>${b/2}" ÷ 12 = ${Math.round(((b/2)/12)*100)/100} ft</strong></li>
+          <li><strong>${Math.round(((b/2)/12)*100)/100} ft </strong>
+          </ul><br>
+          <strong>Step 3:</strong> Calculate the volume of the pipe in cubic feed using the volume formula.<br><br>
+          <ul>
+          <li><strong>V = r² × π × L</strong></li>
+          <li><strong>V = ${Math.round(((b/2)/12)*100)/100} ft × ${Math.round(((b/2)/12)*100)/100} ft × 3.14 × ${a} ft</strong></li>
+          <li><strong>${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft</strong></li>
+          </ul><br>
+          <strong>Step 4:</strong> Calculate gallons by multiplying the volume 
+          (${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft) by 7.48 gallons per cubic foot.<br><br>
+          <ul>
+          <li><strong>${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft * 7.48 gal/cuft</strong></li>
+          <li><strong>${Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100} gallons</strong></li>
+        `
+      };
+    }
+
+    function genSubtraction() {
+      let a = randInt(100, 999), b = randInt(10, 900);
+      if (b > a) [a, b] = [b, a];
+      const ans = a - b;
+      return {
+        prompt: `Compute:\n\n${a} - ${b} = ?`,
+        answerText: String(ans),
+        helpHtml: `
+          <strong>Step 1:</strong> Line up by place value.<br>
+          <strong>Step 2:</strong> Borrow when top digit is smaller.<br><br>
+          <strong>Work:</strong> ${a} - ${b} = <strong>${ans}</strong>
+        `
+      };
+    }
+
+    function genMultiplication() {
+      const a = randInt(2, 12), b = randInt(2, 12), ans = a * b;
+      return {
+        prompt: `Compute:\n\n${a} × ${b} = ?`,
+        answerText: String(ans),
+        helpHtml: `
+          <strong>Step 1:</strong> Use times tables.<br>
+          <strong>Step 2:</strong> Think ${a} groups of ${b}.<br><br>
+          <strong>Work:</strong> ${a} × ${b} = <strong>${ans}</strong>
+        `
+      };
+    }
+
+    function genDivisionWhole() {
+      const a = randInt(2, 12), b = randInt(2, 12);
+      const dividend = a * b, divisor = choose([a, b]), ans = dividend / divisor;
+      return {
+        prompt: `Compute:\n\n${dividend} ÷ ${divisor} = ?`,
+        answerText: String(ans),
+        helpHtml: `
+          <strong>Step 1:</strong> How many groups of ${divisor} in ${dividend}?<br>
+          <strong>Step 2:</strong> ${dividend} = ${a} × ${b}, so dividing by one factor leaves the other.<br><br>
+          <strong>Work:</strong> ${dividend} ÷ ${divisor} = <strong>${ans}</strong>
+        `
+      };
+    }
+
+    function genWordProblem() {
+      const rate = randInt(3, 12), minutes = randInt(5, 20), ans = rate * minutes;
+      return {
+        prompt:
+`Word Problem:
+
+A machine makes ${rate} bolts per minute.
+How many bolts will it make in ${minutes} minutes?`,
+        answerText: `${ans} bolts`,
+        helpHtml: `
+          <strong>Step 1:</strong> Rate = ${rate} bolts/min, Time = ${minutes} min.<br>
+          <strong>Step 2:</strong> Total = Rate × Time.<br><br>
+          <strong>Work:</strong> ${rate} × ${minutes} = <strong>${ans}</strong> bolts
+        `
+      };
+    }
+
+    const generators = [lengthofpipe];//, genSubtraction, genMultiplication, genDivisionWhole, genWordProblem];
+
+    // ----- Page State & Actions -----
+    let current = null;
+
+    function randomize() {
+      document.getElementById("outputText").textContent = "";
+      const helpBox = document.getElementById("helpmessage");
+      helpBox.classList.remove("visible");
+      helpBox.innerHTML = "";
+
+      const gen = choose(generators);
+      current = gen();
+      document.getElementById("problem").innerHTML = current.prompt.replace(/\n/g, "<br>");
+
+      postHeight();
+    }
+
+    function answer() {
+      if (!current) randomize();
+      document.getElementById("outputText").textContent = current.answerText;
+      postHeight();
+    }
+
+    function showHelp() {
+      if (!current) randomize();
+      const help = document.getElementById("helpmessage");
+      help.innerHTML = current.helpHtml;
+      help.classList.add("visible");
+      postHeight();
+    }
+
+    // Init
+    window.addEventListener("load", () => {
+      randomize();
+      postHeight();
+    });
+  </script>
+</body>
+</html>
