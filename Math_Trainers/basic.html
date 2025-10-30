@@ -98,32 +98,34 @@
 
     // ----- Problem Generators (return { prompt, answerText, helpHtml }) -----
     function lengthofpipe() {
-      const a = randInt(10, 250)*10;
+      const a = randInt(10, 1000)*10;
       const b = choose([2, 6, 8, 12, 16, 24, 30]);
       const ans = Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100;
       return {
         prompt: `Calculate how many gallons ${a} feet of ${b}" pipe holds.`,
         answerText: String(ans)+" gallons",
         helpHtml: `
-          <strong>Step 1:</strong> Convert the pipe diameter (<strong>${b}"</strong>) to radius.<br><br>
+          <strong>Step 1:</strong> Use the pipe diameter (<strong>${b}"</strong>) to determine the radius.<br><br>
           <ul>
+          <li><strong>Radius = Diameter ÷ 2</strong></li>
           <li><strong>${b}" ÷ 2 = ${b/2}"</strong></li>
+          <li><strong>${b/2}" is the radius in inches</strong></li>
           </ul><br>
           <strong>Step 2:</strong> Convert the radius (<strong>${b/2}"</strong>) from inches to feet by dividing by 12 (there are 12 inches per foot).<br><br>
           <ul>
-          <li><strong>${b/2}" ÷ 12 = ${Math.round(((b/2)/12)*100)/100} ft</strong></li>
-          <li><strong>${Math.round(((b/2)/12)*100)/100} ft </strong>
+          <li><strong>${b/2}in ÷ 12 in/ft = ${Math.round(((b/2)/12)*100)/100} ft</strong></li>
+          <li><strong>${Math.round(((b/2)/12)*100)/100} ft is the radius in feet</strong>
           </ul><br>
           <strong>Step 3:</strong> Calculate the volume of the pipe in cubic feed using the volume formula.<br><br>
           <ul>
-          <li><strong>V = r² × π × L</strong></li>
+          <li><strong>Volume = radius² × π × Length</strong></li>
           <li><strong>V = ${Math.round(((b/2)/12)*100)/100} ft × ${Math.round(((b/2)/12)*100)/100} ft × 3.14 × ${a} ft</strong></li>
-          <li><strong>${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft</strong></li>
+          <li><strong>${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft is the volume of the pipe</strong></li>
           </ul><br>
-          <strong>Step 4:</strong> Calculate gallons by multiplying the volume 
-          (${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft) by 7.48 gallons per cubic foot.<br><br>
+          <strong>Step 4:</strong> Calculate gallons by multiplying the volume (<strong>
+          ${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft</strong>) by 7.48 gallons per cubic foot.<br><br>
           <ul>
-          <li><strong>${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft * 7.48 gal/cuft</strong></li>
+          <li><strong>Gallons = ${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft * 7.48 gal/cuft</strong></li>
           <li><strong>${Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100} gallons</strong></li>
         `
       };
