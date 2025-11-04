@@ -151,15 +151,57 @@
       };
     }
 
-    function genMultiplication() {
-      const a = randInt(2, 12), b = randInt(2, 12), ans = a * b;
+    function velocity() {
+      const a = choose([2, 6, 8, 12, 16, 24, 30]), b = randInt(3, 50)*10, ans = a * b;
       return {
-        prompt: `Compute:\n\n${a} × ${b} = ?`,
-        answerText: String(ans),
+        prompt: `A ${a} inch pipe is flowing at a rate of ${b} GPM.  What is the velocity of the water in feet per second?`,
+        answerText: String(Math.round(((Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
+          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100)/60)*1000)/1000 + " ft/s"),
         helpHtml: `
-          <strong>Step 1:</strong> Use times tables.<br>
-          <strong>Step 2:</strong> Think ${a} groups of ${b}.<br><br>
-          <strong>Work:</strong> ${a} × ${b} = <strong>${ans}</strong>
+          <strong>Step 1:</strong> Use the pipe diameter (<strong>${a}"</strong>) to determine the radius.<br><br>
+          <ul>
+          <li><strong>Radius = Diameter ÷ 2</strong></li>
+          <li><strong>${a}" ÷ 2 = ${a/2}"</strong></li>
+          <li><strong>${a/2}" is the radius in inches</strong></li>
+          </ul><br>
+          <strong>Step 2:</strong> Convert the radius (<strong>${a/2}"</strong>) from inches to feet by dividing by 12 (there are 12 inches per foot).<br><br>
+          <ul>
+          <li><strong>${a/2}in ÷ 12 in/ft = ${Math.round(((a/2)/12)*100)/100} ft</strong></li>
+          <li><strong>${Math.round(((a/2)/12)*100)/100} ft is the radius in feet</strong>
+          </ul><br>
+          <strong>Step 3:</strong> Calculate the area of the pipe in square feet using the area formula.<br><br>
+          <ul>
+          <li><strong>Volume = radius² × π</strong></li>
+          <li><strong>A = ${Math.round(((a/2)/12)*100)/100} ft × ${Math.round(((a/2)/12)*100)/100} ft × 3.14 ft</strong></li>
+          <li><strong>${Math.round(((Math.round(((a/2)/12)*100)/100) * (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100} sqft is the area of the pipe</strong></li>
+          </ul><br>
+          <strong>Step 4:</strong> Convert the flow rate (<strong>${b} GPM</strong>) from GPM to cubic feet per minute<br><br>
+          <ul>
+          <strong>
+          <li>Cuft/min = GPM ÷ 7.48 Gallons per Cubic Foot</li>
+          <li>Cuft/min = ${b} GPM ÷ 7.48 Gal/cuft</li>
+          <li>${Math.round((b/7.48)*100)/100} cuft/min is the converted flow rate</li>
+          </ul><br>
+          Step 5:</strong> Divide the converted flow rate (<strong>${Math.round((b/7.48)*100)/100} cuft/min</strong>) by the area of the pipe 
+          (<strong>${Math.round(((Math.round(((a/2)/12)*100)/100) * (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100} sqft</strong>)<br>
+          <ul>
+          <li><strong>Velocity = Flow ÷ Area</li>
+          <li>V = ${Math.round((b/7.48)*100)/100} cuft/min ÷  
+          ${Math.round(((Math.round(((a/2)/12)*100)/100) * (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100} sqft</li>
+          <li>V = ${Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
+          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100} ft/min</li>
+          </ul>
+          Step 6:</strong> Convert the velocity(<strong>${Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
+          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100} ft/min</strong>) from feet per minute to feet per second<br>
+          <ul>
+          <li><strong>FPS = ft/min ÷ 60 sec/min</li>
+          <li>FPS = ${Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
+          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100} ft/min ÷ 60 sec/min</li>
+          <li>${Math.round(((Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
+          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100)/60)*1000)/1000} ft/s</li>
+          </ul>
+          Answer: ${Math.round(((Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
+          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100)/60)*1000)/1000} ft/s
         `
       };
     }
@@ -195,7 +237,7 @@ How many bolts will it make in ${minutes} minutes?`,
       };
     }
 
-    const generators = [lengthofpipe, pressure];//, genMultiplication, genDivisionWhole, genWordProblem];
+    const generators = [lengthofpipe, pressure, velocity];//, genDivisionWhole, genWordProblem];
 
     // ----- Page State & Actions -----
     let current = null;
