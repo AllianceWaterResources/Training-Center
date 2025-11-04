@@ -126,23 +126,27 @@
           ${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft</strong>) by 7.48 gallons per cubic foot.<br><br>
           <ul>
           <li><strong>Gallons = ${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft * 7.48 gal/cuft</strong></li>
-          <li><strong>${Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100} gallons
-          is the final answer</strong></li>
+          </ul>
+          <strong>Answer: ${Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100} gallons
+          </strong>
         `
       };
     }
 
-    function genSubtraction() {
-      let a = randInt(100, 999), b = randInt(10, 900);
-      if (b > a) [a, b] = [b, a];
-      const ans = a - b;
+    function pressure() {
+      const a = randInt(20, 150);
+      const ans = Math.round((a/2.31)*10)/10;
       return {
-        prompt: `Compute:\n\n${a} - ${b} = ?`,
-        answerText: String(ans),
+        prompt: `A water storage tank has ${a} feet of water in it. What is the pressure at the bottom of the tank in PSI?`,
+        answerText: String(ans+" PSI"),
         helpHtml: `
-          <strong>Step 1:</strong> Line up by place value.<br>
-          <strong>Step 2:</strong> Borrow when top digit is smaller.<br><br>
-          <strong>Work:</strong> ${a} - ${b} = <strong>${ans}</strong>
+          <strong>Step 1:</strong> Convert the height of the water to pressure<br><br>
+          <ul>
+          <li>Dividing by <strong>2.31 feet/PSI</strong> or multiplying by <strong>.433 PSI/ft</strong> will give the correct answer.</li><br>
+          <li><strong>${a} ft ÷ 2.31 feet/PSI = ${ans} PSI</strong></li><br>
+          <li><strong>${a} ft × .433 PSI/ft = ${ans} PSI</strong></li><br>
+          </ul>
+          <strong>Answer: ${ans} PSI</strong>
         `
       };
     }
@@ -191,7 +195,7 @@ How many bolts will it make in ${minutes} minutes?`,
       };
     }
 
-    const generators = [lengthofpipe];//, genSubtraction, genMultiplication, genDivisionWhole, genWordProblem];
+    const generators = [lengthofpipe, pressure];//, genMultiplication, genDivisionWhole, genWordProblem];
 
     // ----- Page State & Actions -----
     let current = null;
