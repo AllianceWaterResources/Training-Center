@@ -649,6 +649,37 @@
     min-height: 42px;
   }
 }
+/* Prevent mobile horizontal overflow */
+html,
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+@media (max-width: 900px) {
+  body.trainer-fullscreen-active .trainer-hero,
+  body.trainer-fullscreen-active .trainer-page-wrap,
+  body.trainer-fullscreen-active form[id$="TrainerForm"],
+  body.trainer-fullscreen-active .trainer-grid,
+  body.trainer-fullscreen-active .trainer-problem-panel,
+  body.trainer-fullscreen-active .trainer-control-panel,
+  body.trainer-fullscreen-active #problemText,
+  body.trainer-fullscreen-active #answerText {
+    max-width: 100%;
+  }
+
+  body.trainer-fullscreen-active form[id$="TrainerForm"] {
+    width: 100%;
+    margin: 0;
+  }
+}
   </style>
 </head>
 
