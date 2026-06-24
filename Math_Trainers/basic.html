@@ -1,279 +1,872 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Basic Math Trainer</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Keep the same relative CSS paths as your other trainers -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="../CSS/calculator-styles.css">
+  <title>Basic Math Trainer | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
   <link rel="stylesheet" href="../CSS/custom-styles.css">
 
   <style>
-    :root { color-scheme: light dark; }
-    body { margin: 0; background: transparent; }
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
 
-    .trainer-form {
-      background: rgba(255, 255, 255, 0.15);
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #00577D;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .trainer-hero {
+      min-height: calc(100vh - 96px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 24px 72px;
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .trainer-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.62);
+      z-index: 0;
+    }
+
+    .trainer-page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trainer-heading {
+      margin-bottom: 28px;
+    }
+
+    .trainer-heading h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .trainer-heading p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #basicTrainerForm {
+      width: 100% !important;
+      max-width: 1120px !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+      padding: 34px !important;
+      position: relative;
+      background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 18px;
+      box-shadow: 0 0.85rem 1.75rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-grid {
+      width: 100%;
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .trainer-problem-panel,
+    .trainer-control-panel {
+      min-width: 0;
+      background: rgba(0, 87, 125, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0.75rem rgba(255, 255, 255, 0.04);
+    }
+
+    .trainer-problem-panel {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trainer-problem-panel h2 {
+      flex: 0 0 auto;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 24px;
+      color: white;
+    }
+
+    #problemText {
+      flex: 1;
+      min-height: 265px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      color: white;
+      font-size: 1.35rem;
+      line-height: 1.55;
       text-align: center;
-      color: white;
-      max-width: 350px;
-      margin: 16px auto 0 auto;
-      padding: 16px 16px 24px 16px;
-      border-radius: 12px;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      overflow-y: auto;
     }
 
-    .trainer-form .btn-row button { margin: 0.5rem; }
-    .calc-title { margin-top: 8px; }
+    .trainer-control-panel {
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
 
-    #problem {
+    .trainer-control-panel h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 22px;
+      color: white;
+    }
+
+    .trainer-button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .trainer-btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .trainer-btn:hover,
+    .trainer-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 0.55rem 1.1rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-answer-label {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    #answerText {
+      min-height: 58px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 18px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      color: white;
+      font-size: 1.35rem;
+      font-weight: 700;
+    }
+
+    .trainer-fullscreen-btn {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-fullscreen-btn:hover,
+    .trainer-fullscreen-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .trainer-back-wrap {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .trainer-back-link {
       display: inline-block;
-      width: 300px;
-      min-height: 120px;
-      white-space: pre-wrap;
-    }
-
-    #outputText { display: inline-block; margin-top: 8px; font-weight: bold; }
-
-    /* Help box is OUTSIDE the form so it doesn't stretch the form */
-    .help-box {
-      margin-top: 20px;
-      max-width: 350px;
-      margin-left: auto;
-      margin-right: auto;
-      background: rgba(255, 255, 255, 0.10);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
       color: white;
-      text-align: left;
-      padding: 20px;
-      border-radius: 10px;
-      opacity: 0;
-      visibility: hidden;
-      transition: opacity 200ms ease-in-out, visibility 200ms ease-in-out;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
     }
-    .help-box.visible { opacity: 1; visibility: visible; }
+
+    .trainer-back-link:hover,
+    .trainer-back-link:focus {
+      color: white;
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .modal-content {
+      background: rgba(0, 87, 125, 0.96);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 0.85rem 2rem rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    .modal-body {
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .modal-body strong {
+      color: white;
+    }
+
+    .modal-body ul {
+      margin-bottom: 1rem;
+    }
+
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      padding: 9px 18px;
+    }
+
+    .modal-close-btn:hover,
+    .modal-close-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    body.trainer-fullscreen-active {
+      overflow: hidden;
+    }
+
+    body.trainer-fullscreen-active .navbar,
+    body.trainer-fullscreen-active footer,
+    body.trainer-fullscreen-active .trainer-heading,
+    body.trainer-fullscreen-active .trainer-back-wrap {
+      display: none;
+    }
+
+    body.trainer-fullscreen-active .trainer-hero {
+      min-height: 100vh;
+      padding: 0;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-page-wrap {
+      max-width: none;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active #basicTrainerForm {
+      max-width: none !important;
+      min-height: 100vh;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      padding: 68px 18px 22px !important;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-grid {
+      width: 100%;
+      min-height: 0;
+    }
+
+    body.trainer-fullscreen-active .trainer-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .trainer-hero {
+        align-items: flex-start;
+        padding: 34px 16px 76px;
+        min-height: calc(100vh - 96px);
+      }
+
+      .trainer-heading {
+        margin-bottom: 20px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 2.15rem;
+      }
+
+      .trainer-heading p {
+        font-size: 1.02rem;
+      }
+
+      #basicTrainerForm {
+        padding: 58px 20px 24px !important;
+      }
+
+      .trainer-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        min-height: auto;
+      }
+
+      .trainer-fullscreen-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .trainer-problem-panel {
+        padding: 24px 18px;
+      }
+
+      .trainer-problem-panel h2 {
+        font-size: 1.65rem;
+        margin-bottom: 18px;
+      }
+
+      #problemText {
+        min-height: 190px;
+        padding: 22px 18px;
+        font-size: 1.1rem;
+      }
+
+      .trainer-control-panel {
+        padding: 22px 18px;
+      }
+
+      .trainer-control-panel h3 {
+        display: none;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .trainer-btn {
+        padding: 11px 10px;
+        font-size: 0.95rem;
+      }
+
+      #answerText {
+        min-height: 52px;
+        font-size: 1.2rem;
+      }
+
+      body.trainer-fullscreen-active .trainer-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+      }
+
+      body.trainer-fullscreen-active .trainer-problem-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.trainer-fullscreen-active #problemText {
+        flex: 1;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .trainer-hero {
+        background-attachment: scroll;
+        padding: 28px 12px 72px;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 1.9rem;
+      }
+
+      .trainer-heading p {
+        font-size: 0.98rem;
+      }
+
+      #basicTrainerForm {
+        padding: 56px 14px 18px !important;
+        border-radius: 15px;
+      }
+
+      .trainer-problem-panel,
+      .trainer-control-panel {
+        border-radius: 14px;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .trainer-btn {
+        width: 100%;
+      }
+
+      #answerText {
+        font-size: 1.15rem;
+      }
+
+      body.trainer-fullscreen-active #basicTrainerForm {
+        padding: 62px 12px 16px !important;
+      }
+    }
   </style>
 </head>
 
 <body>
-  <div class="content" style="text-align:center;">
-    <form onsubmit="return false;" class="trainer-form" id="myForm" aria-label="Basic Math Trainer">
-      <h2 class="calc-title">Basic Math Trainer</h2>
 
-      <div id="problem" aria-live="polite"></div>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
 
-      <div class="btn-row">
-        <button type="button" class="frosted-button" style="width:110px;" onclick="answer()">Answer</button>
-        <button type="button" class="frosted-button" style="width:110px;" onclick="randomize()">Randomize</button>
-        <button type="button" class="frosted-button" style="width:110px;" onclick="showHelp()">Help Me</button>
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
       </div>
 
-      <div id="outputText" class="answer"></div>
-    </form>
+    </div>
+  </nav>
 
-    <!-- Help section BELOW the form -->
-    <div id="helpmessage" class="help-box" role="region" aria-live="polite"></div>
+  <main>
+    <section class="trainer-hero">
+      <div class="trainer-page-wrap">
+
+        <div class="trainer-heading">
+          <h1>Basic Math Trainer</h1>
+          <p>
+            Practice common operator math problems involving pipe volume, pressure, and velocity.
+          </p>
+        </div>
+
+        <form onsubmit="return false;" id="basicTrainerForm" aria-label="Basic Math Trainer">
+
+          <button
+            type="button"
+            class="trainer-fullscreen-btn"
+            id="fullscreenToggle"
+            onclick="toggleTrainerFullscreen()"
+            aria-label="Expand trainer fullscreen"
+            title="Fullscreen"
+          >
+            ⛶
+          </button>
+
+          <div class="trainer-grid">
+
+            <div class="trainer-problem-panel">
+              <h2>Practice Problem</h2>
+              <div id="problemText" aria-live="polite"></div>
+            </div>
+
+            <div class="trainer-control-panel">
+              <h3>Trainer Controls</h3>
+
+              <div class="trainer-button-row">
+                <button type="button" class="trainer-btn" onclick="answer()">Answer</button>
+                <button type="button" class="trainer-btn" onclick="randomize()">Randomize</button>
+                <button type="button" class="trainer-btn" onclick="showHelp()">Help Me</button>
+              </div>
+
+              <div class="trainer-answer-label">Answer</div>
+              <div id="answerText" aria-live="polite"></div>
+            </div>
+
+          </div>
+        </form>
+
+        <div class="trainer-back-wrap">
+          <a href="../math_trainer.html" class="trainer-back-link">&larr; Back to Math Trainers</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="helpModal"
+    tabindex="-1"
+    aria-labelledby="helpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help Me</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" id="helpModalBody">
+          Help steps will appear here.
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="modal-close-btn" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
   </div>
 
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
   <script>
-    // ----- Minimal, safe iframe height post -----
-    function postHeight() {
-      // use a short delay so DOM has applied layout
-      setTimeout(() => {
-        const height = Math.max(
-          document.documentElement.scrollHeight,
-          document.body.scrollHeight
-        );
-        try { window.parent.postMessage({ iframeHeight: height }, "*"); } catch (e) { /* ignore */ }
-      }, 0);
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-    // ----- Utilities -----
-    function randInt(min, max) { return Math.floor(Math.random() * (max - min + 1)) + min; }
-    function choose(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
 
-    // ----- Problem Generators (return { prompt, answerText, helpHtml }) -----
+    function round(value, decimals = 2) {
+      const factor = Math.pow(10, decimals);
+      return Math.round(value * factor) / factor;
+    }
+
     function lengthofpipe() {
-      const a = randInt(10, 1000)*10;
-      const b = choose([2, 6, 8, 12, 16, 24, 30]);
-      const ans = Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100;
+      const pipeLength = randInt(10, 1000) * 10;
+      const pipeDiameter = choose([2, 6, 8, 12, 16, 24, 30]);
+
+      const radiusInches = pipeDiameter / 2;
+      const radiusFeet = round(radiusInches / 12, 2);
+      const cubicFeet = round(radiusFeet * radiusFeet * 3.14 * pipeLength, 2);
+      const gallons = round(cubicFeet * 7.48, 2);
+
       return {
-        prompt: `Calculate how many gallons ${a} feet of ${b}" pipe holds.`,
-        answerText: String(ans)+" gallons",
+        prompt: `Calculate how many gallons ${pipeLength} feet of ${pipeDiameter}" pipe holds.`,
+        answerText: `${gallons} gallons`,
         helpHtml: `
-          <strong>Step 1:</strong> Use the pipe diameter (<strong>${b}"</strong>) to determine the radius.<br><br>
+          <strong>Step 1:</strong> Use the pipe diameter to determine the radius.<br><br>
           <ul>
-          <li><strong>Radius = Diameter ÷ 2</strong></li>
-          <li><strong>${b}" ÷ 2 = ${b/2}"</strong></li>
-          <li><strong>${b/2}" is the radius in inches</strong></li>
-          </ul><br>
-          <strong>Step 2:</strong> Convert the radius (<strong>${b/2}"</strong>) from inches to feet by dividing by 12 (there are 12 inches per foot).<br><br>
-          <ul>
-          <li><strong>${b/2}in ÷ 12 in/ft = ${Math.round(((b/2)/12)*100)/100} ft</strong></li>
-          <li><strong>${Math.round(((b/2)/12)*100)/100} ft is the radius in feet</strong>
-          </ul><br>
-          <strong>Step 3:</strong> Calculate the volume of the pipe in cubic feed using the volume formula.<br><br>
-          <ul>
-          <li><strong>Volume = radius² × π × Length</strong></li>
-          <li><strong>V = ${Math.round(((b/2)/12)*100)/100} ft × ${Math.round(((b/2)/12)*100)/100} ft × 3.14 × ${a} ft</strong></li>
-          <li><strong>${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft is the volume of the pipe</strong></li>
-          </ul><br>
-          <strong>Step 4:</strong> Calculate gallons by multiplying the volume (<strong>
-          ${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft</strong>) by 7.48 gallons per cubic foot.<br><br>
-          <ul>
-          <li><strong>Gallons = ${Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100} cuft * 7.48 gal/cuft</strong></li>
+            <li><strong>Radius = Diameter ÷ 2</strong></li>
+            <li><strong>${pipeDiameter}" ÷ 2 = ${radiusInches}"</strong></li>
+            <li><strong>${radiusInches}" is the radius in inches.</strong></li>
           </ul>
-          <strong>Answer: ${Math.round(((Math.round(((Math.round(((b/2)/12)*100)/100) * (Math.round(((b/2)/12)*100)/100) * 3.14 * a)*100)/100) * 7.48)*100)/100} gallons
-          </strong>
+
+          <strong>Step 2:</strong> Convert the radius from inches to feet by dividing by 12.<br><br>
+          <ul>
+            <li><strong>${radiusInches}" ÷ 12 = ${radiusFeet} ft</strong></li>
+            <li><strong>${radiusFeet} ft is the radius in feet.</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Calculate the volume of the pipe in cubic feet.<br><br>
+          <ul>
+            <li><strong>Volume = radius² × π × length</strong></li>
+            <li><strong>Volume = ${radiusFeet} ft × ${radiusFeet} ft × 3.14 × ${pipeLength} ft</strong></li>
+            <li><strong>Volume = ${cubicFeet} cubic feet</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Convert cubic feet to gallons.<br><br>
+          <ul>
+            <li><strong>Gallons = cubic feet × 7.48</strong></li>
+            <li><strong>Gallons = ${cubicFeet} × 7.48</strong></li>
+          </ul>
+
+          <strong>Answer: ${gallons} gallons</strong>
         `
       };
     }
 
     function pressure() {
-      const a = randInt(20, 150);
-      const ans = Math.round((a/2.31)*10)/10;
+      const waterHeight = randInt(20, 150);
+      const psi = round(waterHeight / 2.31, 1);
+
       return {
-        prompt: `A water storage tank has ${a} feet of water in it. What is the pressure at the bottom of the tank in PSI?`,
-        answerText: String(ans+" PSI"),
+        prompt: `A water storage tank has ${waterHeight} feet of water in it. What is the pressure at the bottom of the tank in PSI?`,
+        answerText: `${psi} PSI`,
         helpHtml: `
-          <strong>Step 1:</strong> Convert the height of the water to pressure<br><br>
+          <strong>Step 1:</strong> Convert the height of water to pressure.<br><br>
           <ul>
-          <li>Dividing by <strong>2.31 feet/PSI</strong> or multiplying by <strong>.433 PSI/ft</strong> will give the correct answer.</li><br>
-          <li><strong>${a} ft ÷ 2.31 feet/PSI = ${ans} PSI</strong></li><br>
-          <li><strong>${a} ft × .433 PSI/ft = ${ans} PSI</strong></li><br>
+            <li>One PSI is equal to approximately <strong>2.31 feet of water</strong>.</li>
+            <li>You can divide feet of water by <strong>2.31</strong>.</li>
+            <li>You can also multiply feet of water by <strong>0.433</strong>.</li>
           </ul>
-          <strong>Answer: ${ans} PSI</strong>
+
+          <strong>Step 2:</strong> Solve the problem.<br><br>
+          <ul>
+            <li><strong>${waterHeight} ft ÷ 2.31 ft/PSI = ${psi} PSI</strong></li>
+          </ul>
+
+          <strong>Answer: ${psi} PSI</strong>
         `
       };
     }
 
     function velocity() {
-      const a = choose([2, 6, 8, 12, 16, 24, 30]), b = randInt(3, 50)*10, ans = a * b;
+      const pipeDiameter = choose([2, 6, 8, 12, 16, 24, 30]);
+      const flowGpm = randInt(3, 50) * 10;
+
+      const radiusInches = pipeDiameter / 2;
+      const radiusFeet = round(radiusInches / 12, 2);
+      const pipeArea = round(radiusFeet * radiusFeet * 3.14, 2);
+      const cubicFeetPerMinute = round(flowGpm / 7.48, 2);
+      const feetPerMinute = round(cubicFeetPerMinute / pipeArea, 2);
+      const feetPerSecond = round(feetPerMinute / 60, 3);
+
       return {
-        prompt: `A ${a} inch pipe is flowing at a rate of ${b} GPM.  What is the velocity of the water in feet per second?`,
-        answerText: String(Math.round(((Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
-          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100)/60)*1000)/1000 + " ft/s"),
+        prompt: `A ${pipeDiameter} inch pipe is flowing at a rate of ${flowGpm} GPM. What is the velocity of the water in feet per second?`,
+        answerText: `${feetPerSecond} ft/s`,
         helpHtml: `
-          <strong>Step 1:</strong> Use the pipe diameter (<strong>${a}"</strong>) to determine the radius.<br><br>
+          <strong>Step 1:</strong> Use the pipe diameter to determine the radius.<br><br>
           <ul>
-          <li><strong>Radius = Diameter ÷ 2</strong></li>
-          <li><strong>${a}" ÷ 2 = ${a/2}"</strong></li>
-          <li><strong>${a/2}" is the radius in inches</strong></li>
-          </ul><br>
-          <strong>Step 2:</strong> Convert the radius (<strong>${a/2}"</strong>) from inches to feet by dividing by 12 (there are 12 inches per foot).<br><br>
-          <ul>
-          <li><strong>${a/2}in ÷ 12 in/ft = ${Math.round(((a/2)/12)*100)/100} ft</strong></li>
-          <li><strong>${Math.round(((a/2)/12)*100)/100} ft is the radius in feet</strong>
-          </ul><br>
-          <strong>Step 3:</strong> Calculate the area of the pipe in square feet using the area formula.<br><br>
-          <ul>
-          <li><strong>Volume = radius² × π</strong></li>
-          <li><strong>A = ${Math.round(((a/2)/12)*100)/100} ft × ${Math.round(((a/2)/12)*100)/100} ft × 3.14 ft</strong></li>
-          <li><strong>${Math.round(((Math.round(((a/2)/12)*100)/100) * (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100} sqft is the area of the pipe</strong></li>
-          </ul><br>
-          <strong>Step 4:</strong> Convert the flow rate (<strong>${b} GPM</strong>) from GPM to cubic feet per minute<br><br>
-          <ul>
-          <strong>
-          <li>Cuft/min = GPM ÷ 7.48 Gallons per Cubic Foot</li>
-          <li>Cuft/min = ${b} GPM ÷ 7.48 Gal/cuft</li>
-          <li>${Math.round((b/7.48)*100)/100} cuft/min is the converted flow rate</li>
-          </ul><br>
-          Step 5:</strong> Divide the converted flow rate (<strong>${Math.round((b/7.48)*100)/100} cuft/min</strong>) by the area of the pipe 
-          (<strong>${Math.round(((Math.round(((a/2)/12)*100)/100) * (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100} sqft</strong>)<br>
-          <ul>
-          <li><strong>Velocity = Flow ÷ Area</li>
-          <li>V = ${Math.round((b/7.48)*100)/100} cuft/min ÷  
-          ${Math.round(((Math.round(((a/2)/12)*100)/100) * (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100} sqft</li>
-          <li>V = ${Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
-          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100} ft/min</li>
+            <li><strong>Radius = Diameter ÷ 2</strong></li>
+            <li><strong>${pipeDiameter}" ÷ 2 = ${radiusInches}"</strong></li>
           </ul>
-          Step 6:</strong> Convert the velocity(<strong>${Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
-          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100} ft/min</strong>) from feet per minute to feet per second<br>
+
+          <strong>Step 2:</strong> Convert the radius from inches to feet.<br><br>
           <ul>
-          <li><strong>FPS = ft/min ÷ 60 sec/min</li>
-          <li>FPS = ${Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
-          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100} ft/min ÷ 60 sec/min</li>
-          <li>${Math.round(((Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
-          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100)/60)*1000)/1000} ft/s</li>
+            <li><strong>${radiusInches}" ÷ 12 = ${radiusFeet} ft</strong></li>
           </ul>
-          Answer: ${Math.round(((Math.round(((Math.round((b/7.48)*100)/100)/(Math.round(((Math.round(((a/2)/12)*100)/100) * 
-          (Math.round(((a/2)/12)*100)/100) * 3.14)*100)/100))*100)/100)/60)*1000)/1000} ft/s
+
+          <strong>Step 3:</strong> Calculate the area of the pipe in square feet.<br><br>
+          <ul>
+            <li><strong>Area = radius² × π</strong></li>
+            <li><strong>Area = ${radiusFeet} ft × ${radiusFeet} ft × 3.14</strong></li>
+            <li><strong>Area = ${pipeArea} square feet</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Convert flow from GPM to cubic feet per minute.<br><br>
+          <ul>
+            <li><strong>Cu ft/min = GPM ÷ 7.48</strong></li>
+            <li><strong>${flowGpm} GPM ÷ 7.48 = ${cubicFeetPerMinute} cu ft/min</strong></li>
+          </ul>
+
+          <strong>Step 5:</strong> Divide the flow by the pipe area to get feet per minute.<br><br>
+          <ul>
+            <li><strong>Velocity = Flow ÷ Area</strong></li>
+            <li><strong>${cubicFeetPerMinute} cu ft/min ÷ ${pipeArea} sq ft = ${feetPerMinute} ft/min</strong></li>
+          </ul>
+
+          <strong>Step 6:</strong> Convert feet per minute to feet per second.<br><br>
+          <ul>
+            <li><strong>${feetPerMinute} ft/min ÷ 60 = ${feetPerSecond} ft/s</strong></li>
+          </ul>
+
+          <strong>Answer: ${feetPerSecond} ft/s</strong>
         `
       };
     }
 
-    function genDivisionWhole() {
-      const a = randInt(2, 12), b = randInt(2, 12);
-      const dividend = a * b, divisor = choose([a, b]), ans = dividend / divisor;
-      return {
-        prompt: `Compute:\n\n${dividend} ÷ ${divisor} = ?`,
-        answerText: String(ans),
-        helpHtml: `
-          <strong>Step 1:</strong> How many groups of ${divisor} in ${dividend}?<br>
-          <strong>Step 2:</strong> ${dividend} = ${a} × ${b}, so dividing by one factor leaves the other.<br><br>
-          <strong>Work:</strong> ${dividend} ÷ ${divisor} = <strong>${ans}</strong>
-        `
-      };
-    }
+    const generators = [
+      lengthofpipe,
+      pressure,
+      velocity
+    ];
 
-    function genWordProblem() {
-      const rate = randInt(3, 12), minutes = randInt(5, 20), ans = rate * minutes;
-      return {
-        prompt:
-`Word Problem:
-
-A machine makes ${rate} bolts per minute.
-How many bolts will it make in ${minutes} minutes?`,
-        answerText: `${ans} bolts`,
-        helpHtml: `
-          <strong>Step 1:</strong> Rate = ${rate} bolts/min, Time = ${minutes} min.<br>
-          <strong>Step 2:</strong> Total = Rate × Time.<br><br>
-          <strong>Work:</strong> ${rate} × ${minutes} = <strong>${ans}</strong> bolts
-        `
-      };
-    }
-
-    const generators = [lengthofpipe, pressure, velocity];//, genDivisionWhole, genWordProblem];
-
-    // ----- Page State & Actions -----
     let current = null;
 
     function randomize() {
-      document.getElementById("outputText").textContent = "";
-      const helpBox = document.getElementById("helpmessage");
-      helpBox.classList.remove("visible");
-      helpBox.innerHTML = "";
+      document.getElementById("answerText").textContent = "";
 
-      const gen = choose(generators);
-      current = gen();
-      document.getElementById("problem").innerHTML = current.prompt.replace(/\n/g, "<br>");
+      const generator = choose(generators);
+      current = generator();
 
-      postHeight();
+      document.getElementById("problemText").textContent = current.prompt;
     }
 
     function answer() {
-      if (!current) randomize();
-      document.getElementById("outputText").textContent = current.answerText;
-      postHeight();
+      if (!current) {
+        randomize();
+      }
+
+      document.getElementById("answerText").textContent = current.answerText;
     }
 
     function showHelp() {
-      if (!current) randomize();
-      const help = document.getElementById("helpmessage");
-      help.innerHTML = current.helpHtml;
-      help.classList.add("visible");
-      postHeight();
+      if (!current) {
+        randomize();
+      }
+
+      document.getElementById("helpModalBody").innerHTML = current.helpHtml;
+
+      const modalElement = document.getElementById("helpModal");
+      const helpModal = new bootstrap.Modal(modalElement);
+      helpModal.show();
     }
 
-    // Init
-    window.addEventListener("load", () => {
-      randomize();
-      postHeight();
+    function toggleTrainerFullscreen() {
+      const body = document.body;
+      const button = document.getElementById("fullscreenToggle");
+
+      body.classList.toggle("trainer-fullscreen-active");
+
+      const isFullscreen = body.classList.contains("trainer-fullscreen-active");
+
+      button.innerHTML = isFullscreen ? "×" : "⛶";
+      button.setAttribute(
+        "aria-label",
+        isFullscreen ? "Exit fullscreen trainer" : "Expand trainer fullscreen"
+      );
+      button.setAttribute(
+        "title",
+        isFullscreen ? "Exit fullscreen" : "Fullscreen"
+      );
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && document.body.classList.contains("trainer-fullscreen-active")) {
+        toggleTrainerFullscreen();
+      }
     });
+
+    window.addEventListener("load", randomize);
   </script>
+
 </body>
 </html>

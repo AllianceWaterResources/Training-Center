@@ -1,225 +1,944 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pressure Trainer</title>
-    <!-- Include Bootstrap and Custom Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/calculator-styles.css">
-    <link rel="stylesheet" href="../CSS/custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-          margin: 0;
-          background: transparent;
-        }
-      
-        .trainer-form {
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          text-align: center;
-          color: white;
-          max-width: 350px;
-          height: 400px;
-        }
-      
-        .trainer-form button {
-          margin: 0.5rem;
-        }
-      </style>
+  <title>Pressure Trainer | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #00577D;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .trainer-hero {
+      min-height: calc(100vh - 96px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 24px 72px;
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .trainer-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.62);
+      z-index: 0;
+    }
+
+    .trainer-page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trainer-heading {
+      margin-bottom: 28px;
+    }
+
+    .trainer-heading h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .trainer-heading p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #pressureTrainerForm {
+      width: 100% !important;
+      max-width: 1120px !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+      padding: 34px !important;
+      position: relative;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 18px;
+      box-shadow: 0 0.85rem 1.75rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-grid {
+      width: 100%;
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .trainer-problem-panel,
+    .trainer-control-panel {
+      min-width: 0;
+      background: rgba(0, 87, 125, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0.75rem rgba(255, 255, 255, 0.04);
+    }
+
+    .trainer-problem-panel {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trainer-problem-panel h2 {
+      flex: 0 0 auto;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 24px;
+      color: white;
+    }
+
+    #problemText {
+      flex: 1;
+      min-height: 265px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      color: white;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      text-align: center;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      overflow-y: auto;
+    }
+
+    .trainer-control-panel {
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .trainer-control-panel h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 22px;
+      color: white;
+    }
+
+    .trainer-button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .trainer-btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .trainer-btn:hover,
+    .trainer-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 0.55rem 1.1rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-answer-label {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    #answerText {
+      min-height: 58px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      color: white;
+      font-size: clamp(0.82rem, 1vw, 1.2rem);
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 1.2;
+    }
+
+    #answerText.compact-answer {
+      font-size: clamp(0.72rem, 0.85vw, 1rem);
+    }
+
+    .trainer-fullscreen-btn {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-fullscreen-btn:hover,
+    .trainer-fullscreen-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .trainer-back-wrap {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .trainer-back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-back-link:hover,
+    .trainer-back-link:focus {
+      color: white;
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .modal-content {
+      background: rgba(0, 87, 125, 0.96);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 0.85rem 2rem rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    .modal-body {
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .modal-body strong {
+      color: white;
+    }
+
+    .modal-body ul {
+      margin-bottom: 1rem;
+    }
+
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      padding: 9px 18px;
+    }
+
+    .modal-close-btn:hover,
+    .modal-close-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    body.trainer-fullscreen-active {
+      overflow: hidden;
+    }
+
+    body.trainer-fullscreen-active .navbar,
+    body.trainer-fullscreen-active footer,
+    body.trainer-fullscreen-active .trainer-heading,
+    body.trainer-fullscreen-active .trainer-back-wrap {
+      display: none;
+    }
+
+    body.trainer-fullscreen-active .trainer-hero {
+      min-height: 100vh;
+      padding: 0;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-page-wrap {
+      max-width: none;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active #pressureTrainerForm {
+      max-width: none !important;
+      min-height: 100vh;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      padding: 68px 18px 22px !important;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-grid {
+      width: 100%;
+      min-height: 0;
+    }
+
+    body.trainer-fullscreen-active .trainer-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .trainer-hero {
+        align-items: flex-start;
+        padding: 34px 16px 76px;
+        min-height: calc(100vh - 96px);
+      }
+
+      .trainer-heading {
+        margin-bottom: 20px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 2.15rem;
+      }
+
+      .trainer-heading p {
+        font-size: 1.02rem;
+      }
+
+      #pressureTrainerForm {
+        padding: 58px 20px 24px !important;
+      }
+
+      .trainer-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        min-height: auto;
+      }
+
+      .trainer-fullscreen-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .trainer-problem-panel {
+        padding: 24px 18px;
+      }
+
+      .trainer-problem-panel h2 {
+        font-size: 1.65rem;
+        margin-bottom: 18px;
+      }
+
+      #problemText {
+        min-height: 190px;
+        padding: 22px 18px;
+        font-size: 1.1rem;
+      }
+
+      .trainer-control-panel {
+        padding: 22px 18px;
+      }
+
+      .trainer-control-panel h3 {
+        display: none;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .trainer-btn {
+        padding: 11px 10px;
+        font-size: 0.95rem;
+      }
+
+      #answerText {
+        min-height: 52px;
+        font-size: clamp(0.78rem, 2.4vw, 1.05rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.72rem, 2.1vw, 0.95rem);
+      }
+
+      body.trainer-fullscreen-active .trainer-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+      }
+
+      body.trainer-fullscreen-active .trainer-problem-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.trainer-fullscreen-active #problemText {
+        flex: 1;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .trainer-hero {
+        background-attachment: scroll;
+        padding: 28px 12px 72px;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 1.9rem;
+      }
+
+      .trainer-heading p {
+        font-size: 0.98rem;
+      }
+
+      #pressureTrainerForm {
+        padding: 56px 14px 18px !important;
+        border-radius: 15px;
+      }
+
+      .trainer-problem-panel,
+      .trainer-control-panel {
+        border-radius: 14px;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .trainer-btn {
+        width: 100%;
+      }
+
+      #answerText {
+        font-size: clamp(0.76rem, 3.4vw, 1rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.68rem, 3vw, 0.9rem);
+      }
+
+      body.trainer-fullscreen-active #pressureTrainerForm {
+        padding: 62px 12px 16px !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="content" style="text-align: center;">
-        <form onsubmit="return false;" class="trainer-form" id="myForm" style="height: 400px;">
-            <br>
-            <h2 class="calc-title">Pressure Trainer</h2>
-            <br>
-            <label id="problem" style="width: 300px; height: 200px;"></label>
-            <br><br>
 
-        <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=answer()>Answer</button>
-        <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=randomize()>Randomize</button>
-        <button class="frosted-button" style="margin: 2px; margin-bottom: 10px; width: 100px;" onclick=showHelp()>Help Me</button>
-            <br><br>
-            <label id="outputText" class="answer" style="font-weight: bold;"></label>
-            <br><br>
-            <label id="helpmessage" style="width: fit-content; height: fit-content; visibility: hidden;"></label>
-        </form>
-        
-        <br><br><br><br>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
     </div>
+  </nav>
 
-    <script>
-        var problemType;
-        var height, waterLevel, psi, lift, finalPsi, requiredPsi;
-        var length, width, gaugeHeight, gaugePsi, P_offset, P_adjusted, waterHeight, volume, volumeGallons;
+  <main>
+    <section class="trainer-hero">
+      <div class="trainer-page-wrap">
 
-        function randomize() {
-            problemType = Math.floor(Math.random() * 4);
+        <div class="trainer-heading">
+          <h1>Pressure Trainer</h1>
+          <p>
+            Practice pressure, head, elevation, tank level, and volume problems.
+          </p>
+        </div>
 
-            if (problemType === 0) {
-                // Pressure at bottom of a tank with a randomized water level
-                height = Math.floor(Math.random() * (100 - 10 + 1)) + 10; // Tank height
-                waterLevel = Math.floor(Math.random() * (height - 1 + 1)) + 1; // Water level (1 ft to tank height)
-                psi = Math.round((0.433 * waterLevel) * 10) / 10;
+        <form onsubmit="return false;" id="pressureTrainerForm" aria-label="Pressure Trainer">
 
-                document.getElementById("problem").innerHTML = 
-                    `A ${height}-foot tall tank has ${waterLevel} ft of water in storage. 
-                    What is the pressure (psi) at the bottom of the tank?`;
-            } 
-            else if (problemType === 1) {
-                // Pump pressure required for elevation
-                lift = Math.floor(Math.random() * (200 - 10 + 1)) + 10;
-                finalPsi = Math.floor(Math.random() * (80 - 20 + 1)) + 20;
-                requiredPsi = Math.round((0.433 * lift + finalPsi) * 10) / 10;
+          <button
+            type="button"
+            class="trainer-fullscreen-btn"
+            id="fullscreenToggle"
+            onclick="toggleTrainerFullscreen()"
+            aria-label="Expand trainer fullscreen"
+            title="Fullscreen"
+          >
+            ⛶
+          </button>
 
-                document.getElementById("problem").innerHTML = 
-                    `A pump needs to lift water ${lift} feet higher than the pump. 
-                    How much pressure (psi) will be required to achieve ${finalPsi} psi at the highest point?`;
-            }
-            else if (problemType === 2) {
-                // Pump pressure needed to fill a storage tank
-                height = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
-                requiredPsi = Math.round((0.433 * height) * 10) / 10;
+          <div class="trainer-grid">
 
-                document.getElementById("problem").innerHTML = 
-                    `If a storage tank is ${height} feet tall, what pumping psi is required at the bottom of the tank to fill the tank completely?`;
-            }
-            else {
-                // Tank volume based on gauge pressure
-                length = Math.floor(Math.random() * (100 - 20 + 1)) + 20;
-                width = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
-                height = Math.floor(Math.random() * (50 - 10 + 1)) + 10;
-                gaugeHeight = Math.floor(Math.random() * (height - 5)) + 5;
+            <div class="trainer-problem-panel">
+              <h2>Practice Problem</h2>
+              <div id="problemText" aria-live="polite"></div>
+            </div>
 
-                let P_offset = Math.round(0.433 * gaugeHeight * 100)/100;
-                let P_max = Math.round((0.433 * height + P_offset) * 100) / 100;
-                gaugePsi = Math.round(Math.random() * (P_max - P_offset));
+            <div class="trainer-control-panel">
+              <h3>Trainer Controls</h3>
 
-                P_adjusted = Math.round((gaugePsi - P_offset) * 100) / 100;
-                
-                if (P_adjusted <= 0) {
-                    waterHeight = 0;
-                    volumeGallons = 0;
-                } else {
-                    waterHeight = Math.round((P_adjusted * 2.31) * 100) / 100;
-                    volumeGallons = Math.round((length * width * waterHeight * 7.48) * 10) / 10;
-                }
+              <div class="trainer-button-row">
+                <button type="button" class="trainer-btn" onclick="answer()">Answer</button>
+                <button type="button" class="trainer-btn" onclick="randomize()">Randomize</button>
+                <button type="button" class="trainer-btn" onclick="showHelp()">Help Me</button>
+              </div>
 
-                document.getElementById("problem").innerHTML = 
-                    `If a rectangular storage tank with a length of ${length} ft, width of ${width} ft, 
-                    height of ${height} ft, and a pressure gauge located ${gaugeHeight} ft lower than the tank reads 
-                    ${gaugePsi} psi, how many gallons of water are in the tank?`;
-            }
+              <div class="trainer-answer-label">Answer</div>
+              <div id="answerText" aria-live="polite"></div>
+            </div>
 
-            document.getElementById("outputText").innerHTML = "";
-            document.getElementById("helpmessage").innerHTML = "";
-        }
+          </div>
+        </form>
 
-        function answer() {
-            if (problemType === 0) {
-                document.getElementById("outputText").innerHTML = `${psi} psi`;
-            } 
-            else if (problemType === 1) {
-                document.getElementById("outputText").innerHTML = `${requiredPsi} psi`;
-            }
-            else if (problemType === 2) {
-                document.getElementById("outputText").innerHTML = `${requiredPsi} psi`;
-            }
-            else {
-                document.getElementById("outputText").innerHTML = `${volumeGallons} gallons`;
-            }
-        }
+        <div class="trainer-back-wrap">
+          <a href="../math_trainer.html" class="trainer-back-link">&larr; Back to Math Trainers</a>
+        </div>
 
-        function showHelp() {
-            document.getElementById("helpmessage").style.visibility = "visible";
-            // Ensure P_offset is recalculated before using it
-            let updated_P_offset = Math.round((0.433 * gaugeHeight) * 100) / 100;
-            let updated_P_adjusted = gaugePsi - updated_P_offset;
-            let updated_waterHeight = updated_P_adjusted > 0 ? Math.round((updated_P_adjusted / 0.433) * 100) / 100 : 0;
-            let updated_volume = Math.round(length*width*updated_waterHeight*100)/100;
-            let updated_volumeGallons = Math.round((updated_volume * 7.48) * 10) / 10;
+      </div>
+    </section>
+  </main>
 
-            if (problemType === 0) {
-                document.getElementById("helpmessage").innerHTML = `
-                    <p><strong>Step 1: Use the hydrostatic pressure formula</strong></p>
-                    <ul>
-                        <li>psi = 0.433 (psi/ft) × height (ft)</li>
-                        <li><i>Note: The tank height is not needed for this problem.  Use the water height.</i></li>
-                        <li>psi = 0.433 psi/ft × <strong>${waterLevel} ft</strong></li>
-                        <li><strong>${psi} psi</strong></li>
-                    </ul>
-                `;
-            } 
-            else if (problemType === 1) {
-                document.getElementById("helpmessage").innerHTML = `
-                    <p><strong>Use the pump pressure formula</strong></p>
-                    <ul>
-                        <li>psi required = 0.433 (psi/ft) × h (ft) + psi final</li>
-                        <li><i>Order of operations is important.  Multiply first and then add.<i></li>
-                        <li>psi = 0.433 × <strong>${lift} ft</strong> + <strong>${finalPsi} psi</strong></li>
-                        <li><strong>${requiredPsi} psi</strong></li>
-                    </ul>
-                `;
-            } 
-            else if(problemType === 2) {
-                document.getElementById("helpmessage").innerHTML = `
-                    <p><strong>Convert feet to psi</strong></p>
-                    <ul>
-                        <li>Height (Ft) × .433 (psi/ft)</li>
-                        <li><strong>${height} ft</strong> * .433 psi/ft</li>
-                        <li><strong>${Math.round(height * .433*100)/100} psi</strong></li>
-                    </ul>
-                `;
-            }
-            else{
-                document.getElementById("helpmessage").innerHTML = `
-                    <p><strong>Step 1: Convert the ${gaugeHeight} ft offset to psi</strong></p>
-                    <ul>
-                        <li>The pressure gauge is <strong>${gaugeHeight} ft</strong> lower than the tank.  This must be converted to pressure and subtracted from the gauge's pressure reading.  What remains is the pressure exerted from the bottom of the tank to the top of the water in the tank.</li>
-                        <li>psi =  vertical distance (ft) × .433 (psi/ft)</li>
-                        <li>psi = <strong>${gaugeHeight} ft</strong> × .433 (psi/ft)</li>                                      
-                        <li><strong>${updated_P_offset} psi</strong> represents the vertical distance between the bottom of the tank and the pressure gauge.</li>
-                    </ul>
-                    <p>&nbsp;</p> <!-- Adds a small space -->
+  <div
+    class="modal fade"
+    id="helpModal"
+    tabindex="-1"
+    aria-labelledby="helpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
 
-                    <p><strong>Step 2: Subtract the vertical distance from the gauge psi</strong></p>
-                    <ul>
-                        <li>water height (psi) = gauge (psi) - vertical distance (psi)</li>
-                        <li>water height (psi) = <strong>${gaugePsi} psi</strong> - <strong>${updated_P_offset} psi</strong></li>
-                        <li><strong>${Math.round((gaugePsi - updated_P_offset)*100)/100} psi</strong></li>
-                    </ul>
-                    <p>&nbsp;</p> <!-- Adds a small space -->
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help Me</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-                    <p><strong>Step 3: Convert the water height psi to feet</strong></p>
-                    <ul>
+        <div class="modal-body" id="helpModalBody">
+          Help steps will appear here.
+        </div>
 
-                        <li>height (ft) = psi * 2.31 (ft/psi)</li>
-                        <li>height (ft) = <strong>${Math.round((gaugePsi - updated_P_offset)*100)/100} psi</strong> × 2.31 (ft/psi)</li>
-                        <li><strong>${updated_waterHeight} ft</strong> of water in the tank.</li>
-                    </ul>
-                    <p>&nbsp;</p> <!-- Adds a small space -->
+        <div class="modal-footer">
+          <button type="button" class="modal-close-btn" data-bs-dismiss="modal">Close</button>
+        </div>
 
-                    <p><strong>Step 4: Calculate the volume of water in the tank</strong></p>
-                    <ul>
-                        <li>Volume (cuft) = Length (ft) × Width (ft) × Height (ft)</li>
-                        <li>Use the length and width of the tank, and the water height.</li>
-                        <li><i>Note: the tank height was given, but it isn't needed for this calculation.</i></li>
-                        <li>Volume (cuft) = <strong>${length} ft</strong> × <strong>${width} ft</strong> × <strong>${updated_waterHeight} ft</strong> </li>
-                        <li><strong>${updated_volume} cuft</strong></li>
-                    </ul>
-                    <p>&nbsp;</p> <!-- Adds a small space -->
+      </div>
+    </div>
+  </div>
 
-                    <p><strong>Step 5: Convert cubic feet to gallons</strong></p>
-                    <ul>
-                        <li>gallons = cubic feet × 7.48 gal/cuft</li>
-                        <li><strong>gallons = ${updated_volume}</strong> × 7.48 gal/cuft</li>
-                        <li><strong>${updated_volumeGallons} gallons</strong></li>
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
 
-                `;
-            }
-            document.getElementById("helpmessage").style.paddingBottom = "100px";
-            document.getElementById("helpmessage").style.paddingTop = "20px";
-        }
-    </script>
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    let currentProblem = null;
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function choose(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
+    }
+
+    function round(value, decimals = 1) {
+      const factor = Math.pow(10, decimals);
+      return Math.round(value * factor) / factor;
+    }
+
+    function formatNumber(value, decimals = 1) {
+      return Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatFlexible(value, decimals = 2) {
+      return Number(value).toLocaleString(undefined, {
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatWhole(value) {
+      return Number(value).toLocaleString(undefined, {
+        maximumFractionDigits: 0
+      });
+    }
+
+    function buildTankBottomPressureProblem() {
+      const tankHeight = randInt(10, 100);
+      const waterLevel = randInt(1, tankHeight);
+      const psi = round(0.433 * waterLevel, 1);
+
+      return {
+        prompt: `A ${tankHeight}-foot tall tank has ${waterLevel} feet of water in storage. What is the pressure at the bottom of the tank in PSI?`,
+        answerText: `${formatNumber(psi)} psi`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the pressure conversion for feet of water.<br><br>
+          <ul>
+            <li><strong>psi = 0.433 × water height in feet</strong></li>
+            <li><i>The total tank height is not needed. Use the water level.</i></li>
+          </ul>
+
+          <strong>Step 2:</strong> Plug in the water height.<br><br>
+          <ul>
+            <li><strong>psi = 0.433 × ${waterLevel} ft</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>psi = ${formatNumber(psi)} psi</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(psi)} psi
+        `
+      };
+    }
+
+    function buildPumpLiftProblem() {
+      const lift = randInt(10, 200);
+      const finalPsi = randInt(20, 80);
+      const elevationPsi = round(0.433 * lift, 1);
+      const requiredPsi = round(elevationPsi + finalPsi, 1);
+
+      return {
+        prompt: `A pump needs to lift water ${lift} feet higher than the pump. How much pressure is required to achieve ${finalPsi} psi at the highest point?`,
+        answerText: `${formatNumber(requiredPsi)} psi`,
+        helpHtml: `
+          <strong>Step 1:</strong> Convert the elevation change to pressure.<br><br>
+          <ul>
+            <li><strong>Elevation pressure = 0.433 × lift</strong></li>
+            <li><strong>Elevation pressure = 0.433 × ${lift} ft = ${formatNumber(elevationPsi)} psi</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Add the pressure needed at the highest point.<br><br>
+          <ul>
+            <li><strong>Required pressure = elevation pressure + final pressure</strong></li>
+            <li><strong>Required pressure = ${formatNumber(elevationPsi)} psi + ${finalPsi} psi</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Required pressure = ${formatNumber(requiredPsi)} psi</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(requiredPsi)} psi
+        `
+      };
+    }
+
+    function buildFillTankProblem() {
+      const tankHeight = randInt(20, 100);
+      const requiredPsi = round(0.433 * tankHeight, 1);
+
+      return {
+        prompt: `If a storage tank is ${tankHeight} feet tall, what pumping pressure is required at the bottom of the tank to fill the tank completely?`,
+        answerText: `${formatNumber(requiredPsi)} psi`,
+        helpHtml: `
+          <strong>Step 1:</strong> Convert tank height to pressure.<br><br>
+          <ul>
+            <li><strong>psi = height × 0.433</strong></li>
+            <li><strong>psi = ${tankHeight} ft × 0.433 psi/ft</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>psi = ${formatNumber(requiredPsi)} psi</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(requiredPsi)} psi
+        `
+      };
+    }
+
+    function buildGaugeVolumeProblem() {
+      const length = randInt(20, 100);
+      const width = randInt(10, 50);
+      const tankHeight = randInt(10, 50);
+      const gaugeOffset = randInt(5, 25);
+      const actualWaterHeight = randInt(1, tankHeight);
+
+      const offsetPsi = round(0.433 * gaugeOffset, 2);
+      const gaugePsi = round(0.433 * (gaugeOffset + actualWaterHeight), 2);
+      const adjustedPsi = round(gaugePsi - offsetPsi, 2);
+      const calculatedWaterHeight = Math.min(tankHeight, Math.max(0, round(adjustedPsi / 0.433, 2)));
+      const volumeCubicFeet = round(length * width * calculatedWaterHeight, 2);
+      const volumeGallons = round(volumeCubicFeet * 7.48, 1);
+
+      return {
+        prompt: `A rectangular storage tank is ${length} ft long, ${width} ft wide, and ${tankHeight} ft tall. A pressure gauge located ${gaugeOffset} ft lower than the tank reads ${formatFlexible(gaugePsi, 2)} psi. How many gallons of water are in the tank?`,
+        answerText: `${formatNumber(volumeGallons)} gallons`,
+        helpHtml: `
+          <strong>Step 1:</strong> Convert the gauge offset to pressure.<br><br>
+          <ul>
+            <li>The pressure gauge is <strong>${gaugeOffset} ft</strong> lower than the tank.</li>
+            <li>This vertical offset adds pressure to the gauge reading, so it must be subtracted.</li>
+            <li><strong>Offset pressure = ${gaugeOffset} ft × 0.433 psi/ft</strong></li>
+            <li><strong>Offset pressure = ${formatFlexible(offsetPsi, 2)} psi</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Subtract the offset pressure from the gauge reading.<br><br>
+          <ul>
+            <li><strong>Water pressure = gauge pressure - offset pressure</strong></li>
+            <li><strong>Water pressure = ${formatFlexible(gaugePsi, 2)} psi - ${formatFlexible(offsetPsi, 2)} psi</strong></li>
+            <li><strong>Water pressure = ${formatFlexible(adjustedPsi, 2)} psi</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Convert the water pressure to feet of water.<br><br>
+          <ul>
+            <li><strong>Water height = psi ÷ 0.433</strong></li>
+            <li><strong>Water height = ${formatFlexible(adjustedPsi, 2)} psi ÷ 0.433 psi/ft</strong></li>
+            <li><strong>Water height = ${formatFlexible(calculatedWaterHeight, 2)} ft</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Calculate the water volume in cubic feet.<br><br>
+          <ul>
+            <li><strong>Volume = length × width × water height</strong></li>
+            <li><strong>Volume = ${length} ft × ${width} ft × ${formatFlexible(calculatedWaterHeight, 2)} ft</strong></li>
+            <li><strong>Volume = ${formatFlexible(volumeCubicFeet, 2)} ft³</strong></li>
+          </ul>
+
+          <strong>Step 5:</strong> Convert cubic feet to gallons.<br><br>
+          <ul>
+            <li><strong>Gallons = cubic feet × 7.48</strong></li>
+            <li><strong>Gallons = ${formatFlexible(volumeCubicFeet, 2)} × 7.48</strong></li>
+            <li><strong>Gallons = ${formatNumber(volumeGallons)} gallons</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(volumeGallons)} gallons
+        `
+      };
+    }
+
+    const generators = [
+      buildTankBottomPressureProblem,
+      buildPumpLiftProblem,
+      buildFillTankProblem,
+      buildGaugeVolumeProblem
+    ];
+
+    function randomize() {
+      const answerBox = document.getElementById("answerText");
+      answerBox.textContent = "";
+      answerBox.classList.remove("compact-answer");
+
+      const generator = choose(generators);
+      currentProblem = generator();
+
+      document.getElementById("problemText").textContent = currentProblem.prompt;
+    }
+
+    function answer() {
+      if (!currentProblem) {
+        randomize();
+      }
+
+      const answerBox = document.getElementById("answerText");
+      const answerValue = currentProblem.answerText;
+
+      answerBox.textContent = answerValue;
+
+      if (answerValue.length > 24) {
+        answerBox.classList.add("compact-answer");
+      } else {
+        answerBox.classList.remove("compact-answer");
+      }
+    }
+
+    function showHelp() {
+      if (!currentProblem) {
+        randomize();
+      }
+
+      document.getElementById("helpModalBody").innerHTML = currentProblem.helpHtml;
+
+      const modalElement = document.getElementById("helpModal");
+      const helpModal = new bootstrap.Modal(modalElement);
+      helpModal.show();
+    }
+
+    function toggleTrainerFullscreen() {
+      const body = document.body;
+      const button = document.getElementById("fullscreenToggle");
+
+      body.classList.toggle("trainer-fullscreen-active");
+
+      const isFullscreen = body.classList.contains("trainer-fullscreen-active");
+
+      button.innerHTML = isFullscreen ? "×" : "⛶";
+      button.setAttribute(
+        "aria-label",
+        isFullscreen ? "Exit fullscreen trainer" : "Expand trainer fullscreen"
+      );
+      button.setAttribute(
+        "title",
+        isFullscreen ? "Exit fullscreen" : "Fullscreen"
+      );
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && document.body.classList.contains("trainer-fullscreen-active")) {
+        toggleTrainerFullscreen();
+      }
+    });
+
+    window.addEventListener("load", randomize);
+  </script>
+
 </body>
+</html>

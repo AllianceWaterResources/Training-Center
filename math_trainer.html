@@ -1,196 +1,365 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Alliance Water Resources Training Center</title>
-    <!-- Bootstrap CSS -->
-    <link rel="icon" href="Images/home_drop.png" type="image/png">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <!-- Custom CSS -->
-    <link rel="stylesheet" href="CSS\calculator-styles.css">
-    <link rel="stylesheet" href="CSS\custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-          margin: 0;
-          background-image: url('Images/banner_water.jpg');
-          background-size: cover;
-          background-attachment: fixed;
-          background-position: center;
-          background-repeat: no-repeat;
-          position: relative;
-          min-height: 100vh;
-          padding-bottom: 80px; /* Prevents footer from overlapping */
-        }
-      
-        body::before {
-          content: "";
-          position: fixed;
-          top: 0;
-          left: 0;
-          height: 100%;
-          width: 100%;
-          background-color: rgba(0, 87, 125, 0.6);
-          z-index: -1;
-        }
-      
-        /*#trainer-menu {
-          margin: 2rem auto;
-          text-align: center;
-          background: rgba(255, 255, 255, 0.0);
-          color: white;
-        }*/
-      
-        select {
-          color: white;
-          width: 250px;
-          height: 36px;
-          border: solid 1px;
-          border-color: #00577D;
-          border-radius: 5px;
-          margin-right: 10px;
-          margin-bottom: 10px;
-        }
-      
-        select:hover {
-          border-color: #00A7E1;
-        }
-      
-        select:focus {
-          outline: none;
-        }
+  <title>Math Trainers | Alliance Water Resources Training Center</title>
 
-        .trainer-iframe {
-            width: 100%;
-            height: 100%; /* or 750px if needed */
-            border: none;
-           /* margin-top: 2rem;*/
-        }
-      
-        /*.calc-menu {
-          margin-top: 2rem;
-          margin-bottom: 1rem;
-          background-color: rgba(0, 87, 125, 0.75);
-          color: white;
-          border: 1px solid rgba(255, 255, 255, 0.3);
-          border-radius: 5px;
-          padding: 8px 16px;
-          backdrop-filter: blur(6px);
-          -webkit-backdrop-filter: blur(6px);
-          transition: background 0.3s ease;
-        }
-      
-        .calc-menu:hover {
-          background-color: rgba(0, 167, 225, 0.8);
-          color: white;
-        }
-      
-        footer {
-          background-color: #00577D;
-          color: white;
-          text-align: center;
-          padding: 15px 0;
-          width: 100%;
-        }*/
-      </style>
+  <!-- Favicon -->
+  <link rel="icon" href="Images/home_drop.png" type="image/png">
+
+  <!-- Bootstrap CSS -->
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #00577D;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .hero {
+      background-image: url('Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 60px 20px 90px;
+      overflow: hidden;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.62);
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .hero h1 {
+      font-size: 2.6rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .hero .lead {
+      max-width: 760px;
+      margin: 0 auto 2.5rem;
+      font-size: 1.2rem;
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    .trainer-link {
+      display: block;
+      height: 100%;
+      color: white;
+      text-decoration: none;
+    }
+
+    .trainer-link:hover,
+    .trainer-link:focus {
+      color: white;
+      text-decoration: none;
+    }
+
+    .card-glass {
+      height: 100%;
+      min-height: 205px;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 14px;
+      padding: 28px 24px;
+      box-shadow: 0 0.65rem 1.4rem rgba(0, 0, 0, 0.18);
+      transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease;
+      cursor: pointer;
+    }
+
+    .card-glass:hover,
+    .trainer-link:focus .card-glass {
+      transform: translateY(-5px);
+      background: rgba(255, 255, 255, 0.26);
+      border-color: rgba(255, 255, 255, 0.48);
+      box-shadow: 0 0.9rem 1.8rem rgba(0, 0, 0, 0.28);
+    }
+
+    .card-glass h2 {
+      font-size: 1.35rem;
+      font-weight: 700;
+      margin-bottom: 0.85rem;
+      color: white;
+    }
+
+    .card-glass p {
+      margin-bottom: 0;
+      color: rgba(255, 255, 255, 0.92);
+      font-size: 0.98rem;
+      line-height: 1.5;
+    }
+
+    .study-note {
+      max-width: 850px;
+      margin: 2.25rem auto 0;
+      padding: 18px 22px;
+      background: rgba(255, 255, 255, 0.16);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 14px;
+      color: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 0.65rem 1.4rem rgba(0, 0, 0, 0.16);
+    }
+
+    .study-note strong {
+      color: white;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 45px 16px 80px;
+        align-items: flex-start;
+      }
+
+      .hero h1 {
+        font-size: 2.15rem;
+      }
+
+      .hero .lead {
+        font-size: 1.05rem;
+        margin-bottom: 2rem;
+      }
+
+      .card-glass {
+        min-height: auto;
+        padding: 24px 20px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        background-attachment: scroll;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-    <!-- Navbar -->
-    <nav class="navbar navbar-expand-lg navbar-dark">
-        <div class="container-fluid">
+  <!-- Navbar -->
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
 
-            <a class="navbar-brand" href="https://alliancewater.com" >
-                <img src="Images/logo.png" alt="Alliance Training Center Logo" class="navbar-logo" height = "50" justify>
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <main>
+    <section class="hero">
+      <div class="container">
+
+        <h1>Math Trainers</h1>
+
+        <div class="row justify-content-center g-4">
+
+          <!-- Basic Math -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="Math_Trainers/basic.html" class="trainer-link" aria-label="Open Basic Math Trainer">
+              <div class="card-glass">
+                <h2>Basic Math</h2>
+                <p>
+                  Practice foundational math skills used in operator exams and daily utility calculations.
+                </p>
+              </div>
             </a>
+          </div>
 
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-             <br><br><br>   
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarNav">
-                <ul class="navbar-nav ms-auto">
-                    <li class="nav-item">
-                        <a class="nav-link" href="index.html">Home</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="calculator.html">Calculators</a>
-                    </li>
-                    <li class="nav-item"></li>
-                        <a class="nav-link" href="study_material.html">Study Material</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="about.html">About</a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="contact.html">Contact</a>
-                    </li>
-                </ul>
-            </div>
+          <!-- Detention Time -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="Math_Trainers/detention.html" class="trainer-link" aria-label="Open Detention Time Trainer">
+              <div class="card-glass">
+                <h2>Detention Time</h2>
+                <p>
+                  Work through detention time problems using volume, flow, and time conversions.
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Dose -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="Math_Trainers/dose.html" class="trainer-link" aria-label="Open Dose Trainer">
+              <div class="card-glass">
+                <h2>Dose</h2>
+                <p>
+                  Practice chemical dose, pounds, MGD, feed rate, and solution strength problems.
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Pressure -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="Math_Trainers/pressure.html" class="trainer-link" aria-label="Open Pressure Trainer">
+              <div class="card-glass">
+                <h2>Pressure</h2>
+                <p>
+                  Review pressure, elevation, head, tank level, and psi conversion problems.
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Horsepower -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="Math_Trainers/horsepower.html" class="trainer-link" aria-label="Open Horsepower Trainer">
+              <div class="card-glass">
+                <h2>Horsepower</h2>
+                <p>
+                  Practice water horsepower, brake horsepower, motor horsepower, and efficiency.
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <!-- Formula Sheet -->
+          <div class="col-12 col-md-6 col-lg-4">
+            <a
+              href="Math_Trainers/formulas.pdf"
+              class="trainer-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Open Math Formula Sheet PDF"
+            >
+              <div class="card-glass">
+                <h2>Formula Sheet</h2>
+                <p>
+                  Open the math formula sheet for quick reference while studying or practicing.
+                </p>
+              </div>
+            </a>
+          </div>
+
         </div>
-    </nav>
-    <!--*****************************************************************************************************-->
-    <!--Make sure you link to all necessary CSS files********************************************************-->
-    <!--Body Content Goes Here*******************************************************************************-->
-    <div style="text-align: center;">
-        <button class="frosted-button" style="width: 260px;" onclick="showHide()">Show/Hide Math Trainer Menu</button>
-    </div>
-    <div id= "trainer-menu" style="text-align: center; display: block;">            
-        <!--Treatment Calculators-->
-        <select id="mathSelect" onchange="loadTrainer(this.value)" style="width: 260px; margin: 5px;">
-            <option value="" disabled selected>Select a Trainer</option>
-            <option value="Math_Trainers/basic.html">Basic Math</option>
-            <option value="Math_Trainers/detention.html">Detention Time</option>
-            <option value="Math_Trainers/dose.html">Dose</option>
-            <option value="Math_Trainers/pressure.html">Pressure</option>
-            <option value="Math_Trainers/horsepower.html">Horsepower</option>
-        </select>
 
-        <!--<button class="btn btn-primary" onclick="loadCalculator('Calculators/dose_calc.html')" style="width: 200px;
-        ">Dose Calculator</button>-->
-    </div>
-<!--Calculator Container-->
-<iframe id="mathContainer" class="trainer-iframe"></iframe>
+      </div>
+    </section>
+  </main>
 
+  <!-- Footer -->
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
 
- <!--Script to Show and Hide the Calculator Menu--> 
-<script>
-    function showHide() {
-    var calcMenu = document.getElementById("trainer-menu");
-    
-    if (calcMenu.style.display === "none" || calcMenu.style.display === "") {
-        calcMenu.style.display = "block";  // Show the element
-    } else {
-        calcMenu.style.display = "none";  // Hide the element
-    }
-}
+  <!-- Bootstrap JS -->
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
 
-window.addEventListener('message', function(event) {
-  if (event.data.iframeHeight) {
-    const iframe = document.getElementById('mathContainer');
-    iframe.style.height = event.data.iframeHeight + 'px';
-  }
-});
-</script>
-
-<!--Call Script for loading calculators-->
-<script src="Scripts/load_math.js"></script>
-
-
-
-
-
-    <!--*****************************************************************************************************-->
-    <!--*****************************************************************************************************-->
-    <!--*****************************************************************************************************-->
-    <!-- Footer -->
-    <footer>
-        &copy; 2024 Alliance Water Resources. All rights reserved.
-      </footer>
-    
-      <!-- Bootstrap JS -->
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
-    
-    </body>
-    </html>
+</body>
+</html>

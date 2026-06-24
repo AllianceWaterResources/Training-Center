@@ -1,309 +1,1099 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pump HP Trainer</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/calculator-styles.css">
-    <link rel="stylesheet" href="../CSS/custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-          margin: 0;
-          background: transparent;
-        }
-      
-        .trainer-form {
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          text-align: center;
-          color: white;
-          max-width: 350px;
-          height: 400px;
-        }
-      
-        .trainer-form button {
-          margin: 0.5rem;
-        }
-      </style>
+  <title>Pump Horsepower Trainer | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #00577D;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .trainer-hero {
+      min-height: calc(100vh - 96px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 24px 72px;
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .trainer-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.62);
+      z-index: 0;
+    }
+
+    .trainer-page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trainer-heading {
+      margin-bottom: 28px;
+    }
+
+    .trainer-heading h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .trainer-heading p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #horsepowerTrainerForm {
+      width: 100% !important;
+      max-width: 1120px !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+      padding: 34px !important;
+      position: relative;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 18px;
+      box-shadow: 0 0.85rem 1.75rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-grid {
+      width: 100%;
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .trainer-problem-panel,
+    .trainer-control-panel {
+      min-width: 0;
+      background: rgba(0, 87, 125, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0.75rem rgba(255, 255, 255, 0.04);
+    }
+
+    .trainer-problem-panel {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trainer-problem-panel h2 {
+      flex: 0 0 auto;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 24px;
+      color: white;
+    }
+
+    #problemText {
+      flex: 1;
+      min-height: 265px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      color: white;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      text-align: center;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      overflow-y: auto;
+    }
+
+    .trainer-control-panel {
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .trainer-control-panel h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 22px;
+      color: white;
+    }
+
+    .trainer-button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .trainer-btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .trainer-btn:hover,
+    .trainer-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 0.55rem 1.1rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-answer-label {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    #answerText {
+      min-height: 58px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      color: white;
+      font-size: clamp(0.82rem, 1vw, 1.2rem);
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 1.2;
+    }
+
+    #answerText.compact-answer {
+      font-size: clamp(0.72rem, 0.85vw, 1rem);
+    }
+
+    .trainer-fullscreen-btn {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-fullscreen-btn:hover,
+    .trainer-fullscreen-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .trainer-back-wrap {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .trainer-back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-back-link:hover,
+    .trainer-back-link:focus {
+      color: white;
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .modal-content {
+      background: rgba(0, 87, 125, 0.96);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 0.85rem 2rem rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    .modal-body {
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .modal-body strong {
+      color: white;
+    }
+
+    .modal-body ul {
+      margin-bottom: 1rem;
+    }
+
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      padding: 9px 18px;
+    }
+
+    .modal-close-btn:hover,
+    .modal-close-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    body.trainer-fullscreen-active {
+      overflow: hidden;
+    }
+
+    body.trainer-fullscreen-active .navbar,
+    body.trainer-fullscreen-active footer,
+    body.trainer-fullscreen-active .trainer-heading,
+    body.trainer-fullscreen-active .trainer-back-wrap {
+      display: none;
+    }
+
+    body.trainer-fullscreen-active .trainer-hero {
+      min-height: 100vh;
+      padding: 0;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-page-wrap {
+      max-width: none;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active #horsepowerTrainerForm {
+      max-width: none !important;
+      min-height: 100vh;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      padding: 68px 18px 22px !important;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-grid {
+      width: 100%;
+      min-height: 0;
+    }
+
+    body.trainer-fullscreen-active .trainer-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .trainer-hero {
+        align-items: flex-start;
+        padding: 34px 16px 76px;
+        min-height: calc(100vh - 96px);
+      }
+
+      .trainer-heading {
+        margin-bottom: 20px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 2.15rem;
+      }
+
+      .trainer-heading p {
+        font-size: 1.02rem;
+      }
+
+      #horsepowerTrainerForm {
+        padding: 58px 20px 24px !important;
+      }
+
+      .trainer-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        min-height: auto;
+      }
+
+      .trainer-fullscreen-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .trainer-problem-panel {
+        padding: 24px 18px;
+      }
+
+      .trainer-problem-panel h2 {
+        font-size: 1.65rem;
+        margin-bottom: 18px;
+      }
+
+      #problemText {
+        min-height: 190px;
+        padding: 22px 18px;
+        font-size: 1.1rem;
+      }
+
+      .trainer-control-panel {
+        padding: 22px 18px;
+      }
+
+      .trainer-control-panel h3 {
+        display: none;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .trainer-btn {
+        padding: 11px 10px;
+        font-size: 0.95rem;
+      }
+
+      #answerText {
+        min-height: 52px;
+        font-size: clamp(0.78rem, 2.4vw, 1.05rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.72rem, 2.1vw, 0.95rem);
+      }
+
+      body.trainer-fullscreen-active .trainer-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+      }
+
+      body.trainer-fullscreen-active .trainer-problem-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.trainer-fullscreen-active #problemText {
+        flex: 1;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .trainer-hero {
+        background-attachment: scroll;
+        padding: 28px 12px 72px;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 1.9rem;
+      }
+
+      .trainer-heading p {
+        font-size: 0.98rem;
+      }
+
+      #horsepowerTrainerForm {
+        padding: 56px 14px 18px !important;
+        border-radius: 15px;
+      }
+
+      .trainer-problem-panel,
+      .trainer-control-panel {
+        border-radius: 14px;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .trainer-btn {
+        width: 100%;
+      }
+
+      #answerText {
+        font-size: clamp(0.76rem, 3.4vw, 1rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.68rem, 3vw, 0.9rem);
+      }
+
+      body.trainer-fullscreen-active #horsepowerTrainerForm {
+        padding: 62px 12px 16px !important;
+      }
+    }
+  </style>
 </head>
+
 <body>
-    <div class="content" style="text-align: center;">
-        <form onsubmit="return false;" class="trainer-form" id="myForm" style="height: 400px;">
-            <br>
-            <h2 class="calc-title">Pump HP Trainer</h2>
-            <br>
-            <label id="problem" style="width: 300px; height: 200px;"></label>
-            <br><br>
 
-            <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=answer()>Answer</button>
-            <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=randomize()>Randomize</button>
-            <button class="frosted-button" style="margin: 2px; margin-bottom: 10px; width: 100px;" onclick=showHelp()>Help Me</button>
-            <br><br>
-            <label id="outputText" class="answer" style="font-weight: bold;"></label>
-            <br><br>
-            <label id="helpmessage" style="width: fit-content; height: fit-content; visibility: hidden;"></label>
-        </form>
-        <br><br><br><br>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
     </div>
+  </nav>
 
-    <script>
-        var problemType, GPM, head, pumpEfficiency, motorEfficiency, waterHP, brakeHP, motorHP, kW, answerValue, helpText;
+  <main>
+    <section class="trainer-hero">
+      <div class="trainer-page-wrap">
 
-        function randomize() {
-            problemType = Math.floor(Math.random() * 9);
-            switch (problemType) {
-                case 0: generateWaterHP(); break;
-                case 1: generateBrakeHP(); break;
-                case 2: generateMotorHP(); break;
-                case 3: generateMotorEfficiency(); break;
-                case 4: generateGPM(); break;
-                case 5: generateHead(); break;
-                case 6: generatePumpEfficiency(); break;
-                case 7: generateMotorEfficiencyFromHP(); break;
-                case 8: generatePowerKW(); break;
-            }
-            document.getElementById("outputText").innerHTML = "";
-            document.getElementById("helpmessage").style.visibility = "hidden";
-        }
+        <div class="trainer-heading">
+          <h1>Pump Horsepower Trainer</h1>
+          <p>
+            Practice water horsepower, brake horsepower, motor horsepower, efficiency, GPM, head, and kW problems.
+          </p>
+        </div>
 
-        function generateWaterHP() {
-            GPM = getRandom(50, 500);
-            head = getRandom(10, 250);
-            waterHP = (GPM * head) / 3960;
+        <form onsubmit="return false;" id="horsepowerTrainerForm" aria-label="Pump Horsepower Trainer">
 
-            document.getElementById("problem").innerHTML = 
-                `A pump moves ${GPM} GPM against a head of ${head} ft. What is the Water HP?`;
-            answerValue = `${waterHP.toFixed(2)} HP`;
-            helpText = `
-                <p><strong>Step 1: Use the formula</strong></p>
-                <ul>
-                    <li>Water HP = (GPM × Head) ÷ 3960</li>
-                    <li>Water HP = (${GPM} × ${head}) ÷ 3960</li>
-                    <li><strong>Answer: ${waterHP.toFixed(2)} HP</strong></li>
-                </ul>
-            `;
-        }
+          <button
+            type="button"
+            class="trainer-fullscreen-btn"
+            id="fullscreenToggle"
+            onclick="toggleTrainerFullscreen()"
+            aria-label="Expand trainer fullscreen"
+            title="Fullscreen"
+          >
+            ⛶
+          </button>
 
-        function generateBrakeHP() {
-            generateWaterHP();
-            pumpEfficiency = getRandomEfficiency();
-            brakeHP = waterHP / pumpEfficiency;
+          <div class="trainer-grid">
 
-            document.getElementById("problem").innerHTML = 
-                `A pump moves ${GPM} GPM against a head of ${head} ft with a pump efficiency of ${(pumpEfficiency * 100).toFixed(1)}%. What is the Brake HP?`;
-            answerValue = `${brakeHP.toFixed(2)} HP`;
-            helpText = `
-                <p><strong>Step 1: Use the formula</strong></p>
-                <ul>
-                    <li>Brake HP = (GPM × Head) ÷ (3960 × Pump Efficiency)</li>
-                    <li>Brake HP = (${GPM} × ${head}) ÷ (3960 × ${(pumpEfficiency * 100).toFixed(1)}%)</li>
-                    <li><strong>Answer: ${brakeHP.toFixed(2)} HP</strong></li>
-                </ul>
-            `;
-        }
+            <div class="trainer-problem-panel">
+              <h2>Practice Problem</h2>
+              <div id="problemText" aria-live="polite"></div>
+            </div>
 
-        function generateMotorHP() {
-            generateBrakeHP();
-            motorEfficiency = getRandomEfficiency();
-            motorHP = brakeHP / motorEfficiency;
+            <div class="trainer-control-panel">
+              <h3>Trainer Controls</h3>
 
-            document.getElementById("problem").innerHTML = 
-                `A pump moves ${GPM} GPM against a head of ${head} ft with a pump efficiency of ${(pumpEfficiency * 100).toFixed(1)}% and a motor efficiency of ${(motorEfficiency * 100).toFixed(1)}%. What is the Motor HP?`;
-            answerValue = `${motorHP.toFixed(2)} HP`;
-            helpText = `
-                <p><strong>Step 1: Use the formula</strong></p>
-                <ul>
-                    <li>Motor HP = (GPM × Head) ÷ (3960 × Pump Eff × Motor Eff)</li>
-                    <li>Motor HP = (${GPM} × ${head}) ÷ (3960 × ${(pumpEfficiency * 100).toFixed(1)}% × ${(motorEfficiency * 100).toFixed(1)}%)</li>
-                    <li><strong>Answer: ${motorHP.toFixed(2)} HP</strong></li>
-                </ul>
-            `;
-        }
+              <div class="trainer-button-row">
+                <button type="button" class="trainer-btn" onclick="answer()">Answer</button>
+                <button type="button" class="trainer-btn" onclick="randomize()">Randomize</button>
+                <button type="button" class="trainer-btn" onclick="showHelp()">Help Me</button>
+              </div>
 
-        function generateMotorEfficiency() {
-            // Randomize GPM and head within realistic ranges
-            GPM = getRandom(50, 500);
-            head = getRandom(10, 250);
+              <div class="trainer-answer-label">Answer</div>
+              <div id="answerText" aria-live="polite"></div>
+            </div>
 
-            // Compute the valid kW range that ensures efficiency is between 70% and 95%
-            let minKW = (GPM * head * 0.746) / (3960 * 0.95); // Max efficiency (95%)
-            let maxKW = (GPM * head * 0.746) / (3960 * 0.70); // Min efficiency (70%)
+          </div>
+        </form>
 
-            // Ensure that kW stays within the calculated range
-            kW = getRandom(minKW, maxKW);
+        <div class="trainer-back-wrap">
+          <a href="../math_trainer.html" class="trainer-back-link">&larr; Back to Math Trainers</a>
+        </div>
 
-            // **Recalculate efficiency after selecting a valid kW value**
-            motorEfficiency = (GPM * head * 0.746) / (3960 * kW);
+      </div>
+    </section>
+  </main>
 
-            // **If efficiency falls outside 70%-95%, regenerate kW**
-            while (motorEfficiency < 0.7 || motorEfficiency > 0.95) {
-                kW = getRandom(minKW, maxKW);
-                motorEfficiency = (GPM * head * 0.746) / (3960 * kW);
-            }
+  <div
+    class="modal fade"
+    id="helpModal"
+    tabindex="-1"
+    aria-labelledby="helpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
 
-            // Generate the question
-            document.getElementById("problem").innerHTML = 
-                `A motor is moving ${GPM} GPM against a head of ${head} ft with a power of ${kW.toFixed(2)} kW. What is the Motor Efficiency?`;
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help Me</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
 
-            answerValue = `${(motorEfficiency * 100).toFixed(2)}%`;
+        <div class="modal-body" id="helpModalBody">
+          Help steps will appear here.
+        </div>
 
-            // Generate the Help Me section
-            helpText = `
-                <p><strong>Step 1: Use the formula</strong></p>
-                <ul>
-                    <li>Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × Power kW)</li>
-                    <li>Motor Efficiency = (${GPM} × ${head} × 0.746) ÷ (3960 × ${kW.toFixed(2)})</li>
-                    <li><strong>Answer: ${(motorEfficiency * 100).toFixed(2)}%</strong></li>
-                </ul>
-            `;
-        }
+        <div class="modal-footer">
+          <button type="button" class="modal-close-btn" data-bs-dismiss="modal">Close</button>
+        </div>
 
+      </div>
+    </div>
+  </div>
 
-        function generateGPM() {
-            // Generate a random Water HP between 1 and 100
-            waterHP = getRandom(1, 100);
-            // Generate a random Head between 10 and 250 ft
-            head = getRandom(10, 250);
-            // Solve for GPM using the formula: GPM = (Water HP × 3960) ÷ Head
-            GPM = (waterHP * 3960) / head;
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
 
-            document.getElementById("problem").innerHTML = 
-                `A pump has a Water HP of ${waterHP.toFixed(2)} HP and is moving water against a head of ${head} ft. What is the GPM?`;
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
 
-            answerValue = `${GPM.toFixed(2)} GPM`;
+  <script>
+    let currentProblem = null;
 
-            helpText = `
-                <p><strong>Step 1:</strong> Use the formula GPM = (Water HP × 3960) ÷ Head</p>
-                <p><strong>Step 2:</strong> Plug in values: (${waterHP.toFixed(2)} × 3960) ÷ ${head}</p>
-                <p><strong>Step 3:</strong> Solve: ${GPM.toFixed(2)} GPM</p>
-            `;
-        }
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
 
-        function generateHead() {
-            // Generate a random Water HP between 1 and 100
-            waterHP = getRandom(1, 100);
-            // Generate a random GPM between 50 and 500
-            GPM = getRandom(50, 500);
-            // Solve for Head using the formula: Head = (Water HP × 3960) ÷ GPM
-            head = (waterHP * 3960) / GPM;
+    function round(value, decimals = 2) {
+      const factor = Math.pow(10, decimals);
+      return Math.round(value * factor) / factor;
+    }
 
-            document.getElementById("problem").innerHTML = 
-                `A pump has a Water HP of ${waterHP.toFixed(2)} HP and is pumping at ${GPM.toFixed(2)} GPM. What is the Head (ft)?`;
+    function formatNumber(value, decimals = 2) {
+      return Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
 
-            answerValue = `${head.toFixed(2)} ft`;
+    function formatWhole(value) {
+      return Number(value).toLocaleString(undefined, {
+        maximumFractionDigits: 0
+      });
+    }
 
-            helpText = `
-                <p><strong>Step 1:</strong> Use the formula Head = (Water HP × 3960) ÷ GPM</p>
-                <p><strong>Step 2:</strong> Plug in values: (${waterHP.toFixed(2)} × 3960) ÷ ${GPM.toFixed(2)}</p>
-                <p><strong>Step 3:</strong> Solve: ${head.toFixed(2)} ft</p>
-            `;
-        }
+    function formatPercent(decimalValue, decimals = 1) {
+      return (decimalValue * 100).toFixed(decimals);
+    }
 
-        function generatePumpEfficiency() {
-            let validEfficiency = false;
+    function getRandomEfficiency() {
+      return randInt(70, 95) / 100;
+    }
 
-            while (!validEfficiency) {
-                // Generate a random Brake HP between 1 and 100
-                brakeHP = getRandom(1, 100);
-                // Generate a random GPM between 50 and 500
-                GPM = getRandom(50, 500);
-                // Generate a random Head between 10 and 250 ft
-                head = getRandom(10, 250);
-                
-                // Solve for Pump Efficiency using the formula: Pump Eff = (GPM × Head) ÷ (3960 × Brake HP)
-                pumpEfficiency = (GPM * head) / (3960 * brakeHP);
+    function buildWaterHpProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const waterHp = round((gpm * head) / 3960, 2);
 
-                // Check if efficiency is within 70% to 95%, otherwise regenerate numbers
-                if (pumpEfficiency >= 0.7 && pumpEfficiency <= 0.95) {
-                    validEfficiency = true;
-                }
-            }
+      return {
+        prompt: `A pump moves ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft. What is the water horsepower?`,
+        answerText: `${formatNumber(waterHp)} HP`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the water horsepower formula.<br><br>
+          <ul>
+            <li><strong>Water HP = (GPM × Head) ÷ 3960</strong></li>
+          </ul>
 
-            document.getElementById("problem").innerHTML = 
-                `A pump has a Brake HP of ${brakeHP.toFixed(2)} HP and is moving ${GPM.toFixed(2)} GPM against a head of ${head.toFixed(2)} ft. What is the Pump Efficiency?`;
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Water HP = (${formatWhole(gpm)} × ${formatWhole(head)}) ÷ 3960</strong></li>
+          </ul>
 
-            answerValue = `${(pumpEfficiency * 100).toFixed(2)}%`;
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Water HP = ${formatNumber(waterHp)} HP</strong></li>
+          </ul>
 
-            helpText = `
-                <p><strong>Step 1:</strong> Use the formula Pump Efficiency = (GPM × Head) ÷ (3960 × Brake HP)</p>
-                <p><strong>Step 2:</strong> Plug in values: (${GPM.toFixed(2)} × ${head.toFixed(2)}) ÷ (3960 × ${brakeHP.toFixed(2)})</p>
-                <p><strong>Step 3:</strong> Solve: ${(pumpEfficiency * 100).toFixed(2)}%</p>
-            `;
-        }
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(waterHp)} HP
+        `
+      };
+    }
 
-        function generateMotorEfficiencyFromHP() {
-            let validEfficiency = false;
+    function buildBrakeHpProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const pumpEfficiency = getRandomEfficiency();
+      const waterHp = round((gpm * head) / 3960, 2);
+      const brakeHp = round(waterHp / pumpEfficiency, 2);
 
-            while (!validEfficiency) {
-                // Generate random values for Motor HP, GPM, and Head
-                motorHP = getRandom(1, 100); // Motor HP between 1 and 100
-                GPM = getRandom(50, 500); // GPM between 50 and 500
-                head = getRandom(10, 250); // Head between 10 and 250 ft
-                pumpEfficiency = getRandom(70, 95) / 100; // Pump Efficiency between 70% and 95%
-                kW = getRandom(5, 100); // Power (kW) between 5 and 100
+      return {
+        prompt: `A pump moves ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft with a pump efficiency of ${formatPercent(pumpEfficiency)}%. What is the brake horsepower?`,
+        answerText: `${formatNumber(brakeHp)} HP`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the brake horsepower formula.<br><br>
+          <ul>
+            <li><strong>Brake HP = (GPM × Head) ÷ (3960 × Pump Efficiency)</strong></li>
+            <li>Use the pump efficiency as a decimal: <strong>${formatPercent(pumpEfficiency)}% = ${pumpEfficiency}</strong></li>
+          </ul>
 
-                // Solve for Motor Efficiency using the formula:
-                // Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × kW)
-                motorEfficiency = (GPM * head * 0.746) / (3960 * kW);
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Brake HP = (${formatWhole(gpm)} × ${formatWhole(head)}) ÷ (3960 × ${pumpEfficiency})</strong></li>
+          </ul>
 
-                // Ensure the Motor Efficiency falls within 70% - 95%
-                if (motorEfficiency >= 0.7 && motorEfficiency <= 0.95) {
-                    validEfficiency = true;
-                }
-            }
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Brake HP = ${formatNumber(brakeHp)} HP</strong></li>
+          </ul>
 
-            document.getElementById("problem").innerHTML = 
-                `A motor has a Motor HP of ${motorHP.toFixed(2)} HP and is moving ${GPM.toFixed(2)} GPM against a head of ${head.toFixed(2)} ft with a pump efficiency of ${(pumpEfficiency * 100).toFixed(2)}% and the power draw is ${kW} kW. What is the Motor Efficiency?`;
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(brakeHp)} HP
+        `
+      };
+    }
 
-            answerValue = `${(motorEfficiency * 100).toFixed(2)}%`;
+    function buildMotorHpProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const pumpEfficiency = getRandomEfficiency();
+      const motorEfficiency = getRandomEfficiency();
+      const motorHp = round((gpm * head) / (3960 * pumpEfficiency * motorEfficiency), 2);
 
-            helpText = `
-                <p><strong>Step 1:</strong> Use the formula Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × kW)</p>
-                <p><strong>Step 2:</strong> Plug in values: (${GPM.toFixed(2)} × ${head.toFixed(2)} × 0.746) ÷ (3960 × ${kW.toFixed(2)})</p>
-                <p><strong>Step 3:</strong> Solve: ${(motorEfficiency * 100).toFixed(2)}%</p>
-            `;
-        }
+      return {
+        prompt: `A pump moves ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft with a pump efficiency of ${formatPercent(pumpEfficiency)}% and a motor efficiency of ${formatPercent(motorEfficiency)}%. What is the motor horsepower?`,
+        answerText: `${formatNumber(motorHp)} HP`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the motor horsepower formula.<br><br>
+          <ul>
+            <li><strong>Motor HP = (GPM × Head) ÷ (3960 × Pump Efficiency × Motor Efficiency)</strong></li>
+            <li><strong>${formatPercent(pumpEfficiency)}% = ${pumpEfficiency}</strong></li>
+            <li><strong>${formatPercent(motorEfficiency)}% = ${motorEfficiency}</strong></li>
+          </ul>
 
-        function generatePowerKW() {
-            // Ensure Motor Efficiency is random between 70% and 95%
-            motorEfficiency = getRandom(70, 95) / 100; 
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Motor HP = (${formatWhole(gpm)} × ${formatWhole(head)}) ÷ (3960 × ${pumpEfficiency} × ${motorEfficiency})</strong></li>
+          </ul>
 
-            // Solve for Power (kW) using:
-            // Power (kW) = (GPM × Head × 0.746) ÷ (3960 × Motor Efficiency)
-            kW = (GPM * head * 0.746) / (3960 * motorEfficiency);
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Motor HP = ${formatNumber(motorHp)} HP</strong></li>
+          </ul>
 
-            document.getElementById("problem").innerHTML = 
-                `A motor has an efficiency of ${(motorEfficiency * 100).toFixed(1)}% and is moving ${GPM} GPM against a head of ${head} ft. How much power (kW) is required?`;
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(motorHp)} HP
+        `
+      };
+    }
 
-            answerValue = `${kW.toFixed(2)} kW`;
+    function buildMotorEfficiencyFromKwProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const targetEfficiency = getRandomEfficiency();
+      const waterKw = (gpm * head * 0.746) / 3960;
+      const kw = round(waterKw / targetEfficiency, 2);
+      const motorEfficiency = round(waterKw / kw, 4);
 
-            helpText = `
-                <p><strong>Step 1:</strong> Use the formula Power (kW) = (GPM × Head × 0.746) ÷ (3960 × Motor Efficiency)</p>
-                <p><strong>Step 2:</strong> Plug in values: (${GPM} × ${head} × 0.746) ÷ (3960 × ${(motorEfficiency * 100).toFixed(1)}%)</p>
-                <p><strong>Step 3:</strong> Solve: ${kW.toFixed(2)} kW</p>
-            `;
-        }
+      return {
+        prompt: `A motor is moving ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft with a power draw of ${formatNumber(kw)} kW. What is the motor efficiency?`,
+        answerText: `${formatPercent(motorEfficiency, 2)}%`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the motor efficiency from kW formula.<br><br>
+          <ul>
+            <li><strong>Motor Efficiency = (GPM × Head × 0.746) ÷ (3960 × kW)</strong></li>
+            <li><strong>0.746</strong> converts horsepower to kilowatts.</li>
+          </ul>
 
-        function answer() {
-            document.getElementById("outputText").innerHTML = answerValue;
-        }
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Motor Efficiency = (${formatWhole(gpm)} × ${formatWhole(head)} × 0.746) ÷ (3960 × ${formatNumber(kw)})</strong></li>
+          </ul>
 
-        function showHelp() {
-            document.getElementById("helpmessage").style.visibility = "visible";
-            document.getElementById("helpmessage").innerHTML = helpText;
-        }
+          <strong>Step 3:</strong> Solve and convert to percent.<br><br>
+          <ul>
+            <li><strong>Motor Efficiency = ${formatPercent(motorEfficiency, 2)}%</strong></li>
+          </ul>
 
-        function getRandom(min, max) {
-            return Math.floor(Math.random() * (max - min + 1)) + min;
-        }
+          <strong>Final Answer:</strong><br>
+          ${formatPercent(motorEfficiency, 2)}%
+        `
+      };
+    }
 
-        function getRandomEfficiency() {
-            return (getRandom(70, 95)) / 100;
-        }
+    function buildGpmProblem() {
+      const waterHp = randInt(1, 100);
+      const head = randInt(10, 250);
+      const gpm = round((waterHp * 3960) / head, 2);
 
-        document.getElementById("helpmessage").innerHTML = helpmessage[problemType];
-        document.getElementById("helpmessage").style.paddingBottom = "100px";
-        document.getElementById("helpmessage").style.paddingTop = "20px";
-    </script>
+      return {
+        prompt: `A pump has a water horsepower of ${formatNumber(waterHp)} HP and is moving water against a head of ${formatWhole(head)} ft. What is the flow in GPM?`,
+        answerText: `${formatNumber(gpm)} GPM`,
+        helpHtml: `
+          <strong>Step 1:</strong> Start with the water horsepower formula.<br><br>
+          <ul>
+            <li><strong>Water HP = (GPM × Head) ÷ 3960</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Rearrange the formula to solve for GPM.<br><br>
+          <ul>
+            <li><strong>GPM = (Water HP × 3960) ÷ Head</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>GPM = (${formatNumber(waterHp)} × 3960) ÷ ${formatWhole(head)}</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>GPM = ${formatNumber(gpm)} GPM</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(gpm)} GPM
+        `
+      };
+    }
+
+    function buildHeadProblem() {
+      const waterHp = randInt(1, 100);
+      const gpm = randInt(50, 500);
+      const head = round((waterHp * 3960) / gpm, 2);
+
+      return {
+        prompt: `A pump has a water horsepower of ${formatNumber(waterHp)} HP and is pumping ${formatWhole(gpm)} GPM. What is the head in feet?`,
+        answerText: `${formatNumber(head)} ft`,
+        helpHtml: `
+          <strong>Step 1:</strong> Start with the water horsepower formula.<br><br>
+          <ul>
+            <li><strong>Water HP = (GPM × Head) ÷ 3960</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Rearrange the formula to solve for head.<br><br>
+          <ul>
+            <li><strong>Head = (Water HP × 3960) ÷ GPM</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Head = (${formatNumber(waterHp)} × 3960) ÷ ${formatWhole(gpm)}</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Head = ${formatNumber(head)} ft</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(head)} ft
+        `
+      };
+    }
+
+    function buildPumpEfficiencyProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const targetEfficiency = getRandomEfficiency();
+      const waterHp = (gpm * head) / 3960;
+      const brakeHp = round(waterHp / targetEfficiency, 2);
+      const pumpEfficiency = round(waterHp / brakeHp, 4);
+
+      return {
+        prompt: `A pump has a brake horsepower of ${formatNumber(brakeHp)} HP and moves ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft. What is the pump efficiency?`,
+        answerText: `${formatPercent(pumpEfficiency, 2)}%`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the pump efficiency formula.<br><br>
+          <ul>
+            <li><strong>Pump Efficiency = (GPM × Head) ÷ (3960 × Brake HP)</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Pump Efficiency = (${formatWhole(gpm)} × ${formatWhole(head)}) ÷ (3960 × ${formatNumber(brakeHp)})</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Solve and convert to percent.<br><br>
+          <ul>
+            <li><strong>Pump Efficiency = ${formatPercent(pumpEfficiency, 2)}%</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatPercent(pumpEfficiency, 2)}%
+        `
+      };
+    }
+
+    function buildMotorEfficiencyFromHpProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const pumpEfficiency = getRandomEfficiency();
+      const targetMotorEfficiency = getRandomEfficiency();
+      const waterHp = (gpm * head) / 3960;
+      const motorHp = round(waterHp / (pumpEfficiency * targetMotorEfficiency), 2);
+      const motorEfficiency = round(waterHp / (pumpEfficiency * motorHp), 4);
+
+      return {
+        prompt: `A motor has a motor horsepower of ${formatNumber(motorHp)} HP and moves ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft with a pump efficiency of ${formatPercent(pumpEfficiency)}%. What is the motor efficiency?`,
+        answerText: `${formatPercent(motorEfficiency, 2)}%`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the motor efficiency formula.<br><br>
+          <ul>
+            <li><strong>Motor Efficiency = (GPM × Head) ÷ (3960 × Pump Efficiency × Motor HP)</strong></li>
+            <li><strong>${formatPercent(pumpEfficiency)}% = ${pumpEfficiency}</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Motor Efficiency = (${formatWhole(gpm)} × ${formatWhole(head)}) ÷ (3960 × ${pumpEfficiency} × ${formatNumber(motorHp)})</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Solve and convert to percent.<br><br>
+          <ul>
+            <li><strong>Motor Efficiency = ${formatPercent(motorEfficiency, 2)}%</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatPercent(motorEfficiency, 2)}%
+        `
+      };
+    }
+
+    function buildPowerKwProblem() {
+      const gpm = randInt(50, 500);
+      const head = randInt(10, 250);
+      const motorEfficiency = getRandomEfficiency();
+      const kw = round((gpm * head * 0.746) / (3960 * motorEfficiency), 2);
+
+      return {
+        prompt: `A motor has an efficiency of ${formatPercent(motorEfficiency)}% and is moving ${formatWhole(gpm)} GPM against a head of ${formatWhole(head)} ft. How much power in kW is required?`,
+        answerText: `${formatNumber(kw)} kW`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the power formula.<br><br>
+          <ul>
+            <li><strong>Power kW = (GPM × Head × 0.746) ÷ (3960 × Motor Efficiency)</strong></li>
+            <li><strong>${formatPercent(motorEfficiency)}% = ${motorEfficiency}</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Power kW = (${formatWhole(gpm)} × ${formatWhole(head)} × 0.746) ÷ (3960 × ${motorEfficiency})</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Power kW = ${formatNumber(kw)} kW</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(kw)} kW
+        `
+      };
+    }
+
+    const generators = [
+      buildWaterHpProblem,
+      buildBrakeHpProblem,
+      buildMotorHpProblem,
+      buildMotorEfficiencyFromKwProblem,
+      buildGpmProblem,
+      buildHeadProblem,
+      buildPumpEfficiencyProblem,
+      buildMotorEfficiencyFromHpProblem,
+      buildPowerKwProblem
+    ];
+
+    function randomize() {
+      const answerBox = document.getElementById("answerText");
+      answerBox.textContent = "";
+      answerBox.classList.remove("compact-answer");
+
+      const generator = generators[randInt(0, generators.length - 1)];
+      currentProblem = generator();
+
+      document.getElementById("problemText").textContent = currentProblem.prompt;
+    }
+
+    function answer() {
+      if (!currentProblem) {
+        randomize();
+      }
+
+      const answerBox = document.getElementById("answerText");
+      const answerValue = currentProblem.answerText;
+
+      answerBox.textContent = answerValue;
+
+      if (answerValue.length > 24) {
+        answerBox.classList.add("compact-answer");
+      } else {
+        answerBox.classList.remove("compact-answer");
+      }
+    }
+
+    function showHelp() {
+      if (!currentProblem) {
+        randomize();
+      }
+
+      document.getElementById("helpModalBody").innerHTML = currentProblem.helpHtml;
+
+      const modalElement = document.getElementById("helpModal");
+      const helpModal = new bootstrap.Modal(modalElement);
+      helpModal.show();
+    }
+
+    function toggleTrainerFullscreen() {
+      const body = document.body;
+      const button = document.getElementById("fullscreenToggle");
+
+      body.classList.toggle("trainer-fullscreen-active");
+
+      const isFullscreen = body.classList.contains("trainer-fullscreen-active");
+
+      button.innerHTML = isFullscreen ? "×" : "⛶";
+      button.setAttribute(
+        "aria-label",
+        isFullscreen ? "Exit fullscreen trainer" : "Expand trainer fullscreen"
+      );
+      button.setAttribute(
+        "title",
+        isFullscreen ? "Exit fullscreen" : "Fullscreen"
+      );
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && document.body.classList.contains("trainer-fullscreen-active")) {
+        toggleTrainerFullscreen();
+      }
+    });
+
+    window.addEventListener("load", randomize);
+  </script>
+
 </body>
+</html>

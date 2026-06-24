@@ -1,130 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trainer</title>
-    <!-- Include Bootstrap and Custom Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/calculator-styles.css">
-    <link rel="stylesheet" href="../CSS/custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-          margin: 0;
-          background: transparent;
-        }
-      
-        .trainer-form {
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          text-align: center;
-          color: white;
-          max-width: 350px;
-          height: 400px;
-        }
-      
-        .trainer-form button {
-          margin: 0.5rem;
-        }
-      </style>
+  <title>Detention Time Trainer | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #00577D;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .trainer-hero {
+      min-height: calc(100vh - 96px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 24px 72px;
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .trainer-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.62);
+      z-index: 0;
+    }
+
+    .trainer-page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trainer-heading {
+      margin-bottom: 28px;
+    }
+
+    .trainer-heading h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .trainer-heading p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #detentionTrainerForm {
+      width: 100% !important;
+      max-width: 1120px !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+      padding: 34px !important;
+      position: relative;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 18px;
+      box-shadow: 0 0.85rem 1.75rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-grid {
+      width: 100%;
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .trainer-problem-panel,
+    .trainer-control-panel {
+      min-width: 0;
+      background: rgba(0, 87, 125, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0.75rem rgba(255, 255, 255, 0.04);
+    }
+
+    .trainer-problem-panel {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trainer-problem-panel h2 {
+      flex: 0 0 auto;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 24px;
+      color: white;
+    }
+
+    #problemText {
+      flex: 1;
+      min-height: 265px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      color: white;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      text-align: center;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      overflow-y: auto;
+    }
+
+    .trainer-control-panel {
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .trainer-control-panel h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 22px;
+      color: white;
+    }
+
+    .trainer-button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .trainer-btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .trainer-btn:hover,
+    .trainer-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 0.55rem 1.1rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-answer-label {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    #answerText {
+      min-height: 58px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      color: white;
+      font-size: clamp(0.82rem, 1vw, 1.2rem);
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 1.2;
+    }
+
+    #answerText.compact-answer {
+      font-size: clamp(0.72rem, 0.85vw, 1rem);
+    }
+
+    .trainer-fullscreen-btn {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-fullscreen-btn:hover,
+    .trainer-fullscreen-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .trainer-back-wrap {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .trainer-back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-back-link:hover,
+    .trainer-back-link:focus {
+      color: white;
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .modal-content {
+      background: rgba(0, 87, 125, 0.96);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 0.85rem 2rem rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    .modal-body {
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .modal-body strong {
+      color: white;
+    }
+
+    .modal-body ul {
+      margin-bottom: 1rem;
+    }
+
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      padding: 9px 18px;
+    }
+
+    .modal-close-btn:hover,
+    .modal-close-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    body.trainer-fullscreen-active {
+      overflow: hidden;
+    }
+
+    body.trainer-fullscreen-active .navbar,
+    body.trainer-fullscreen-active footer,
+    body.trainer-fullscreen-active .trainer-heading,
+    body.trainer-fullscreen-active .trainer-back-wrap {
+      display: none;
+    }
+
+    body.trainer-fullscreen-active .trainer-hero {
+      min-height: 100vh;
+      padding: 0;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-page-wrap {
+      max-width: none;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active #detentionTrainerForm {
+      max-width: none !important;
+      min-height: 100vh;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      padding: 68px 18px 22px !important;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-grid {
+      width: 100%;
+      min-height: 0;
+    }
+
+    body.trainer-fullscreen-active .trainer-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .trainer-hero {
+        align-items: flex-start;
+        padding: 34px 16px 76px;
+        min-height: calc(100vh - 96px);
+      }
+
+      .trainer-heading {
+        margin-bottom: 20px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 2.15rem;
+      }
+
+      .trainer-heading p {
+        font-size: 1.02rem;
+      }
+
+      #detentionTrainerForm {
+        padding: 58px 20px 24px !important;
+      }
+
+      .trainer-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        min-height: auto;
+      }
+
+      .trainer-fullscreen-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .trainer-problem-panel {
+        padding: 24px 18px;
+      }
+
+      .trainer-problem-panel h2 {
+        font-size: 1.65rem;
+        margin-bottom: 18px;
+      }
+
+      #problemText {
+        min-height: 190px;
+        padding: 22px 18px;
+        font-size: 1.1rem;
+      }
+
+      .trainer-control-panel {
+        padding: 22px 18px;
+      }
+
+      .trainer-control-panel h3 {
+        display: none;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .trainer-btn {
+        padding: 11px 10px;
+        font-size: 0.95rem;
+      }
+
+      #answerText {
+        min-height: 52px;
+        font-size: clamp(0.78rem, 2.4vw, 1.05rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.72rem, 2.1vw, 0.95rem);
+      }
+
+      body.trainer-fullscreen-active .trainer-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+      }
+
+      body.trainer-fullscreen-active .trainer-problem-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.trainer-fullscreen-active #problemText {
+        flex: 1;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .trainer-hero {
+        background-attachment: scroll;
+        padding: 28px 12px 72px;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 1.9rem;
+      }
+
+      .trainer-heading p {
+        font-size: 0.98rem;
+      }
+
+      #detentionTrainerForm {
+        padding: 56px 14px 18px !important;
+        border-radius: 15px;
+      }
+
+      .trainer-problem-panel,
+      .trainer-control-panel {
+        border-radius: 14px;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .trainer-btn {
+        width: 100%;
+      }
+
+      #answerText {
+        font-size: clamp(0.76rem, 3.4vw, 1rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.68rem, 3vw, 0.9rem);
+      }
+
+      body.trainer-fullscreen-active #detentionTrainerForm {
+        padding: 62px 12px 16px !important;
+      }
+    }
+  </style>
 </head>
-<div class="content" style="text-align: center;">
-    <form onsubmit="return false;" class="trainer-form" id="myForm" style="height: 400px;">
-        <br>
-        <h2 class="calc-title">Detention Time</h2>
-        <br>
-        <label id="problem" style="width: 300px; height: 200px;"></label>
-        <br><br>
 
-        <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=answer()>Answer</button>
-        <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=randomize()>Randomize</button>
-        <button class="frosted-button" style="margin: 2px; margin-bottom: 10px; width: 100px;" onclick=showHelp()>Help Me</button>
-        <br><br>
-        <label id="outputText" class="answer" style="font-weight: bold;"></label>
-        <br><br>
-        <label id="helpmessage" style="width:fit-content; height: fit-content; visibility: hidden;"></label>
-    </form>
-    
-    <br><br><br><br>
+<body>
 
-    <script>
-        var flow = 0;
-        var length = 0;
-        var width = 0;
-        var depth = 0;
-        var storage = 0;
-        var detention = 0;
-        var rawhours = 0;
-        var hours = 0;
-        var rawminutes = 0;
-        var minutes = 0;
-        var rawseconds = 0;
-        var seconds = 0;
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
 
-        
-        function resetForm() {
-            document.getElementById("myForm").reset();
-            document.getElementById("outputText").innerHTML = "";
-        }
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
 
-        function randomize() {
-            flow = (Math.floor(Math.random() * (100 - 10 + 1)) + 10)*100;
-            length = (Math.floor(Math.random()*(100 - 30 + 1)) + 30);
-            width = (Math.floor(Math.random()*(75 - 25 + 1)) + 25);
-            depth = (Math.floor(Math.random()*(30 - 8 + 1)) + 8);
-            storage = Math.round((length*width*depth)*7.48*1000)/1000
-            //var storage = (Math.floor(Math.random() * (1000 - 100 + 1)) + 100)*1000;
-            detention = Math.round(storage/flow*1000)/1000;
-            rawhours = Math.round(detention/60*1000)/1000
-            hours = Math.floor(rawhours)
-            rawminutes = Math.round(((rawhours-hours)*60)*1000)/1000
-            minutes = Math.floor(rawminutes)
-            rawseconds = Math.round(((rawminutes - minutes)*60)*1000)/1000
-            seconds = Math.round(rawseconds)
-            
-            document.getElementById("problem").innerHTML = "A basin with a length of " + length+" feet, a width of " + width + " feet and a depth of " + depth +
-             " feet has " + flow + " GPM flowing through it.  What is the detention time in the basin?";
-             document.getElementById("outputText").innerHTML = "";
-             document.getElementById("helpmessage").innerHTML = "";
-            
-        }
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-        function answer() {
-            document.getElementById("outputText").innerHTML = hours + " hours : " + minutes + " minutes : " + seconds + " seconds";            
-        }
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
 
-        function showHelp(){
-            document.getElementById("helpmessage").style.visibility = "visible";
-            document.getElementById("helpmessage").innerHTML = ("The first step is to find the volume of the basin in cubic feet.  Multiply the Length"+
-            " ("+length+" feet), Width ("+width+" feet) and Depth ("+depth+" feet). <br><br><strong>"+length+"*"+width+"*"+depth+"="+length*width*depth+" ft3 (cubic feet)</strong>.<br><br>" +
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
 
-            "Next, convert the volume of the basin from cubic feet to gallons by multiplying by 7.48 (There are 7.48 gallons in one cubic foot).  <br><br>"+
-            "<strong>"+length*width*depth+"* 7.48 = "+Math.round((length*width*depth*7.48*1000))/1000+" gallons.</strong><br><br>" +
+          <li class="nav-item">
+            <a class="nav-link" href="../calculator.html">Calculators</a>
+          </li>
 
-            "Now the detention time can be calculated by taking the basin volume ("+ Math.round((length*width*depth*7.48*1000))/1000+
-            " gallons) and divide it by the flow ("+flow+" GPM). <br><br><strong>"+  storage+"/"+flow+" = "+Math.round(storage/flow*1000)/1000+" minutes</strong><br><br>"+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
 
-            "The final step is to convert the detention time from minutes to hours : minutes : seconds.  To get hours, divide "+detention+
-            " minutes by 60 (there are 60 minutes in one hour).  <strong><i>This step can be skipped if the total minutes is less than 60. </i><br><br>"+
-            detention+"/ 60 = "+Math.round(detention/60*1000)/1000+ " hours.</strong><br><br>"+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../math_trainer.html">Math Trainers</a>
+          </li>
 
-            "The whole number to the left of the decimal is the number of hours in the detention time. <br><br><strong>"+hours+" hours</strong><br><br>"+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
 
-            "Now, take the remainder from the hours calculation ("+Math.round((rawhours-hours)*1000)/1000+" hours) and multiply it by 60 to convert it back to minutes. <br><br><strong>"+
-            (Math.round((rawhours-hours)*1000)/1000)+" * 60 ="+rawminutes+" minutes </strong><br><br>"+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
 
-            "The whole number to the left of the decimal is the number of minutes in the detention time. <br><br><strong>"+
-            minutes + " minutes</strong><br><br>"+
+        </ul>
+      </div>
 
-            "If there is a remainder after calculating minutes, you can take this remainder (" + ((Math.round((rawminutes-minutes)*1000))/1000)+" minutes)"+
-            " and multiply it by 60 to get the seconds just like calculating minutes before.  Round this number to the nearest whole number<br><br><strong>"+
-                ((Math.round((rawminutes-minutes)*1000))/1000)+" * 60 = "+ rawseconds + " seconds<br>"+
-            seconds + " seconds<br><br>"+
-            "The final answer is:<br> "+ hours+" hours : "+minutes+" minutes : "+seconds+" seconds");
+    </div>
+  </nav>
 
-            document.getElementById("helpmessage").style.paddingBottom = "100px";
-            document.getElementById("helpmessage").style.paddingTop = "20px";
-            
-        }
-    </script>
-</div>
+  <main>
+    <section class="trainer-hero">
+      <div class="trainer-page-wrap">
+
+        <div class="trainer-heading">
+          <h1>Detention Time Trainer</h1>
+          <p>
+            Practice detention time problems using basin volume, flow, and time conversions.
+          </p>
+        </div>
+
+        <form onsubmit="return false;" id="detentionTrainerForm" aria-label="Detention Time Trainer">
+
+          <button
+            type="button"
+            class="trainer-fullscreen-btn"
+            id="fullscreenToggle"
+            onclick="toggleTrainerFullscreen()"
+            aria-label="Expand trainer fullscreen"
+            title="Fullscreen"
+          >
+            ⛶
+          </button>
+
+          <div class="trainer-grid">
+
+            <div class="trainer-problem-panel">
+              <h2>Practice Problem</h2>
+              <div id="problemText" aria-live="polite"></div>
+            </div>
+
+            <div class="trainer-control-panel">
+              <h3>Trainer Controls</h3>
+
+              <div class="trainer-button-row">
+                <button type="button" class="trainer-btn" onclick="answer()">Answer</button>
+                <button type="button" class="trainer-btn" onclick="randomize()">Randomize</button>
+                <button type="button" class="trainer-btn" onclick="showHelp()">Help Me</button>
+              </div>
+
+              <div class="trainer-answer-label">Answer</div>
+              <div id="answerText" aria-live="polite"></div>
+            </div>
+
+          </div>
+        </form>
+
+        <div class="trainer-back-wrap">
+          <a href="../math_trainer.html" class="trainer-back-link">&larr; Back to Math Trainers</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="helpModal"
+    tabindex="-1"
+    aria-labelledby="helpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help Me</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" id="helpModalBody">
+          Help steps will appear here.
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="modal-close-btn" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    let flow = 0;
+    let length = 0;
+    let width = 0;
+    let depth = 0;
+    let cubicFeet = 0;
+    let storageGallons = 0;
+    let detentionMinutes = 0;
+    let totalSeconds = 0;
+    let hours = 0;
+    let minutes = 0;
+    let seconds = 0;
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function round(value, decimals = 3) {
+      const factor = Math.pow(10, decimals);
+      return Math.round(value * factor) / factor;
+    }
+
+    function formatNumber(value, decimals = 3) {
+      return Number(value).toLocaleString(undefined, {
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function randomize() {
+      flow = randInt(10, 100) * 100;
+      length = randInt(30, 100);
+      width = randInt(25, 75);
+      depth = randInt(8, 30);
+
+      cubicFeet = length * width * depth;
+      storageGallons = round(cubicFeet * 7.48, 3);
+      detentionMinutes = round(storageGallons / flow, 3);
+
+      totalSeconds = Math.round((storageGallons / flow) * 60);
+      hours = Math.floor(totalSeconds / 3600);
+      minutes = Math.floor((totalSeconds % 3600) / 60);
+      seconds = totalSeconds % 60;
+
+      document.getElementById("problemText").textContent =
+        `A basin with a length of ${length} feet, a width of ${width} feet, and a depth of ${depth} feet has ${formatNumber(flow, 0)} GPM flowing through it. What is the detention time in the basin?`;
+
+      const answerBox = document.getElementById("answerText");
+      answerBox.textContent = "";
+      answerBox.classList.remove("compact-answer");
+    }
+
+    function answer() {
+      const answerBox = document.getElementById("answerText");
+      const answerValue = `${hours} hours : ${minutes} minutes : ${seconds} seconds`;
+
+      answerBox.textContent = answerValue;
+
+      if (answerValue.length > 32) {
+        answerBox.classList.add("compact-answer");
+      } else {
+        answerBox.classList.remove("compact-answer");
+      }
+    }
+
+    function showHelp() {
+      const remainingAfterHours = totalSeconds - (hours * 3600);
+      const roundedTotalSeconds = formatNumber(totalSeconds, 0);
+
+      document.getElementById("helpModalBody").innerHTML = `
+        <strong>Step 1:</strong> Find the volume of the basin in cubic feet.<br><br>
+        <ul>
+          <li><strong>Volume = Length × Width × Depth</strong></li>
+          <li><strong>${length} ft × ${width} ft × ${depth} ft = ${formatNumber(cubicFeet, 0)} ft³</strong></li>
+        </ul>
+
+        <strong>Step 2:</strong> Convert the basin volume from cubic feet to gallons.<br><br>
+        <ul>
+          <li>There are approximately <strong>7.48 gallons</strong> in one cubic foot.</li>
+          <li><strong>${formatNumber(cubicFeet, 0)} ft³ × 7.48 = ${formatNumber(storageGallons)} gallons</strong></li>
+        </ul>
+
+        <strong>Step 3:</strong> Divide the basin volume by the flow rate to find detention time in minutes.<br><br>
+        <ul>
+          <li><strong>Detention Time = Volume ÷ Flow</strong></li>
+          <li><strong>${formatNumber(storageGallons)} gallons ÷ ${formatNumber(flow, 0)} GPM = ${formatNumber(detentionMinutes)} minutes</strong></li>
+        </ul>
+
+        <strong>Step 4:</strong> Convert detention time to hours, minutes, and seconds.<br><br>
+        <ul>
+          <li><strong>${formatNumber(detentionMinutes)} minutes × 60 = ${roundedTotalSeconds} seconds</strong></li>
+          <li><strong>${roundedTotalSeconds} seconds ÷ 3600 = ${hours} whole hours</strong></li>
+          <li><strong>Remaining seconds after hours: ${formatNumber(remainingAfterHours, 0)}</strong></li>
+          <li><strong>${formatNumber(remainingAfterHours, 0)} seconds ÷ 60 = ${minutes} whole minutes</strong></li>
+          <li><strong>Remaining seconds: ${seconds}</strong></li>
+        </ul>
+
+        <strong>Final Answer:</strong><br>
+        ${hours} hours : ${minutes} minutes : ${seconds} seconds
+      `;
+
+      const modalElement = document.getElementById("helpModal");
+      const helpModal = new bootstrap.Modal(modalElement);
+      helpModal.show();
+    }
+
+    function toggleTrainerFullscreen() {
+      const body = document.body;
+      const button = document.getElementById("fullscreenToggle");
+
+      body.classList.toggle("trainer-fullscreen-active");
+
+      const isFullscreen = body.classList.contains("trainer-fullscreen-active");
+
+      button.innerHTML = isFullscreen ? "×" : "⛶";
+      button.setAttribute(
+        "aria-label",
+        isFullscreen ? "Exit fullscreen trainer" : "Expand trainer fullscreen"
+      );
+      button.setAttribute(
+        "title",
+        isFullscreen ? "Exit fullscreen" : "Fullscreen"
+      );
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && document.body.classList.contains("trainer-fullscreen-active")) {
+        toggleTrainerFullscreen();
+      }
+    });
+
+    window.addEventListener("load", randomize);
+  </script>
+
+</body>
+</html>

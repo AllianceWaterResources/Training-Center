@@ -1,179 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trainer</title>
-    <!-- Include Bootstrap and Custom Styles -->
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="../CSS/calculator-styles.css">
-    <link rel="stylesheet" href="../CSS/custom-styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <style>
-        body {
-          margin: 0;
-          background: transparent;
-        }
-      
-        .trainer-form {
-          background: rgba(255, 255, 255, 0.15);
-          backdrop-filter: blur(10px);
-          -webkit-backdrop-filter: blur(10px);
-          text-align: center;
-          color: white;
-          max-width: 350px;
-          height: 400px;
-        }
-      
-        .trainer-form button {
-          margin: 0.5rem;
-        }
-      </style>
+  <title>Chlorine Dose Trainer | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background-color: #00577D;
+      color: white;
+    }
+
+    main {
+      flex: 1;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .trainer-hero {
+      min-height: calc(100vh - 96px);
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 44px 24px 72px;
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      overflow: hidden;
+    }
+
+    .trainer-hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.62);
+      z-index: 0;
+    }
+
+    .trainer-page-wrap {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      max-width: 1180px;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .trainer-heading {
+      margin-bottom: 28px;
+    }
+
+    .trainer-heading h1 {
+      font-size: 2.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
+    }
+
+    .trainer-heading p {
+      max-width: 900px;
+      margin: 0 auto;
+      font-size: 1.15rem;
+      color: rgba(255, 255, 255, 0.96);
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    }
+
+    #doseTrainerForm {
+      width: 100% !important;
+      max-width: 1120px !important;
+      min-width: 0 !important;
+      margin: 0 auto !important;
+      padding: 34px !important;
+      position: relative;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.32);
+      border-radius: 18px;
+      box-shadow: 0 0.85rem 1.75rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-grid {
+      width: 100%;
+      min-height: 430px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 330px;
+      gap: 28px;
+      align-items: stretch;
+    }
+
+    .trainer-problem-panel,
+    .trainer-control-panel {
+      min-width: 0;
+      background: rgba(0, 87, 125, 0.22);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 16px;
+      box-shadow: inset 0 0 0.75rem rgba(255, 255, 255, 0.04);
+    }
+
+    .trainer-problem-panel {
+      padding: 34px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .trainer-problem-panel h2 {
+      flex: 0 0 auto;
+      font-size: 2rem;
+      font-weight: 700;
+      margin: 0 0 24px;
+      color: white;
+    }
+
+    #problemText {
+      flex: 1;
+      min-height: 265px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 30px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.22);
+      border-radius: 16px;
+      color: white;
+      font-size: 1.35rem;
+      line-height: 1.55;
+      text-align: center;
+      white-space: normal;
+      word-break: normal;
+      overflow-wrap: normal;
+      overflow-y: auto;
+    }
+
+    .trainer-control-panel {
+      padding: 30px 26px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .trainer-control-panel h3 {
+      font-size: 1.45rem;
+      font-weight: 700;
+      margin: 0 0 22px;
+      color: white;
+    }
+
+    .trainer-button-row {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 14px;
+      margin-bottom: 26px;
+    }
+
+    .trainer-btn {
+      width: 100%;
+      padding: 13px 20px;
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+    }
+
+    .trainer-btn:hover,
+    .trainer-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-2px);
+      box-shadow: 0 0.55rem 1.1rem rgba(0, 0, 0, 0.22);
+    }
+
+    .trainer-answer-label {
+      margin-bottom: 8px;
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: rgba(255, 255, 255, 0.86);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+
+    #answerText {
+      min-height: 58px;
+      width: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 14px;
+      background: rgba(255, 255, 255, 0.13);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      border-radius: 14px;
+      color: white;
+      font-size: clamp(0.82rem, 1vw, 1.2rem);
+      font-weight: 700;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      line-height: 1.2;
+    }
+
+    #answerText.compact-answer {
+      font-size: clamp(0.72rem, 0.85vw, 1rem);
+    }
+
+    .trainer-fullscreen-btn {
+      display: none;
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      z-index: 5;
+      width: 42px;
+      height: 42px;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-size: 1.2rem;
+      font-weight: 700;
+      line-height: 1;
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-fullscreen-btn:hover,
+    .trainer-fullscreen-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      transform: translateY(-2px);
+    }
+
+    .trainer-back-wrap {
+      margin-top: 22px;
+      text-align: center;
+    }
+
+    .trainer-back-link {
+      display: inline-block;
+      color: white;
+      text-decoration: none;
+      font-weight: 700;
+      padding: 8px 15px;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.14);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      transition:
+        background 0.25s ease,
+        transform 0.25s ease;
+    }
+
+    .trainer-back-link:hover,
+    .trainer-back-link:focus {
+      color: white;
+      background: rgba(255, 255, 255, 0.24);
+      transform: translateY(-2px);
+    }
+
+    .modal-content {
+      background: rgba(0, 87, 125, 0.96);
+      color: white;
+      border: 1px solid rgba(255, 255, 255, 0.28);
+      border-radius: 16px;
+      box-shadow: 0 0.85rem 2rem rgba(0, 0, 0, 0.35);
+    }
+
+    .modal-header,
+    .modal-footer {
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    .modal-title {
+      font-weight: 700;
+    }
+
+    .modal-body {
+      text-align: left;
+      line-height: 1.55;
+    }
+
+    .modal-body strong {
+      color: white;
+    }
+
+    .modal-body ul {
+      margin-bottom: 1rem;
+    }
+
+    .btn-close {
+      filter: invert(1) grayscale(100%) brightness(200%);
+    }
+
+    .modal-close-btn {
+      border: 1px solid rgba(255, 255, 255, 0.36);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      padding: 9px 18px;
+    }
+
+    .modal-close-btn:hover,
+    .modal-close-btn:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    body.trainer-fullscreen-active {
+      overflow: hidden;
+    }
+
+    body.trainer-fullscreen-active .navbar,
+    body.trainer-fullscreen-active footer,
+    body.trainer-fullscreen-active .trainer-heading,
+    body.trainer-fullscreen-active .trainer-back-wrap {
+      display: none;
+    }
+
+    body.trainer-fullscreen-active .trainer-hero {
+      min-height: 100vh;
+      padding: 0;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-page-wrap {
+      max-width: none;
+      height: 100vh;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active #doseTrainerForm {
+      max-width: none !important;
+      min-height: 100vh;
+      border-radius: 0;
+      border-left: none;
+      border-right: none;
+      padding: 68px 18px 22px !important;
+      display: flex;
+      align-items: stretch;
+    }
+
+    body.trainer-fullscreen-active .trainer-grid {
+      width: 100%;
+      min-height: 0;
+    }
+
+    body.trainer-fullscreen-active .trainer-fullscreen-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    @media (max-width: 900px) {
+      .trainer-hero {
+        align-items: flex-start;
+        padding: 34px 16px 76px;
+        min-height: calc(100vh - 96px);
+      }
+
+      .trainer-heading {
+        margin-bottom: 20px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 2.15rem;
+      }
+
+      .trainer-heading p {
+        font-size: 1.02rem;
+      }
+
+      #doseTrainerForm {
+        padding: 58px 20px 24px !important;
+      }
+
+      .trainer-grid {
+        grid-template-columns: 1fr;
+        gap: 18px;
+        min-height: auto;
+      }
+
+      .trainer-fullscreen-btn {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+      }
+
+      .trainer-problem-panel {
+        padding: 24px 18px;
+      }
+
+      .trainer-problem-panel h2 {
+        font-size: 1.65rem;
+        margin-bottom: 18px;
+      }
+
+      #problemText {
+        min-height: 190px;
+        padding: 22px 18px;
+        font-size: 1.1rem;
+      }
+
+      .trainer-control-panel {
+        padding: 22px 18px;
+      }
+
+      .trainer-control-panel h3 {
+        display: none;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 10px;
+        margin-bottom: 18px;
+      }
+
+      .trainer-btn {
+        padding: 11px 10px;
+        font-size: 0.95rem;
+      }
+
+      #answerText {
+        min-height: 52px;
+        font-size: clamp(0.78rem, 2.4vw, 1.05rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.72rem, 2.1vw, 0.95rem);
+      }
+
+      body.trainer-fullscreen-active .trainer-grid {
+        grid-template-columns: 1fr;
+        grid-template-rows: 1fr auto;
+      }
+
+      body.trainer-fullscreen-active .trainer-problem-panel {
+        display: flex;
+        flex-direction: column;
+      }
+
+      body.trainer-fullscreen-active #problemText {
+        flex: 1;
+        min-height: 260px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .trainer-hero {
+        background-attachment: scroll;
+        padding: 28px 12px 72px;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+
+      .trainer-heading h1 {
+        font-size: 1.9rem;
+      }
+
+      .trainer-heading p {
+        font-size: 0.98rem;
+      }
+
+      #doseTrainerForm {
+        padding: 56px 14px 18px !important;
+        border-radius: 15px;
+      }
+
+      .trainer-problem-panel,
+      .trainer-control-panel {
+        border-radius: 14px;
+      }
+
+      .trainer-button-row {
+        grid-template-columns: 1fr;
+      }
+
+      .trainer-btn {
+        width: 100%;
+      }
+
+      #answerText {
+        font-size: clamp(0.76rem, 3.4vw, 1rem);
+      }
+
+      #answerText.compact-answer {
+        font-size: clamp(0.68rem, 3vw, 0.9rem);
+      }
+
+      body.trainer-fullscreen-active #doseTrainerForm {
+        padding: 62px 12px 16px !important;
+      }
+    }
+  </style>
 </head>
-<div class="content" style="text-align: center;">
-    <form onsubmit="return false;" class="trainer-form" id="myForm" style="height: 400px;">
-        <br>
-        <h2 class="calc-title">Chlorine Dose Trainer</h2>
-        <br>
-        <label id="problem" style="width: 300px; height: 200px;"></label>
-        <br><br>
 
-        <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=answer()>Answer</button>
-        <button class="frosted-button" style="width: 100px; margin: 2px;" onclick=randomize()>Randomize</button>
-        <button class="frosted-button" style="margin: 2px; margin-bottom: 10px; width: 100px;" onclick=showHelp()>Help Me</button>
-        <br><br>
-        <label id="outputText" class="answer" style="font-weight: bold;"></label>
-        <br><br>
-        <label id="helpmessage" style="width: fit-content; height: fit-content; visibility: hidden;"></label>
-    </form>
+<body>
 
-    <br><br><br><br>
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
 
-    <script>
-        let problemType, pounds, MGD, GPM, dose, strength, chlorineRequired;
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
 
-        function randomize() {
-            problemType = Math.floor(Math.random() * 5);
-            MGD = Math.round((Math.random() * 9 + 1) * 100) / 100;
-            GPM = MGD * 694.4;
-            dose = Math.round((Math.random() * 9 + 1) * 10) / 10;
-            pounds = Math.round(8.34 * MGD * dose * 10) / 10;
-            strength = Math.random() < 0.5 ? 12.5 : 65;
-            chlorineRequired = Math.round(pounds / (strength / 100) * 100) / 100;
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-            const problems = [
-                `A system treats ${MGD} MGD with a target chlorine dose of ${dose} ppm. How many pounds of chlorine are needed?`,
-                `A plant feeds ${pounds} lbs of chlorine per day and treats ${MGD} MGD. What is the chlorine dose in ppm?`,
-                `A plant feeds ${pounds} lbs of chlorine daily and wants to maintain a dose of ${dose} ppm. How many MGD can it treat?`,
-                `A system has a flow rate of ${Math.round(GPM)} GPM and wants to achieve a chlorine dose of ${dose} ppm. How many pounds of chlorine are needed per day?`,
-                `A plant needs ${pounds} lbs of chlorine per day. If using ${strength}% ${strength === 12.5 ? "sodium" : "calcium"} hypochlorite, how many pounds of product will be required to achieve the same dose?`
-            ];
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
 
-            document.getElementById("problem").innerHTML = problems[problemType];
-            document.getElementById("outputText").innerHTML = "";
-            document.getElementById("helpmessage").style.visibility = "hidden";
-            document.getElementById("helpmessage").innerHTML = "";
-        }
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
 
-        function answer() {
-    // Ensure all calculations round to the nearest tenth
-    pounds = Math.round(8.34 * MGD * dose * 10) / 10;
-    let doseAnswer = Math.round((pounds / (8.34 * MGD)) * 10) / 10;
-    let mgdAnswer = Math.round((pounds / (8.34 * dose)) * 10) / 10;
-    let hypochloriteAnswer = Math.round((pounds / (strength / 100)) * 10) / 10;
+          <li class="nav-item">
+            <a class="nav-link" href="../calculator.html">Calculators</a>
+          </li>
 
-    // Select the correct answer format based on the problem type
-    const answers = [
-        `${pounds.toFixed(1)} lbs of chlorine`,  // Solve for pounds
-        `${doseAnswer.toFixed(1)} ppm`,          // Solve for dose
-        `${mgdAnswer.toFixed(1)} MGD`,           // Solve for MGD
-        `${pounds.toFixed(1)} lbs of chlorine`,  // Solve for pounds with GPM conversion
-        `${hypochloriteAnswer.toFixed(1)} lbs of ${strength}% hypochlorite` // Solve for hypochlorite
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <main>
+    <section class="trainer-hero">
+      <div class="trainer-page-wrap">
+
+        <div class="trainer-heading">
+          <h1>Chlorine Dose Trainer</h1>
+          <p>
+            Practice chlorine dose, pounds, MGD, GPM conversion, and hypochlorite strength problems.
+          </p>
+        </div>
+
+        <form onsubmit="return false;" id="doseTrainerForm" aria-label="Chlorine Dose Trainer">
+
+          <button
+            type="button"
+            class="trainer-fullscreen-btn"
+            id="fullscreenToggle"
+            onclick="toggleTrainerFullscreen()"
+            aria-label="Expand trainer fullscreen"
+            title="Fullscreen"
+          >
+            ⛶
+          </button>
+
+          <div class="trainer-grid">
+
+            <div class="trainer-problem-panel">
+              <h2>Practice Problem</h2>
+              <div id="problemText" aria-live="polite"></div>
+            </div>
+
+            <div class="trainer-control-panel">
+              <h3>Trainer Controls</h3>
+
+              <div class="trainer-button-row">
+                <button type="button" class="trainer-btn" onclick="answer()">Answer</button>
+                <button type="button" class="trainer-btn" onclick="randomize()">Randomize</button>
+                <button type="button" class="trainer-btn" onclick="showHelp()">Help Me</button>
+              </div>
+
+              <div class="trainer-answer-label">Answer</div>
+              <div id="answerText" aria-live="polite"></div>
+            </div>
+
+          </div>
+        </form>
+
+        <div class="trainer-back-wrap">
+          <a href="../math_trainer.html" class="trainer-back-link">&larr; Back to Math Trainers</a>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="helpModal"
+    tabindex="-1"
+    aria-labelledby="helpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-lg modal-dialog-centered modal-dialog-scrollable">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h5 class="modal-title" id="helpModalLabel">Help Me</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+
+        <div class="modal-body" id="helpModalBody">
+          Help steps will appear here.
+        </div>
+
+        <div class="modal-footer">
+          <button type="button" class="modal-close-btn" data-bs-dismiss="modal">Close</button>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    let currentProblem = null;
+
+    function randInt(min, max) {
+      return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function round(value, decimals = 1) {
+      const factor = Math.pow(10, decimals);
+      return Math.round(value * factor) / factor;
+    }
+
+    function formatNumber(value, decimals = 1) {
+      return Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: decimals,
+        maximumFractionDigits: decimals
+      });
+    }
+
+    function formatWhole(value) {
+      return Number(value).toLocaleString(undefined, {
+        maximumFractionDigits: 0
+      });
+    }
+
+    function buildSolvePoundsProblem() {
+      const mgd = round(Math.random() * 9 + 1, 2);
+      const dose = round(Math.random() * 9 + 1, 1);
+      const pounds = round(8.34 * mgd * dose, 1);
+
+      return {
+        prompt: `A system treats ${mgd} MGD with a target chlorine dose of ${dose} ppm. How many pounds of chlorine are needed?`,
+        answerText: `${formatNumber(pounds)} lbs of chlorine`,
+        helpHtml: `
+          <strong>Step 1:</strong> Use the chlorine dosage formula.<br><br>
+          <ul>
+            <li><strong>Pounds = 8.34 × MGD × Dose</strong></li>
+            <li><strong>8.34</strong> is the weight of one gallon of water in pounds.</li>
+            <li><strong>MGD</strong> is the flow in million gallons per day.</li>
+            <li><strong>Dose</strong> is the desired chlorine dose in ppm or mg/L.</li>
+          </ul>
+
+          <strong>Step 2:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Pounds = 8.34 × ${mgd} MGD × ${dose} ppm</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Pounds = ${formatNumber(pounds)} lbs of chlorine</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(pounds)} lbs of chlorine
+        `
+      };
+    }
+
+    function buildSolveDoseProblem() {
+      const mgd = round(Math.random() * 9 + 1, 2);
+      const targetDose = round(Math.random() * 9 + 1, 1);
+      const pounds = Math.round(8.34 * mgd * targetDose);
+      const doseAnswer = round(pounds / (8.34 * mgd), 1);
+
+      return {
+        prompt: `A plant feeds ${formatWhole(pounds)} lbs of chlorine per day and treats ${mgd} MGD. What is the chlorine dose in ppm?`,
+        answerText: `${formatNumber(doseAnswer)} ppm`,
+        helpHtml: `
+          <strong>Step 1:</strong> Start with the chlorine dosage formula.<br><br>
+          <ul>
+            <li><strong>Pounds = 8.34 × MGD × Dose</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Rearrange the formula to solve for dose.<br><br>
+          <ul>
+            <li><strong>Dose = Pounds ÷ (8.34 × MGD)</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Dose = ${formatWhole(pounds)} lbs ÷ (8.34 × ${mgd} MGD)</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Dose = ${formatNumber(doseAnswer)} ppm</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(doseAnswer)} ppm
+        `
+      };
+    }
+
+    function buildSolveMgdProblem() {
+      const targetMgd = round(Math.random() * 9 + 1, 2);
+      const dose = round(Math.random() * 9 + 1, 1);
+      const pounds = Math.round(8.34 * targetMgd * dose);
+      const mgdAnswer = round(pounds / (8.34 * dose), 1);
+
+      return {
+        prompt: `A plant feeds ${formatWhole(pounds)} lbs of chlorine daily and wants to maintain a dose of ${dose} ppm. How many MGD can it treat?`,
+        answerText: `${formatNumber(mgdAnswer)} MGD`,
+        helpHtml: `
+          <strong>Step 1:</strong> Start with the chlorine dosage formula.<br><br>
+          <ul>
+            <li><strong>Pounds = 8.34 × MGD × Dose</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Rearrange the formula to solve for MGD.<br><br>
+          <ul>
+            <li><strong>MGD = Pounds ÷ (8.34 × Dose)</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>MGD = ${formatWhole(pounds)} lbs ÷ (8.34 × ${dose} ppm)</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>MGD = ${formatNumber(mgdAnswer)} MGD</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(mgdAnswer)} MGD
+        `
+      };
+    }
+
+    function buildGpmToPoundsProblem() {
+      const flowGpm = randInt(700, 6500);
+      const mgd = round((flowGpm * 1440) / 1000000, 3);
+      const dose = round(Math.random() * 9 + 1, 1);
+      const pounds = round(8.34 * mgd * dose, 1);
+
+      return {
+        prompt: `A system has a flow rate of ${formatWhole(flowGpm)} GPM and wants to achieve a chlorine dose of ${dose} ppm. How many pounds of chlorine are needed per day?`,
+        answerText: `${formatNumber(pounds)} lbs of chlorine`,
+        helpHtml: `
+          <strong>Step 1:</strong> Convert GPM to MGD.<br><br>
+          <ul>
+            <li><strong>MGD = (GPM × 1,440) ÷ 1,000,000</strong></li>
+            <li>There are <strong>1,440 minutes</strong> in one day.</li>
+            <li>Dividing by <strong>1,000,000</strong> converts gallons per day to million gallons per day.</li>
+          </ul>
+
+          <strong>Step 2:</strong> Calculate MGD.<br><br>
+          <ul>
+            <li><strong>MGD = (${formatWhole(flowGpm)} GPM × 1,440) ÷ 1,000,000</strong></li>
+            <li><strong>MGD = ${mgd} MGD</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Use the chlorine dosage formula.<br><br>
+          <ul>
+            <li><strong>Pounds = 8.34 × MGD × Dose</strong></li>
+            <li><strong>Pounds = 8.34 × ${mgd} MGD × ${dose} ppm</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Pounds = ${formatNumber(pounds)} lbs of chlorine</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(pounds)} lbs of chlorine
+        `
+      };
+    }
+
+    function buildHypochloriteStrengthProblem() {
+      const mgd = round(Math.random() * 9 + 1, 2);
+      const dose = round(Math.random() * 9 + 1, 1);
+      const pounds = Math.round(8.34 * mgd * dose);
+      const strength = Math.random() < 0.5 ? 12.5 : 65;
+      const productName = strength === 12.5 ? "sodium hypochlorite" : "calcium hypochlorite";
+      const productRequired = round(pounds / (strength / 100), 1);
+
+      return {
+        prompt: `A plant needs ${formatWhole(pounds)} lbs of chlorine per day. If using ${strength}% ${productName}, how many pounds of product will be required to achieve the same dose?`,
+        answerText: `${formatNumber(productRequired)} lbs of ${strength}% product`,
+        helpHtml: `
+          <strong>Step 1:</strong> Convert the product strength percentage to a decimal.<br><br>
+          <ul>
+            <li><strong>${strength}% ÷ 100 = ${strength / 100}</strong></li>
+          </ul>
+
+          <strong>Step 2:</strong> Use the product strength formula.<br><br>
+          <ul>
+            <li><strong>Pounds of Product = Pounds of Chlorine ÷ Strength as a Decimal</strong></li>
+          </ul>
+
+          <strong>Step 3:</strong> Plug in the values.<br><br>
+          <ul>
+            <li><strong>Pounds of Product = ${formatWhole(pounds)} lbs ÷ ${strength / 100}</strong></li>
+          </ul>
+
+          <strong>Step 4:</strong> Solve.<br><br>
+          <ul>
+            <li><strong>Pounds of Product = ${formatNumber(productRequired)} lbs of ${strength}% ${productName}</strong></li>
+          </ul>
+
+          <strong>Final Answer:</strong><br>
+          ${formatNumber(productRequired)} lbs of ${strength}% ${productName}
+        `
+      };
+    }
+
+    const generators = [
+      buildSolvePoundsProblem,
+      buildSolveDoseProblem,
+      buildSolveMgdProblem,
+      buildGpmToPoundsProblem,
+      buildHypochloriteStrengthProblem
     ];
 
-    // Display the correct answer in the output label
-    document.getElementById("outputText").innerHTML = answers[problemType];
-}
+    function randomize() {
+      const answerBox = document.getElementById("answerText");
+      answerBox.textContent = "";
+      answerBox.classList.remove("compact-answer");
 
-        function showHelp() {
-            document.getElementById("helpmessage").style.visibility = "visible";
+      const generator = generators[randInt(0, generators.length - 1)];
+      currentProblem = generator();
 
-            const helpTexts = [
-                // Problem Type 0: Solve for Pounds of Chlorine
-                `
-                    <p><strong>Step 1: Use the chlorine dosage formula</strong></p>
-                    <p>Pounds of Chlorine = 8.34 × MGD × Dose (ppm)</p>
-                    <ul>
-                        <li>8.34 = Weight of one gallon of water in pounds</li>
-                        <li>MGD = Flow rate in million gallons per day</li>
-                        <li>Dose = Desired chlorine dose in parts per million (ppm) or mg/L</li>
-                    </ul>
-                    <p><strong>Step 2: Plug in values</strong></p>
-                    <p>Pounds = 8.34 × ${MGD} MGD × ${dose} ppm</p>
-                    <p><strong>Step 3: Solve</strong></p>
-                    <p>${pounds} lbs of chlorine</p>
-                `,
-                // Problem Type 1: Solve for Dose (ppm)
-                `   
-                    <p><strong>Step 1: Use the chlorine dosage formula</strong></p>
-                    <p>Pounds of Chlorine = 8.34 × MGD × Dose (ppm)</p>
-                    <ul>
-                        <li>One gallon weighs 8.34 lbs</li>
-                    </ul>
-                    <p><strong>Step 2: Rearrange formula to solve for Dose</strong></p>
-                     <ul>
-                        <li>Divide both sides by 8.34 × MGD to get only Dose on one side</li>
-                    </ul>
-                    <p>Dose (ppm) = Pounds ÷ (8.34 × MGD)</p>
-                    <p><strong>Step 3: Plug in values</strong></p>
-                    <p>Dose = ${pounds} lbs ÷ (8.34 × ${MGD} MGD)</p>
-                    <p><strong>Step 4: Solve</strong></p>
-                    <p>${Math.round((pounds / (8.34 * MGD)) * 100) / 100} ppm</p>
-                `,
-                // Problem Type 2: Solve for MGD
-                `   
-                    <p><strong>Step 1: Use the chlorine dosage formula</strong></p>
-                    <p>Pounds of Chlorine = 8.34 × MGD × Dose (ppm)</p>
-                    <ul>
-                        <li>Divide both sides by 8.34 × Dose (ppm) to get MGD on one side</li>
-                    <p><strong>Step 2: Rearrange formula to solve for MGD</strong></p>
-                    <p>MGD = Pounds ÷ (8.34 × Dose)</p>
-                    <p><strong>Step 2: Plug in values</strong></p>
-                    <p>MGD = ${pounds} ÷ (8.34 × ${dose})</p>
-                    <p><strong>Step 3: Solve</strong></p>
-                    <p>${Math.round((pounds / (8.34 * dose)) * 10) / 10} MGD</p>
-                `,
-                // Problem Type 3: Convert GPM to MGD
-                `
-                    <p><strong>Step 1: Convert GPM to MGD</strong></p>
-                    <p>MGD = (GPM × 1440) ÷ 1,000,000</p>
-                    <ul>
-                        <li>there are 1440 minutes in a day</li>
-                        <li>Dividing GPD (gallons per day) by 1,000,000 Converts to MGD (million gallons per day)</li>
-                    </ul>
-                    <p><strong>Step 2: Calculate MGD</strong></p>
-                    <p>MGD = (${Math.round(GPM * 1000)/1000} GPM × 1440 min/day) ÷ 1,000,000</p>
-                    <p>MGD = ${Math.round(MGD*100)/100} MGD</p>
-                    <p><strong>Step 3: Use chlorine formula</strong></p>
-                    <p>Pounds = 8.34 × ${MGD} MGD × ${dose} ppm</p>
-                    <p><strong>Step 4: Solve</strong></p>
-                    <p>${pounds} lbs of chlorine</p>
-                `,
-                // Problem Type 4: Adjust for Hypochlorite Strength
-                `
-                    <p><strong>Step 1: Adjust for product strength</strong></p>
-                    <p>Pounds of Hypochlorite = Pounds of Chlorine ÷ (% Strength of Hypochlorite ÷ 100)</p>
-                    <ul>
-                        <li>Dividing the strength percentage by 100 converts it to a decimal number</li>
-                    </ul>
-                    <p><strong>Step 2: Plug in values</strong></p>
-                    <p>${pounds} lbs of chlorine ÷ (${strength}% hypochlorite strength ÷ 100)</p>
-                    <p><strong>Step 3: Solve</strong></p>
-                    <p>${chlorineRequired} lbs of ${strength}% hypochlorite</p>
-                `
-            ];
+      document.getElementById("problemText").textContent = currentProblem.prompt;
+    }
 
-            document.getElementById("helpmessage").innerHTML = helpTexts[problemType];
-            document.getElementById("helpmessage").style.paddingBottom = "100px";
-            document.getElementById("helpmessage").style.paddingTop = "20px";
-        }
-    </script>
-</div>
+    function answer() {
+      if (!currentProblem) {
+        randomize();
+      }
+
+      const answerBox = document.getElementById("answerText");
+      const answerValue = currentProblem.answerText;
+
+      answerBox.textContent = answerValue;
+
+      if (answerValue.length > 28) {
+        answerBox.classList.add("compact-answer");
+      } else {
+        answerBox.classList.remove("compact-answer");
+      }
+    }
+
+    function showHelp() {
+      if (!currentProblem) {
+        randomize();
+      }
+
+      document.getElementById("helpModalBody").innerHTML = currentProblem.helpHtml;
+
+      const modalElement = document.getElementById("helpModal");
+      const helpModal = new bootstrap.Modal(modalElement);
+      helpModal.show();
+    }
+
+    function toggleTrainerFullscreen() {
+      const body = document.body;
+      const button = document.getElementById("fullscreenToggle");
+
+      body.classList.toggle("trainer-fullscreen-active");
+
+      const isFullscreen = body.classList.contains("trainer-fullscreen-active");
+
+      button.innerHTML = isFullscreen ? "×" : "⛶";
+      button.setAttribute(
+        "aria-label",
+        isFullscreen ? "Exit fullscreen trainer" : "Expand trainer fullscreen"
+      );
+      button.setAttribute(
+        "title",
+        isFullscreen ? "Exit fullscreen" : "Fullscreen"
+      );
+    }
+
+    document.addEventListener("keydown", function(event) {
+      if (event.key === "Escape" && document.body.classList.contains("trainer-fullscreen-active")) {
+        toggleTrainerFullscreen();
+      }
+    });
+
+    window.addEventListener("load", randomize);
+  </script>
+
+</body>
+</html>
