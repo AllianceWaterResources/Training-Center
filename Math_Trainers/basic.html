@@ -513,6 +513,142 @@
         padding: 62px 12px 16px !important;
       }
     }
+
+    /* -------------------------------------------------------
+   Mobile fullscreen safety fixes
+   Keeps answer area visible on small phones and phones
+   with bottom navigation bars / safe areas.
+------------------------------------------------------- */
+
+@media (max-width: 900px) {
+  body.trainer-fullscreen-active .trainer-hero {
+    height: 100dvh;
+    min-height: 100dvh;
+    padding: 0;
+    align-items: stretch;
+    overflow: hidden;
+  }
+
+  body.trainer-fullscreen-active .trainer-page-wrap {
+    height: 100dvh;
+    min-height: 100dvh;
+    max-width: none;
+    display: block;
+    overflow: hidden;
+  }
+
+  body.trainer-fullscreen-active form[id$="TrainerForm"] {
+    height: 100dvh;
+    min-height: 0 !important;
+    max-height: 100dvh;
+    width: 100% !important;
+    max-width: none !important;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    padding:
+      58px
+      12px
+      calc(22px + env(safe-area-inset-bottom, 0px)) !important;
+    border-radius: 0 !important;
+    border-left: none;
+    border-right: none;
+  }
+
+  body.trainer-fullscreen-active .trainer-grid {
+    min-height: auto;
+    height: auto;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto auto;
+    gap: 14px;
+  }
+
+  body.trainer-fullscreen-active .trainer-problem-panel {
+    padding: 18px;
+  }
+
+  body.trainer-fullscreen-active .trainer-problem-panel h2 {
+    font-size: 1.45rem;
+    margin-bottom: 14px;
+  }
+
+  body.trainer-fullscreen-active #problemText {
+    min-height: 170px;
+    max-height: 32dvh;
+    padding: 18px;
+    font-size: 1rem;
+    line-height: 1.45;
+    overflow-y: auto;
+  }
+
+  body.trainer-fullscreen-active .trainer-control-panel {
+    padding: 18px;
+    flex-shrink: 0;
+  }
+
+  body.trainer-fullscreen-active .trainer-button-row {
+    grid-template-columns: 1fr;
+    gap: 10px;
+    margin-bottom: 14px;
+  }
+
+  body.trainer-fullscreen-active .trainer-btn {
+    padding: 10px 12px;
+  }
+
+  body.trainer-fullscreen-active .trainer-answer-label {
+    margin-bottom: 6px;
+    font-size: 0.85rem;
+  }
+
+  body.trainer-fullscreen-active #answerText {
+    min-height: 46px;
+    padding: 9px 12px;
+    font-size: clamp(0.72rem, 3vw, 1rem);
+  }
+
+  body.trainer-fullscreen-active #answerText.compact-answer {
+    font-size: clamp(0.64rem, 2.7vw, 0.9rem);
+  }
+}
+
+@media (max-width: 380px) {
+  body.trainer-fullscreen-active form[id$="TrainerForm"] {
+    padding:
+      54px
+      10px
+      calc(18px + env(safe-area-inset-bottom, 0px)) !important;
+  }
+
+  body.trainer-fullscreen-active .trainer-grid {
+    gap: 10px;
+  }
+
+  body.trainer-fullscreen-active .trainer-problem-panel,
+  body.trainer-fullscreen-active .trainer-control-panel {
+    padding: 14px;
+  }
+
+  body.trainer-fullscreen-active .trainer-problem-panel h2 {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+
+  body.trainer-fullscreen-active #problemText {
+    min-height: 140px;
+    max-height: 28dvh;
+    font-size: 0.95rem;
+  }
+
+  body.trainer-fullscreen-active .trainer-btn {
+    padding: 9px 10px;
+    font-size: 0.9rem;
+  }
+
+  body.trainer-fullscreen-active #answerText {
+    min-height: 42px;
+  }
+}
   </style>
 </head>
 
