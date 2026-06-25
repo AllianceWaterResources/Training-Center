@@ -1,81 +1,706 @@
-<div class="content" style="text-align: center;">
-    <form onsubmit="return false;" id="chloramForm">
-      <br>
-      <h2 class="calc-title">Chloramination Calculator</h2><br>
-  
-      <input id="flow_input" type="number" step="0.001" placeholder="Required">
-      <select id="flow_unit" style="width: 150px;">
-        <option value="GPM">GPM (24 Hours)</option>
-        <option value="Million Gallons">Million Gallons</option>
-        <option value="Gallons">Gallons</option>
-      </select>
-      <br>
-  
-      <input type="number" id="residual_cl" step="0.01" placeholder="Required (mg/L)">
-      <label for="residual_cl" style="margin-left: 10px;">Free Cl₂ Residual</label><br>
-  
-      <input type="number" id="target_ratio" step="0.01" placeholder="4.5">
-      <label for="target_ratio" style="margin-left: 10px;">Target Cl₂:NH₃ Ratio</label><br>
-  
-      <input type="number" id="ammonia_strength" step="0.1" placeholder="19%">
-      <label for="ammonia_strength" style="margin-left: 10px;">NH₃ Strength (%)</label><br><br>
-  
-      <button class="frosted-button" onclick="calculateChloramination()">Submit</button>
-      <button class="frosted-button" onclick="resetChloramForm()">Reset</button>
-      <br><br>
-      <label id="chloramOutput" class="answer"></label>
-      <br>
-    </form>
-    <br><br><br><br>
-  
-    <script>
-      function resetChloramForm() {
-        document.getElementById("chloramForm").reset();
-        document.getElementById("chloramOutput").innerHTML = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Chloramination Calculator | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #00577D;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .hero {
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 16px 70px;
+      overflow: visible;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.52);
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .breadcrumb-wrap {
+      margin-bottom: 0.9rem;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .breadcrumb-wrap a {
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      padding-bottom: 2px;
+    }
+
+    .breadcrumb-wrap a:hover,
+    .breadcrumb-wrap a:focus {
+      color: white;
+      border-bottom-color: white;
+    }
+
+    .breadcrumb-separator {
+      display: inline-block;
+      margin: 0 0.45rem;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .calc-card {
+      max-width: 540px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      border-radius: 14px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.18);
+      text-align: center;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .calc-title {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+    }
+
+    .help-button {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .help-button:hover,
+    .help-button:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.16);
+    }
+
+    .pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 0.85rem;
+    }
+
+    .field-wrap {
+      width: 100%;
+    }
+
+    .field-label {
+      display: block;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.32rem;
+      text-align: left;
+    }
+
+    .calc-input,
+    .calc-select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #1f2f39;
+      padding: 0.72rem 0.85rem;
+      font-size: 0.98rem;
+      line-height: 1.2;
+      min-height: 48px;
+    }
+
+    .calc-input::placeholder {
+      color: #6c757d;
+      opacity: 1;
+    }
+
+    .calc-input.input-error,
+    .calc-select.input-error {
+      border: 2px solid rgba(255, 220, 120, 0.95);
+      box-shadow: 0 0 0 3px rgba(255, 220, 120, 0.28);
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 1.2rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .frosted-button {
+      min-width: 106px;
+      padding: 0.58rem 1.15rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.16);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .frosted-button:hover,
+    .frosted-button:focus {
+      background: rgba(255, 255, 255, 0.26);
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.14);
+    }
+
+    .answer-box {
+      margin-top: 0.7rem;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: rgba(0, 87, 125, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: white;
+      text-align: center;
+      font-size: 1.08rem;
+      font-weight: 700;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      border-radius: 16px;
+      border: 0;
+    }
+
+    .modal-header {
+      background: #00577D;
+      color: white;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .modal-body {
+      color: #243642;
+      line-height: 1.55;
+    }
+
+    .modal-body code {
+      color: #00577D;
+      font-weight: 700;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        background-attachment: scroll;
+        padding: 24px 14px 90px;
       }
-  
-      function calculateChloramination() {
-        let flow = parseFloat(document.getElementById("flow_input").value);
-        let flowUnit = document.getElementById("flow_unit").value;
-        let residualCl = parseFloat(document.getElementById("residual_cl").value);
-        let ratio = parseFloat(document.getElementById("target_ratio").value);
-        let strength = parseFloat(document.getElementById("ammonia_strength").value);
-  
-        // Fallback if blank
-        if (isNaN(ratio)) ratio = 4.5;
-        if (isNaN(strength)) strength = 19;
-  
-        if (isNaN(flow) || isNaN(residualCl)) {
-          document.getElementById("chloramOutput").innerHTML = "***please enter valid values***";
-          return;
-        }
-  
-        // Convert flow to MGD
-        let mgd = 0;
-        if (flowUnit === "GPM") {
-          mgd = flow * 1440 / 1000000;
-        } else if (flowUnit === "Million Gallons") {
-          mgd = flow;
-        } else if (flowUnit === "Gallons") {
-          mgd = flow / 1000000;
-        }
-  
-        // NH3 dose (mg/L) = Cl2 / ratio
-        let ammoniaDose = residualCl / ratio;
-  
-        // Pounds of NH3/day
-        let poundsPerDay = 8.34 * mgd * ammoniaDose;
-  
-        // Assume ammonia solution weight = 7.49 lbs/gal
-        let ammoniaStrengthDecimal = strength / 100;
-        let ammoniaWeightPerGallon = 7.49;
-  
-        let gallonsPerDay = poundsPerDay / (ammoniaStrengthDecimal * ammoniaWeightPerGallon);
-        let rounded = parseFloat(gallonsPerDay.toFixed(3)).toString();
-  
-        document.getElementById("chloramOutput").innerHTML =
-          rounded + " gallons/day of ammonia solution";
+
+      .navbar-brand img {
+        height: 44px;
       }
-    </script>
+
+      .breadcrumb-wrap {
+        font-size: 0.88rem;
+        line-height: 1.55;
+        margin-bottom: 0.8rem;
+      }
+
+      .calc-card {
+        max-width: 100%;
+        padding: 20px 14px 20px;
+      }
+
+      .calc-title {
+        font-size: 1.7rem;
+      }
+
+      .pair-row {
+        gap: 8px;
+      }
+
+      .field-label {
+        font-size: 0.9rem;
+      }
+
+      .calc-input,
+      .calc-select {
+        font-size: 0.95rem;
+        min-height: 46px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .pair-row {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+        margin-bottom: 1rem;
+      }
+
+      .button-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .frosted-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+
+        <nav class="breadcrumb-wrap" aria-label="Breadcrumb">
+          <a href="../calculator.html">Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <a href="treatment_calculators.html">Treatment Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <span aria-current="page">Chloramination</span>
+        </nav>
+
+        <div class="calc-card">
+          <div class="card-top">
+            <h1 class="calc-title">Chloramination Calculator</h1>
+
+            <button
+              type="button"
+              class="help-button"
+              data-bs-toggle="modal"
+              data-bs-target="#chloramHelpModal"
+            >
+              Help
+            </button>
+          </div>
+
+          <form id="chloramForm" onsubmit="return false;" novalidate>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="flow_input" class="field-label">Water Amount / Flow</label>
+                <input
+                  id="flow_input"
+                  class="calc-input"
+                  type="number"
+                  step="0.001"
+                  min="0"
+                  placeholder="Required"
+                  aria-label="Water Amount or Flow"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="flow_unit" class="field-label">Water Unit</label>
+                <select
+                  id="flow_unit"
+                  class="calc-select"
+                  aria-label="Water Unit"
+                >
+                  <option value="GPM">GPM (24 Hours)</option>
+                  <option value="Million Gallons">Million Gallons</option>
+                  <option value="Gallons">Gallons</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="residual_cl" class="field-label">Free Cl₂ Residual</label>
+                <input
+                  id="residual_cl"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="Required (mg/L)"
+                  aria-label="Free Chlorine Residual"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="target_ratio" class="field-label">Target Cl₂:NH₃ Ratio</label>
+                <input
+                  id="target_ratio"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="4.5 default"
+                  aria-label="Target Chlorine to Ammonia Ratio"
+                >
+              </div>
+            </div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="ammonia_strength" class="field-label">NH₃ Strength</label>
+                <input
+                  id="ammonia_strength"
+                  class="calc-input"
+                  type="number"
+                  step="0.1"
+                  min="0"
+                  placeholder="19% default"
+                  aria-label="Ammonia Strength Percent"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="solution_weight" class="field-label">Solution Weight</label>
+                <input
+                  id="solution_weight"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="7.74 lb/gal default"
+                  aria-label="Ammonia Solution Weight Pounds Per Gallon"
+                >
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button type="button" class="frosted-button" id="submitBtn">Submit</button>
+              <button type="button" class="frosted-button" id="resetBtn">Reset</button>
+            </div>
+
+            <div id="chloramOutput" class="answer-box" aria-live="polite" tabindex="-1">
+              Answer will appear here.
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="chloramHelpModal"
+    tabindex="-1"
+    aria-labelledby="chloramHelpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="chloramHelpModalLabel">Chloramination Calculator Help</h2>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            Enter the water amount or flow and the free chlorine residual that needs
+            ammonia added for chloramination.
+          </p>
+
+          <p>
+            If left blank, the calculator uses a target <strong>Cl₂:NH₃ ratio of 4.5:1</strong>,
+            <strong>19%</strong> ammonia solution strength, and <strong>7.74 lb/gal</strong>
+            solution weight.
+          </p>
+
+          <p class="mb-0">
+            The calculator estimates the ammonia dose from
+            <code>NH₃ dose = free Cl₂ ÷ ratio</code>, converts that dose to pounds per day,
+            then converts pounds per day into gallons per day of ammonia solution.
+          </p>
+        </div>
+
+      </div>
+    </div>
   </div>
-  
+
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    const chloramForm = document.getElementById("chloramForm");
+    const flowInput = document.getElementById("flow_input");
+    const flowUnitSelect = document.getElementById("flow_unit");
+    const residualInput = document.getElementById("residual_cl");
+    const ratioInput = document.getElementById("target_ratio");
+    const ammoniaStrengthInput = document.getElementById("ammonia_strength");
+    const solutionWeightInput = document.getElementById("solution_weight");
+    const outputText = document.getElementById("chloramOutput");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    function isMobileView() {
+      return window.matchMedia("(max-width: 576px)").matches;
+    }
+
+    function moveMobileFocus(element) {
+      if (!isMobileView() || !element) {
+        return;
+      }
+
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      setTimeout(() => {
+        element.focus({ preventScroll: true });
+      }, 250);
+    }
+
+    function clearErrors() {
+      flowInput.classList.remove("input-error");
+      residualInput.classList.remove("input-error");
+      ratioInput.classList.remove("input-error");
+      ammoniaStrengthInput.classList.remove("input-error");
+      solutionWeightInput.classList.remove("input-error");
+    }
+
+    function showOutput(message, focusAnswer = false) {
+      outputText.textContent = message;
+
+      if (focusAnswer) {
+        moveMobileFocus(outputText);
+      }
+    }
+
+    function showFieldError(field, message) {
+      clearErrors();
+      field.classList.add("input-error");
+      showOutput(message);
+      moveMobileFocus(field);
+    }
+
+    function convertToMGD(flow, flowUnit) {
+      if (flowUnit === "GPM") {
+        return flow * 1440 / 1000000;
+      }
+
+      if (flowUnit === "Million Gallons") {
+        return flow;
+      }
+
+      if (flowUnit === "Gallons") {
+        return flow / 1000000;
+      }
+
+      return 0;
+    }
+
+    function formatNumber(value) {
+      return parseFloat(value.toFixed(3));
+    }
+
+    function calculateChloramination() {
+      const flow = parseFloat(flowInput.value);
+      const residualCl = parseFloat(residualInput.value);
+      let ratio = parseFloat(ratioInput.value);
+      let strength = parseFloat(ammoniaStrengthInput.value);
+      let solutionWeight = parseFloat(solutionWeightInput.value);
+
+      if (isNaN(flow) || flow <= 0) {
+        showFieldError(flowInput, "Enter a water amount or flow.");
+        return;
+      }
+
+      if (isNaN(residualCl) || residualCl < 0) {
+        showFieldError(residualInput, "Enter a free chlorine residual.");
+        return;
+      }
+
+      if (isNaN(ratio) || ratio <= 0) {
+        ratio = 4.5;
+      }
+
+      if (isNaN(strength) || strength <= 0) {
+        strength = 19;
+      }
+
+      if (isNaN(solutionWeight) || solutionWeight <= 0) {
+        solutionWeight = 7.74;
+      }
+
+      clearErrors();
+
+      const mgd = convertToMGD(flow, flowUnitSelect.value);
+      const ammoniaDose = residualCl / ratio;
+      const poundsPerDay = 8.34 * mgd * ammoniaDose;
+      const ammoniaStrengthDecimal = strength / 100;
+      const gallonsPerDay = poundsPerDay / (ammoniaStrengthDecimal * solutionWeight);
+
+      showOutput(
+        `${formatNumber(gallonsPerDay)} gallons/day of ${strength}% ammonia solution`,
+        true
+      );
+    }
+
+    function resetCalculator() {
+      chloramForm.reset();
+      clearErrors();
+      outputText.textContent = "Answer will appear here.";
+
+      if (isMobileView()) {
+        moveMobileFocus(flowInput);
+      }
+    }
+
+    submitBtn.addEventListener("click", calculateChloramination);
+    resetBtn.addEventListener("click", resetCalculator);
+
+    flowInput.addEventListener("input", clearErrors);
+    residualInput.addEventListener("input", clearErrors);
+    ratioInput.addEventListener("input", clearErrors);
+    ammoniaStrengthInput.addEventListener("input", clearErrors);
+    solutionWeightInput.addEventListener("input", clearErrors);
+  </script>
+
+</body>
+</html>

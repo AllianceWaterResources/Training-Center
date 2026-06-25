@@ -4,10 +4,10 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Calculators | Alliance Water Resources Training Center</title>
+  <title>Conversion Calculators | Alliance Water Resources Training Center</title>
 
   <!-- Favicon -->
-  <link rel="icon" href="Images/home_drop.png" type="image/png">
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
 
   <!-- Bootstrap CSS -->
   <link
@@ -16,7 +16,7 @@
   >
 
   <!-- Custom CSS -->
-  <link rel="stylesheet" href="CSS/custom-styles.css">
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
 
   <style>
     html,
@@ -43,7 +43,7 @@
     }
 
     .hero {
-      background-image: url('Images/banner_water.jpg');
+      background-image: url('../Images/banner_water.jpg');
       background-size: cover;
       background-position: center;
       background-repeat: no-repeat;
@@ -55,7 +55,7 @@
       align-items: flex-start;
       justify-content: center;
       text-align: center;
-      padding: 60px 20px 100px;
+      padding: 55px 20px 100px;
       overflow: hidden;
     }
 
@@ -72,6 +72,22 @@
       z-index: 1;
     }
 
+    .back-link {
+      display: inline-block;
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      font-weight: 700;
+      margin-bottom: 1.15rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.6);
+      padding-bottom: 2px;
+    }
+
+    .back-link:hover,
+    .back-link:focus {
+      color: white;
+      border-bottom-color: white;
+    }
+
     .hero h1 {
       font-size: 2.7rem;
       font-weight: 700;
@@ -79,29 +95,29 @@
       text-shadow: 0 2px 8px rgba(0, 0, 0, 0.35);
     }
 
-    .category-link {
+    .calculator-link {
       display: block;
       height: 100%;
       color: white;
       text-decoration: none;
     }
 
-    .category-link:hover,
-    .category-link:focus {
+    .calculator-link:hover,
+    .calculator-link:focus {
       color: white;
       text-decoration: none;
     }
 
     .card-glass {
       height: 100%;
-      min-height: 220px;
+      min-height: 215px;
       background: rgba(255, 255, 255, 0.18);
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
       color: white;
       border: 1px solid rgba(255, 255, 255, 0.32);
       border-radius: 16px;
-      padding: 34px 28px;
+      padding: 32px 26px;
       box-shadow: 0 0.65rem 1.4rem rgba(0, 0, 0, 0.18);
       transition:
         transform 0.25s ease,
@@ -112,7 +128,7 @@
     }
 
     .card-glass:hover,
-    .category-link:focus .card-glass {
+    .calculator-link:focus .card-glass {
       transform: translateY(-5px);
       background: rgba(255, 255, 255, 0.26);
       border-color: rgba(255, 255, 255, 0.48);
@@ -120,7 +136,7 @@
     }
 
     .card-glass h2 {
-      font-size: 1.55rem;
+      font-size: 1.45rem;
       font-weight: 700;
       margin-bottom: 1.2rem;
       padding-bottom: 1rem;
@@ -145,23 +161,6 @@
       color: rgba(255, 255, 255, 0.92);
       font-size: 1rem;
       line-height: 1.5;
-    }
-
-    .study-note {
-      max-width: 850px;
-      margin: 2.5rem auto 0;
-      padding: 18px 22px;
-      background: rgba(255, 255, 255, 0.16);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.28);
-      border-radius: 14px;
-      color: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 0.65rem 1.4rem rgba(0, 0, 0, 0.16);
-    }
-
-    .study-note strong {
-      color: white;
     }
 
     footer {
@@ -207,7 +206,7 @@
 
       <a class="navbar-brand" href="https://alliancewater.com">
         <img
-          src="Images/logo.png"
+          src="../Images/logo.png"
           alt="Alliance Training Center Logo"
           class="navbar-logo"
           height="50"
@@ -230,27 +229,27 @@
         <ul class="navbar-nav ms-auto">
 
           <li class="nav-item">
-            <a class="nav-link" href="index.html">Home</a>
+            <a class="nav-link" href="../index.html">Home</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link active" aria-current="page" href="calculator.html">Calculators</a>
+            <a class="nav-link active" aria-current="page" href="../calculator.html">Calculators</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="study_material.html">Study Material</a>
+            <a class="nav-link" href="../study_material.html">Study Material</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="math_trainer.html">Math Trainers</a>
+            <a class="nav-link" href="../math_trainer.html">Math Trainers</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="about.html">About</a>
+            <a class="nav-link" href="../about.html">About</a>
           </li>
 
           <li class="nav-item">
-            <a class="nav-link" href="contact.html">Contact</a>
+            <a class="nav-link" href="../contact.html">Contact</a>
           </li>
 
         </ul>
@@ -264,60 +263,58 @@
     <section class="hero">
       <div class="container">
 
-        <h1>Calculators</h1>
+        <a href="../calculator.html" class="back-link">&larr; Back to calculator categories</a>
+
+        <h1>Conversion Calculators</h1>
 
         <div class="row justify-content-center g-4">
 
           <div class="col-12 col-md-6 col-lg-4">
-            <a
-              href="Calculators/treatment_calculators.html"
-              class="category-link"
-              aria-label="Open Treatment Calculators"
-            >
+            <a href="unit_conversion_calc.html" class="calculator-link" aria-label="Open Liquid Unit Conversion Calculator">
               <div class="card-glass">
-                <h2>Treatment Calculators</h2>
+                <h2>Liquid Unit Conversion</h2>
                 <p>
-                  Calculators for chemical dosing, chlorine feed, chloramination,
-                  dilution, and water stability.
+                  Convert common liquid volume units used in water and wastewater
+                  operations.
                 </p>
               </div>
             </a>
           </div>
 
           <div class="col-12 col-md-6 col-lg-4">
-            <a
-              href="Calculators/distribution_calculators.html"
-              class="category-link"
-              aria-label="Open Distribution Calculators"
-            >
+            <a href="solid-unit_conversion_calc.html" class="calculator-link" aria-label="Open Solid Unit Conversion Calculator">
               <div class="card-glass">
-                <h2>Distribution Calculators</h2>
+                <h2>Solid Unit Conversion</h2>
                 <p>
-                  Calculators for pipe disinfection, pipe turnover, hydrant flow,
-                  and estimated water loss from breaks or leaks.
+                  Convert common dry chemical, solids, and weight units.
                 </p>
               </div>
             </a>
           </div>
 
           <div class="col-12 col-md-6 col-lg-4">
-            <a
-              href="Calculators/conversion_calculators.html"
-              class="category-link"
-              aria-label="Open Conversion Calculators"
-            >
+            <a href="liquid-time_conversion_calc.html" class="calculator-link" aria-label="Open Liquid Time Conversion Calculator">
               <div class="card-glass">
-                <h2>Conversion Calculators</h2>
+                <h2>Liquid/Time Conversion</h2>
                 <p>
-                  Liquid, solid, liquid-per-time, and solids-per-time conversion tools
-                  for common operations math.
+                  Convert liquid feed or flow rates between volume-per-time units.
+                </p>
+              </div>
+            </a>
+          </div>
+
+          <div class="col-12 col-md-6 col-lg-4">
+            <a href="solid-time_conversion_calc.html" class="calculator-link" aria-label="Open Solids Time Conversion Calculator">
+              <div class="card-glass">
+                <h2>Solids/Time Conversion</h2>
+                <p>
+                  Convert dry chemical feed rates between weight-per-time units.
                 </p>
               </div>
             </a>
           </div>
 
         </div>
-
 
       </div>
     </section>

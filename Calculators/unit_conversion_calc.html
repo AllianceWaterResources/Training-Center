@@ -1,260 +1,652 @@
-<div class="content" style="text-align: center;">
-    <form onsubmit="return false;"  id="myForm">
-        <br>
-        <h2 class="calc-title">Liquid Unit Conversion</h2>
-        <input id="input_1" type="number" step="0.0001" placeholder="">
-        <select id="selectType" style="width: 150px;">Selection  
-            <option value = "gal">gal</option>          
-            <option value = "mL">mL</option>
-            <option value = "L">L</option>
-            <option value = "oz">oz</option>
-            <option value = "cups">cups</option>
-            <option value = "pints">pints</option>
-            <option value = "quarts">quarts</option>
-        </select>
-        <br>
-        <label class="entry-label" style="width: 350px; text-align: center;">Output Unit</label><br>
-        <select id="selectType2" style="width: 150px;">Selection               
-            <option value = "mL">mL</option>
-            <option value = "L">L</option>
-            <option value = "gal">gal</option>
-            <option value = "oz">oz</option>
-            <option value = "cups">cups</option>
-            <option value = "pints">pints</option>
-            <option value = "quarts">quarts</option>
-        </select>
-        <br><br>
-        <button class="frosted-button" onclick=calculate()>Submit</button>
-        <button class="frosted-button" onclick=resetForm()>Reset</button>
-        <br><br>
-        <label id="outputText" class="answer"></label>
-        <br>
-    </form>
-    <br><br><br><br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <script>
-        function resetForm() {
-            document.getElementById("myForm").reset();
-        }
+  <title>Liquid Unit Conversion Calculator | Alliance Water Resources Training Center</title>
 
-        function calculate() {
-            //Get the variable for source unit
-            let answer_text = '';
-            let input_1 = parseFloat(document.getElementById("input_1").value);
-            let selection = document.getElementById("selectType");
-            let source = selection.options[selection.selectedIndex].text;
-            let selection2 = document.getElementById("selectType2");
-            let source2 = selection2.options[selection2.selectedIndex].text;
-//****************************************************************************//
-            if (source === 'gal' && source2 === 'gal') {
-                answer_text = input_1;
-            }
-            
-            if (source === 'gal' && source2 === 'mL') {
-                answer_text = input_1*3785.41;
-            }
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
 
-            if (source === 'gal' && source2 === 'L') {
-                answer_text = input_1*3.785;
-            }
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
 
-            if (source === 'gal' && source2 === 'oz') {
-                answer_text = input_1*128;
-            }
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
 
-            if (source === 'gal' && source2 === 'cups') {
-                answer_text = input_1*16;
-            }
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
 
-            if (source === 'gal' && source2 === 'pints') {
-                answer_text = input_1*8;
-            }
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #00577D;
+    }
 
-            if (source === 'gal' && source2 === 'quarts') {
-                answer_text = input_1*4;
-            }
-//****************************************************************************//
-            if (source === 'mL' && source2 === 'mL') {
-                answer_text = input_1;
-            }
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
 
-            if (source === 'mL' && source2 === 'gal') {
-                answer_text = input_1*0.000264172;
-            }
+    .navbar {
+      background-color: #00577D;
+    }
 
-            if (source === 'mL' && source2 === 'L') {
-                answer_text = input_1*0.001;
-            }
+    .hero {
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 16px 70px;
+      overflow: visible;
+    }
 
-            if (source === 'mL' && source2 === 'oz') {
-                answer_text = input_1*0.033814;
-            }
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.52);
+      z-index: 0;
+    }
 
-            if (source === 'mL' && source2 === 'cups') {
-                answer_text = input_1*0.00422675;
-            }
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
 
-            if (source === 'mL' && source2 === 'pints') {
-                answer_text = input_1*0.00211338;
-            }
+    .breadcrumb-wrap {
+      margin-bottom: 0.9rem;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+    }
 
-            if (source === 'mL' && source2 === 'quarts') {
-                answer_text = input_1*0.00105669;
-            }
-//****************************************************************************//
-            if (source === 'L' && source2 === 'mL') {
-                answer_text = input_1*1000;
-            }
+    .breadcrumb-wrap a {
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      padding-bottom: 2px;
+    }
 
-            if (source === 'L' && source2 === 'gal') {
-                answer_text = input_1*0.264172;
-            }
+    .breadcrumb-wrap a:hover,
+    .breadcrumb-wrap a:focus {
+      color: white;
+      border-bottom-color: white;
+    }
 
-            if (source === 'L' && source2 === 'L') {
-                answer_text = input_1;
-            }
+    .breadcrumb-separator {
+      display: inline-block;
+      margin: 0 0.45rem;
+      color: rgba(255, 255, 255, 0.78);
+    }
 
-            if (source === 'L' && source2 === 'oz') {
-                answer_text = input_1*33.814;
-            }
+    .calc-card {
+      max-width: 540px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      border-radius: 14px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.18);
+      text-align: center;
+    }
 
-            if (source === 'L' && source2 === 'cups') {
-                answer_text = input_1*4.22675;
-            }
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
 
-            if (source === 'L' && source2 === 'pints') {
-                answer_text = input_1*2.11338;
-            }
+    .calc-title {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+    }
 
-            if (source === 'L' && source2 === 'quarts') {
-                answer_text = input_1*1.05669;
-            }
-//****************************************************************************//
-            if (source === 'oz' && source2 === 'gal') {
-                answer_text = input_1*0.0078125;
-            }
+    .help-button {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
 
-            if (source === 'oz' && source2 === 'mL') {
-                answer_text = input_1*29.5735;
-            }
+    .help-button:hover,
+    .help-button:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.16);
+    }
 
-            if (source === 'oz' && source2 === 'L') {
-                answer_text = input_1*.02957;
-            }
+    .pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 0.85rem;
+    }
 
-            if (source === 'oz' && source2 === 'oz') {
-                answer_text = input_1;
-            }
+    .field-wrap {
+      width: 100%;
+    }
 
-            if (source === 'oz' && source2 === 'cups') {
-                answer_text = input_1*0.125;
-            }
+    .field-label {
+      display: block;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.32rem;
+      text-align: left;
+    }
 
-            if (source === 'oz' && source2 === 'pints') {
-                answer_text = input_1*0.0625;
-            }
+    .calc-input,
+    .calc-select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #1f2f39;
+      padding: 0.72rem 0.85rem;
+      font-size: 0.98rem;
+      line-height: 1.2;
+      min-height: 48px;
+    }
 
-            if (source === 'oz' && source2 === 'quarts') {
-                answer_text = input_1*0.03125;
-            }
+    .calc-input::placeholder {
+      color: #6c757d;
+      opacity: 1;
+    }
 
-//****************************************************************************//
+    .calc-input.input-error,
+    .calc-select.input-error {
+      border: 2px solid rgba(255, 220, 120, 0.95);
+      box-shadow: 0 0 0 3px rgba(255, 220, 120, 0.28);
+    }
 
-            if (source === 'cups' && source2 === 'cups') {
-                answer_text = input_1;
-            }
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 1.2rem 0 1rem;
+      flex-wrap: wrap;
+    }
 
-            if (source === 'cups' && source2 === 'mL') {
-                answer_text = input_1*236.588;
-            }
+    .frosted-button {
+      min-width: 106px;
+      padding: 0.58rem 1.15rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.16);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
 
-            if (source === 'cups' && source2 === 'L') {
-                answer_text = input_1*.2365;
-            }
+    .frosted-button:hover,
+    .frosted-button:focus {
+      background: rgba(255, 255, 255, 0.26);
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.14);
+    }
 
-            if (source === 'cups' && source2 === 'gal') {
-                answer_text = input_1*0.0625;
-            }
+    .answer-box {
+      margin-top: 0.7rem;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: rgba(0, 87, 125, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: white;
+      text-align: center;
+      font-size: 1.08rem;
+      font-weight: 700;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
 
-            if (source === 'cups' && source2 === 'pints') {
-                answer_text = input_1*0.5;
-            }
+    .formula-note {
+      min-height: 48px;
+      margin-top: 0;
+      font-size: 0.92rem;
+      line-height: 1.25;
+    }
 
-            if (source === 'cups' && source2 === 'oz') {
-                answer_text = input_1*8;
-            }
+    .modal-content {
+      border-radius: 16px;
+      border: 0;
+    }
 
-            if (source === 'cups' && source2 === 'quarts') {
-                answer_text = input_1*0.25;
-            }
+    .modal-header {
+      background: #00577D;
+      color: white;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
 
-//****************************************************************************//
-            if (source === 'pints' && source2 === 'pints') {
-                answer_text = input_1;
-            }
+    .modal-body {
+      color: #243642;
+      line-height: 1.55;
+    }
 
-            if (source === 'pints' && source2 === 'mL') {
-                answer_text = input_1*473.176;
-            }
+    .modal-body code {
+      color: #00577D;
+      font-weight: 700;
+    }
 
-            if (source === 'pints' && source2 === 'L') {
-                answer_text = input_1*.4731;
-            }
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
 
-            if (source === 'pints' && source2 === 'gal') {
-                answer_text = input_1*0.125;
-            }
+    @media (max-width: 576px) {
+      .hero {
+        background-attachment: scroll;
+        padding: 24px 14px 90px;
+      }
 
-            if (source === 'pints' && source2 === 'oz') {
-                answer_text = input_1*16;
-            }
+      .navbar-brand img {
+        height: 44px;
+      }
 
-            if (source === 'pints' && source2 === 'quarts') {
-                answer_text = input_1*.5;
-            }
+      .breadcrumb-wrap {
+        font-size: 0.88rem;
+        line-height: 1.55;
+        margin-bottom: 0.8rem;
+      }
 
-            if (source === 'pints' && source2 === 'cups') {
-                answer_text = input_1*2;
-            }
-//****************************************************************************//
-            if (source === 'quarts' && source2 === 'quarts') {
-                answer_text = input_1;
-            }
+      .calc-card {
+        max-width: 100%;
+        padding: 20px 14px 20px;
+      }
 
-            if (source === 'quarts' && source2 === 'mL') {
-                answer_text = input_1*946.353;
-            }
+      .calc-title {
+        font-size: 1.7rem;
+      }
 
-            if (source === 'quarts' && source2 === 'L') {
-                answer_text = input_1*.9463;
-            }
+      .pair-row {
+        gap: 8px;
+      }
 
-            if (source === 'quarts' && source2 === 'gal') {
-                answer_text = input_1*.25;
-            }
+      .field-label {
+        font-size: 0.9rem;
+      }
 
-            if (source === 'quarts' && source2 === 'oz') {
-                answer_text = input_1*32;
-            }
+      .calc-input,
+      .calc-select {
+        font-size: 0.95rem;
+        min-height: 46px;
+      }
+    }
 
-            if (source === 'quarts' && source2 === 'cup') {
-                answer_text = input_1*4;
-            }
+    @media (max-width: 430px) {
+      .pair-row {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+        margin-bottom: 1rem;
+      }
 
-            if (source === 'quarts' && source2 === 'pint') {
-                answer_text = input_1*2;
-            }
+      .button-row {
+        flex-direction: column;
+        gap: 10px;
+      }
 
-            //write to answer label
-            if (isNaN(input_1)) {
-                document.getElementById("outputText").innerHTML = '***please enter a valid number***';
-            }
-                else {document.getElementById("outputText").innerHTML = parseFloat(answer_text.toFixed(3)) + " " +source2;
+      .frosted-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
 
-                }
-        }
-            
-            
-        
-    </script>
-</div>
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+
+        <nav class="breadcrumb-wrap" aria-label="Breadcrumb">
+          <a href="../calculator.html">Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <a href="conversion_calculators.html">Conversion Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <span aria-current="page">Liquid Unit Conversion</span>
+        </nav>
+
+        <div class="calc-card">
+          <div class="card-top">
+            <h1 class="calc-title">Liquid Unit Conversion</h1>
+
+            <button
+              type="button"
+              class="help-button"
+              data-bs-toggle="modal"
+              data-bs-target="#liquidConversionHelpModal"
+            >
+              Help
+            </button>
+          </div>
+
+          <form id="liquidConversionForm" onsubmit="return false;" novalidate>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="input_amount" class="field-label">Input Amount</label>
+                <input
+                  id="input_amount"
+                  class="calc-input"
+                  type="number"
+                  step="0.0001"
+                  min="0"
+                  placeholder="Required"
+                  aria-label="Input Amount"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="input_unit" class="field-label">Input Unit</label>
+                <select
+                  id="input_unit"
+                  class="calc-select"
+                  aria-label="Input Unit"
+                >
+                  <option value="gal">gal</option>
+                  <option value="mL">mL</option>
+                  <option value="L">L</option>
+                  <option value="oz">oz</option>
+                  <option value="cups">cups</option>
+                  <option value="pints">pints</option>
+                  <option value="quarts">quarts</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="output_unit" class="field-label">Output Unit</label>
+                <select
+                  id="output_unit"
+                  class="calc-select"
+                  aria-label="Output Unit"
+                >
+                  <option value="mL">mL</option>
+                  <option value="L">L</option>
+                  <option value="gal">gal</option>
+                  <option value="oz">oz</option>
+                  <option value="cups">cups</option>
+                  <option value="pints">pints</option>
+                  <option value="quarts">quarts</option>
+                </select>
+              </div>
+
+              
+            </div>
+
+            <div class="button-row">
+              <button type="button" class="frosted-button" id="submitBtn">Submit</button>
+              <button type="button" class="frosted-button" id="resetBtn">Reset</button>
+            </div>
+
+            <div id="outputText" class="answer-box" aria-live="polite" tabindex="-1">
+              
+            </div>
+
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="liquidConversionHelpModal"
+    tabindex="-1"
+    aria-labelledby="liquidConversionHelpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="liquidConversionHelpModalLabel">Liquid Unit Conversion Help</h2>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            Enter the liquid volume amount, choose the input unit, then choose the unit
+            you want to convert to.
+          </p>
+
+          <p>
+            Supported units include gallons, milliliters, liters, ounces, cups, pints,
+            and quarts.
+          </p>
+
+          <p class="mb-0">
+            The calculator converts the input amount to a common base unit, then converts
+            that value into the selected output unit.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    const liquidConversionForm = document.getElementById("liquidConversionForm");
+    const amountInput = document.getElementById("input_amount");
+    const inputUnitSelect = document.getElementById("input_unit");
+    const outputUnitSelect = document.getElementById("output_unit");
+    const outputText = document.getElementById("outputText");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    const milliliterFactors = {
+      gal: 3785.41,
+      mL: 1,
+      L: 1000,
+      oz: 29.5735,
+      cups: 236.588,
+      pints: 473.176,
+      quarts: 946.353
+    };
+
+    function isMobileView() {
+      return window.matchMedia("(max-width: 576px)").matches;
+    }
+
+    function moveMobileFocus(element) {
+      if (!isMobileView() || !element) {
+        return;
+      }
+
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      setTimeout(() => {
+        element.focus({ preventScroll: true });
+      }, 250);
+    }
+
+    function clearErrors() {
+      amountInput.classList.remove("input-error");
+      inputUnitSelect.classList.remove("input-error");
+      outputUnitSelect.classList.remove("input-error");
+    }
+
+    function showOutput(message, focusAnswer = false) {
+      outputText.textContent = message;
+
+      if (focusAnswer) {
+        moveMobileFocus(outputText);
+      }
+    }
+
+    function showFieldError(field, message) {
+      clearErrors();
+      field.classList.add("input-error");
+      showOutput(message);
+      moveMobileFocus(field);
+    }
+
+    function formatNumber(value) {
+      return parseFloat(value.toFixed(3));
+    }
+
+    function calculateLiquidConversion() {
+      const inputAmount = parseFloat(amountInput.value);
+      const inputUnit = inputUnitSelect.value;
+      const outputUnit = outputUnitSelect.value;
+
+      if (isNaN(inputAmount) || inputAmount < 0) {
+        showFieldError(amountInput, "Enter a valid liquid amount.");
+        return;
+      }
+
+      if (!milliliterFactors[inputUnit]) {
+        showFieldError(inputUnitSelect, "Select a valid input unit.");
+        return;
+      }
+
+      if (!milliliterFactors[outputUnit]) {
+        showFieldError(outputUnitSelect, "Select a valid output unit.");
+        return;
+      }
+
+      clearErrors();
+
+      const milliliters = inputAmount * milliliterFactors[inputUnit];
+      const convertedValue = milliliters / milliliterFactors[outputUnit];
+
+      showOutput(`${formatNumber(convertedValue)} ${outputUnit}`, true);
+    }
+
+    function resetCalculator() {
+      liquidConversionForm.reset();
+      clearErrors();
+      outputText.textContent = "";
+
+      if (isMobileView()) {
+        moveMobileFocus(amountInput);
+      }
+    }
+
+    submitBtn.addEventListener("click", calculateLiquidConversion);
+    resetBtn.addEventListener("click", resetCalculator);
+
+    amountInput.addEventListener("input", clearErrors);
+    inputUnitSelect.addEventListener("change", clearErrors);
+    outputUnitSelect.addEventListener("change", clearErrors);
+  </script>
+
+</body>
+</html>

@@ -1,98 +1,735 @@
-<div class="content" style="text-align: center;">
-    <form onsubmit="return false;" id="solidForm">
-      <br>
-      <h2 class="calc-title">Solids/Time Conversion</h2><br>
-  
-      <input id="mass_value" type="number" step="0.0001" style="width: 150px;" placeholder="Required">
-      <label for="mass_value">Mass Rate</label><br>
-  
-      <select id="input_mass_unit" style="width: 150px; margin-left: 10px;">
-        <option value="mg">mg</option>
-        <option value="g" selected>g</option>
-        <option value="kg">kg</option>
-        <option value="oz">oz</option>
-        <option value="lb">lb</option>
-      </select>
-      <label for="input_mass_unit">Input Mass Unit</label><br>
-  
-      <select id="input_time_unit" style="width: 150px; margin-left: 10px;">
-        <option value="sec">per second</option>
-        <option value="min" selected>per minute</option>
-        <option value="hour">per hour</option>
-        <option value="day">per day</option>
-      </select>
-      <label for="input_time_unit">Input Time Unit</label><br>
-  
-      <select id="output_mass_unit" style="width: 150px; margin-left: 10px;">
-        <option value="mg">mg</option>
-        <option value="g">g</option>
-        <option value="kg">kg</option>
-        <option value="oz">oz</option>
-        <option value="lb" selected>lb</option>
-      </select>
-      <label for="output_mass_unit">Output Mass Unit</label><br>
-  
-      <select id="output_time_unit" style="width: 150px; margin-left: 10px;">
-        <option value="sec">per second</option>
-        <option value="min">per minute</option>
-        <option value="hour">per hour</option>
-        <option value="day" selected>per day</option>
-      </select>
-      <label for="output_time_unit">Output Time Unit</label><br><br>
-  
-      <button class="frosted-button" onclick="convertMass()">Submit</button>
-      <button class="frosted-button" onclick="resetSolidForm()">Reset</button>
-      <br><br>
-      <label id="solidOutput" class="answer"></label>
-      <br>
-    </form>
-    <br><br><br><br>
-  
-    <script>
-      function resetSolidForm() {
-        document.getElementById("solidForm").reset();
-        document.getElementById("solidOutput").innerHTML = "";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Solids/Time Conversion Calculator | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #00577D;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .hero {
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 16px 70px;
+      overflow: visible;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.52);
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .breadcrumb-wrap {
+      margin-bottom: 0.9rem;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .breadcrumb-wrap a {
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      padding-bottom: 2px;
+    }
+
+    .breadcrumb-wrap a:hover,
+    .breadcrumb-wrap a:focus {
+      color: white;
+      border-bottom-color: white;
+    }
+
+    .breadcrumb-separator {
+      display: inline-block;
+      margin: 0 0.45rem;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .calc-card {
+      max-width: 540px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      border-radius: 14px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.18);
+      text-align: center;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .calc-title {
+      margin: 0;
+      font-size: 2rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+    }
+
+    .help-button {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .help-button:hover,
+    .help-button:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.16);
+    }
+
+    .form-section-heading {
+      color: white;
+      font-weight: 800;
+      text-align: left;
+      font-size: 1rem;
+      margin: 1rem 0 0.5rem;
+      padding-bottom: 0.25rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.28);
+    }
+
+    .form-section-heading:first-of-type {
+      margin-top: 0;
+    }
+
+    .pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 0.85rem;
+    }
+
+    .single-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    align-items: end;
+    margin-bottom: 0.85rem;
+  }
+
+    .field-wrap {
+      width: 100%;
+    }
+
+    .field-label {
+      display: block;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.32rem;
+      text-align: left;
+    }
+
+    .calc-input,
+    .calc-select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #1f2f39;
+      padding: 0.72rem 0.85rem;
+      font-size: 0.98rem;
+      line-height: 1.2;
+      min-height: 48px;
+    }
+
+    .calc-input::placeholder {
+      color: #6c757d;
+      opacity: 1;
+    }
+
+    .calc-input.input-error,
+    .calc-select.input-error {
+      border: 2px solid rgba(255, 220, 120, 0.95);
+      box-shadow: 0 0 0 3px rgba(255, 220, 120, 0.28);
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 1.2rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .frosted-button {
+      min-width: 106px;
+      padding: 0.58rem 1.15rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.16);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .frosted-button:hover,
+    .frosted-button:focus {
+      background: rgba(255, 255, 255, 0.26);
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.14);
+    }
+
+    .answer-box {
+      margin-top: 0.7rem;
+      padding: 14px 16px;
+      border-radius: 10px;
+      background: rgba(0, 87, 125, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: white;
+      text-align: center;
+      font-size: 1.08rem;
+      font-weight: 700;
+      min-height: 56px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .modal-content {
+      border-radius: 16px;
+      border: 0;
+    }
+
+    .modal-header {
+      background: #00577D;
+      color: white;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .modal-body {
+      color: #243642;
+      line-height: 1.55;
+    }
+
+    .modal-body code {
+      color: #00577D;
+      font-weight: 700;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        background-attachment: scroll;
+        padding: 24px 14px 90px;
       }
-  
-      function convertMass() {
-        let value = parseFloat(document.getElementById("mass_value").value);
-        let inMass = document.getElementById("input_mass_unit").value;
-        let inTime = document.getElementById("input_time_unit").value;
-        let outMass = document.getElementById("output_mass_unit").value;
-        let outTime = document.getElementById("output_time_unit").value;
-  
-        if (isNaN(value)) {
-          document.getElementById("solidOutput").innerHTML = "***please enter a valid number***";
-          return;
-        }
-  
-        // Conversion factors to grams
-        const massToGrams = {
-          "mg": 0.001,
-          "g": 1,
-          "kg": 1000,
-          "oz": 28.3495,
-          "lb": 453.592
-        };
-  
-        // Time conversion to seconds
-        const timeToSeconds = {
-          "sec": 1,
-          "min": 60,
-          "hour": 3600,
-          "day": 86400
-        };
-  
-        // Convert input mass/time to grams per second
-        let gramsPerSecond = (value * massToGrams[inMass]) / timeToSeconds[inTime];
-  
-        // Convert to target unit/time
-        let convertedMass = gramsPerSecond * timeToSeconds[outTime] / massToGrams[outMass];
-  
-        let rounded = parseFloat(convertedMass.toFixed(3)).toString();
-        document.getElementById("solidOutput").innerHTML =
-          rounded + " " + outMass + " per " + outTime;
+
+      .navbar-brand img {
+        height: 44px;
       }
-    </script>
+
+      .breadcrumb-wrap {
+        font-size: 0.88rem;
+        line-height: 1.55;
+        margin-bottom: 0.8rem;
+      }
+
+      .calc-card {
+        max-width: 100%;
+        padding: 20px 14px 20px;
+      }
+
+      .calc-title {
+        font-size: 1.7rem;
+      }
+
+      .pair-row {
+        gap: 8px;
+      }
+
+      .single-row {
+        gap: 0.85rem;
+        margin-bottom: 1rem;
+      }
+
+      .field-label {
+        font-size: 0.9rem;
+      }
+
+      .calc-input,
+      .calc-select {
+        font-size: 0.95rem;
+        min-height: 46px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .pair-row {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+        margin-bottom: 1rem;
+      }
+
+      .button-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .frosted-button {
+        width: 100%;
+      }
+
+      .single-row {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+
+        <nav class="breadcrumb-wrap" aria-label="Breadcrumb">
+          <a href="../calculator.html">Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <a href="conversion_calculators.html">Conversion Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <span aria-current="page">Solids/Time Conversion</span>
+        </nav>
+
+        <div class="calc-card">
+          <div class="card-top">
+            <h1 class="calc-title">Solids/Time Conversion</h1>
+
+            <button
+              type="button"
+              class="help-button"
+              data-bs-toggle="modal"
+              data-bs-target="#solidTimeHelpModal"
+            >
+              Help
+            </button>
+          </div>
+
+          <form id="solidTimeForm" onsubmit="return false;" novalidate>
+
+            <div class="form-section-heading">Input Rate</div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="mass_value" class="field-label">Mass Rate</label>
+                <input
+                  id="mass_value"
+                  class="calc-input"
+                  type="number"
+                  step="0.0001"
+                  min="0"
+                  placeholder="Required"
+                  aria-label="Mass Rate"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="input_mass_unit" class="field-label">Input Mass Unit</label>
+                <select
+                  id="input_mass_unit"
+                  class="calc-select"
+                  aria-label="Input Mass Unit"
+                >
+                  <option value="mg">mg</option>
+                  <option value="g" selected>g</option>
+                  <option value="kg">kg</option>
+                  <option value="oz">oz</option>
+                  <option value="lb">lb</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="single-row">
+              <div class="field-wrap">
+                <label for="input_time_unit" class="field-label">Input Time Unit</label>
+                <select
+                  id="input_time_unit"
+                  class="calc-select"
+                  aria-label="Input Time Unit"
+                >
+                  <option value="sec">per second</option>
+                  <option value="min" selected>per minute</option>
+                  <option value="hour">per hour</option>
+                  <option value="day">per day</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-section-heading">Output Rate</div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="output_mass_unit" class="field-label">Output Mass Unit</label>
+                <select
+                  id="output_mass_unit"
+                  class="calc-select"
+                  aria-label="Output Mass Unit"
+                >
+                  <option value="mg">mg</option>
+                  <option value="g">g</option>
+                  <option value="kg">kg</option>
+                  <option value="oz">oz</option>
+                  <option value="lb" selected>lb</option>
+                </select>
+              </div>
+
+              <div class="field-wrap">
+                <label for="output_time_unit" class="field-label">Output Time Unit</label>
+                <select
+                  id="output_time_unit"
+                  class="calc-select"
+                  aria-label="Output Time Unit"
+                >
+                  <option value="sec">per second</option>
+                  <option value="min">per minute</option>
+                  <option value="hour">per hour</option>
+                  <option value="day" selected>per day</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="button-row">
+              <button type="button" class="frosted-button" id="submitBtn">Submit</button>
+              <button type="button" class="frosted-button" id="resetBtn">Reset</button>
+            </div>
+
+            <div id="solidOutput" class="answer-box" aria-live="polite" tabindex="-1"></div>
+
+          </form>
+        </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="solidTimeHelpModal"
+    tabindex="-1"
+    aria-labelledby="solidTimeHelpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="solidTimeHelpModalLabel">Solids/Time Conversion Help</h2>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            Enter the mass rate, choose the input mass unit and time unit, then choose
+            the output mass unit and output time unit.
+          </p>
+
+          <p>
+            Supported mass units include milligrams, grams, kilograms, ounces, and pounds.
+            Supported time units include seconds, minutes, hours, and days.
+          </p>
+
+          <p class="mb-0">
+            The calculator converts the input rate to grams per second first, then converts
+            that value into the selected output mass and time units.
+          </p>
+        </div>
+
+      </div>
+    </div>
   </div>
-  
+
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    const solidTimeForm = document.getElementById("solidTimeForm");
+    const massValueInput = document.getElementById("mass_value");
+    const inputMassUnitSelect = document.getElementById("input_mass_unit");
+    const inputTimeUnitSelect = document.getElementById("input_time_unit");
+    const outputMassUnitSelect = document.getElementById("output_mass_unit");
+    const outputTimeUnitSelect = document.getElementById("output_time_unit");
+    const outputText = document.getElementById("solidOutput");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    const massToGrams = {
+      mg: 0.001,
+      g: 1,
+      kg: 1000,
+      oz: 28.3495,
+      lb: 453.592
+    };
+
+    const timeToSeconds = {
+      sec: 1,
+      min: 60,
+      hour: 3600,
+      day: 86400
+    };
+
+    const timeLabels = {
+      sec: "second",
+      min: "minute",
+      hour: "hour",
+      day: "day"
+    };
+
+    function isMobileView() {
+      return window.matchMedia("(max-width: 576px)").matches;
+    }
+
+    function moveMobileFocus(element) {
+      if (!isMobileView() || !element) {
+        return;
+      }
+
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      setTimeout(() => {
+        element.focus({ preventScroll: true });
+      }, 250);
+    }
+
+    function clearErrors() {
+      massValueInput.classList.remove("input-error");
+      inputMassUnitSelect.classList.remove("input-error");
+      inputTimeUnitSelect.classList.remove("input-error");
+      outputMassUnitSelect.classList.remove("input-error");
+      outputTimeUnitSelect.classList.remove("input-error");
+    }
+
+    function showOutput(message, focusAnswer = false) {
+      outputText.textContent = message;
+
+      if (focusAnswer) {
+        moveMobileFocus(outputText);
+      }
+    }
+
+    function showFieldError(field, message) {
+      clearErrors();
+      field.classList.add("input-error");
+      showOutput(message);
+      moveMobileFocus(field);
+    }
+
+    function formatNumber(value) {
+      return parseFloat(value.toFixed(3));
+    }
+
+    function convertMass() {
+      const value = parseFloat(massValueInput.value);
+      const inputMass = inputMassUnitSelect.value;
+      const inputTime = inputTimeUnitSelect.value;
+      const outputMass = outputMassUnitSelect.value;
+      const outputTime = outputTimeUnitSelect.value;
+
+      if (isNaN(value) || value < 0) {
+        showFieldError(massValueInput, "Enter a valid mass rate.");
+        return;
+      }
+
+      if (!massToGrams[inputMass]) {
+        showFieldError(inputMassUnitSelect, "Select a valid input mass unit.");
+        return;
+      }
+
+      if (!timeToSeconds[inputTime]) {
+        showFieldError(inputTimeUnitSelect, "Select a valid input time unit.");
+        return;
+      }
+
+      if (!massToGrams[outputMass]) {
+        showFieldError(outputMassUnitSelect, "Select a valid output mass unit.");
+        return;
+      }
+
+      if (!timeToSeconds[outputTime]) {
+        showFieldError(outputTimeUnitSelect, "Select a valid output time unit.");
+        return;
+      }
+
+      clearErrors();
+
+      const gramsPerSecond = (value * massToGrams[inputMass]) / timeToSeconds[inputTime];
+      const convertedMass = gramsPerSecond * timeToSeconds[outputTime] / massToGrams[outputMass];
+
+      showOutput(
+        `${formatNumber(convertedMass)} ${outputMass} per ${timeLabels[outputTime]}`,
+        true
+      );
+    }
+
+    function resetCalculator() {
+      solidTimeForm.reset();
+      clearErrors();
+      outputText.textContent = "";
+
+      if (isMobileView()) {
+        moveMobileFocus(massValueInput);
+      }
+    }
+
+    submitBtn.addEventListener("click", convertMass);
+    resetBtn.addEventListener("click", resetCalculator);
+
+    massValueInput.addEventListener("input", clearErrors);
+    inputMassUnitSelect.addEventListener("change", clearErrors);
+    inputTimeUnitSelect.addEventListener("change", clearErrors);
+    outputMassUnitSelect.addEventListener("change", clearErrors);
+    outputTimeUnitSelect.addEventListener("change", clearErrors);
+  </script>
+
+</body>
+</html>

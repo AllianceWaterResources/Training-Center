@@ -1,132 +1,868 @@
-        <div class="content" style="text-align: center;">
-            <form onsubmit="return false;"  id="myForm">
-                <br>
-                <h2 class="calc-title">Langelier Saturation Index</h2>
-                <input id="input_1" type="number" step="0.01" style="width: 75px; padding: 1px;">
-                <label for="input_1">Temperature (°C)</label>
-                <br>
-                <input type="number" id="input_2" step="0.01" style="width: 75px; padding: 1px;">
-                <label for="input_2">pH</label>
-                <br>
-                <input type="text" id="input_3" step="0.01" style="width: 75px; padding: 1px;">
-                <label for="input_3">Total Disolved Solids</label><br>
-                <input type="text" id="input_4" step="0.01" style="width: 75px; padding: 1px;">
-                <label for="input_4">Calcium Hardness</label><br>
-                <input type="text" id="input_5" step="0.01" style="width: 75px; padding: 1px;">
-                <label for="input_5">Total Alkalinity</label><br>
-                <input style="width: 30px;" checked="checked" name="caselect" type="radio" value="1">as Ca<sup>2+</sup>
-                <input style="width: 30px;" checked="checked" name="caselect" type="radio" value="2.5">as CaCO<sub>3</sub>
-                <br><br>
-                <button class="frosted-button" onclick=calculate()>Submit</button>
-                <button class="frosted-button" onclick=resetForm()>Reset</button>
-                
-                <br><br>
-                <div>
-                <label style="width: 85px; font-weight: bold;">SI Calcite:</label>
-                <label id="si" style="width: 60px; font-weight: bold;"></label>
-                
-                <label style="width: 85px;">SI Argonite:</label>
-                <label id="sia" style="width: 60px;"></label>
-                <br>
-                <label style="width: 85px;">SI Vaterite:</label>
-                <label id="siv" style="width: 60px;"></label>
-                
-                <label style="width: 85px;">SI Average:</label>
-                <label id="siavg" style="width: 60px;"></label>
-                <br>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Langelier Saturation Index | Alliance Water Resources Training Center</title>
+
+  <link rel="icon" href="../Images/home_drop.png" type="image/png">
+
+  <link
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+    rel="stylesheet"
+  >
+
+  <link rel="stylesheet" href="../CSS/custom-styles.css">
+
+  <style>
+    html,
+    body {
+      min-height: 100%;
+      margin: 0;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      background-color: #00577D;
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .navbar {
+      background-color: #00577D;
+    }
+
+    .hero {
+      background-image: url('../Images/banner_water.jpg');
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+      color: white;
+      position: relative;
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      text-align: center;
+      padding: 24px 16px 70px;
+      overflow: visible;
+    }
+
+    .hero::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 87, 125, 0.52);
+      z-index: 0;
+    }
+
+    .hero .container {
+      position: relative;
+      z-index: 1;
+    }
+
+    .breadcrumb-wrap {
+      margin-bottom: 0.9rem;
+      color: rgba(255, 255, 255, 0.92);
+      font-weight: 700;
+      font-size: 0.92rem;
+      text-align: center;
+    }
+
+    .breadcrumb-wrap a {
+      color: rgba(255, 255, 255, 0.92);
+      text-decoration: none;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.55);
+      padding-bottom: 2px;
+    }
+
+    .breadcrumb-wrap a:hover,
+    .breadcrumb-wrap a:focus {
+      color: white;
+      border-bottom-color: white;
+    }
+
+    .breadcrumb-separator {
+      display: inline-block;
+      margin: 0 0.45rem;
+      color: rgba(255, 255, 255, 0.78);
+    }
+
+    .calc-card {
+      max-width: 620px;
+      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.18);
+      backdrop-filter: blur(8px);
+      -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(255, 255, 255, 0.30);
+      border-radius: 14px;
+      padding: 24px 18px 18px;
+      box-shadow: 0 0.7rem 1.5rem rgba(0, 0, 0, 0.18);
+      text-align: center;
+    }
+
+    .card-top {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      margin-bottom: 1.2rem;
+      flex-wrap: wrap;
+    }
+
+    .calc-title {
+      margin: 0;
+      font-size: 1.9rem;
+      font-weight: 700;
+      color: white;
+      text-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+    }
+
+    .help-button {
+      padding: 0.4rem 0.85rem;
+      border-radius: 999px;
+      border: 1px solid rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.18);
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      line-height: 1;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .help-button:hover,
+    .help-button:focus {
+      background: rgba(255, 255, 255, 0.28);
+      color: white;
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.16);
+    }
+
+    .pair-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      align-items: end;
+      margin-bottom: 0.85rem;
+    }
+
+    .field-wrap {
+      width: 100%;
+    }
+
+    .field-label {
+      display: block;
+      color: white;
+      font-weight: 700;
+      font-size: 0.9rem;
+      margin-bottom: 0.32rem;
+      text-align: left;
+    }
+
+    .calc-input,
+    .calc-select {
+      width: 100%;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.88);
+      color: #1f2f39;
+      padding: 0.72rem 0.85rem;
+      font-size: 0.98rem;
+      line-height: 1.2;
+      min-height: 48px;
+    }
+
+    .calc-input::placeholder {
+      color: #6c757d;
+      opacity: 1;
+    }
+
+    .calc-input.input-error,
+    .calc-select.input-error,
+    .radio-card.input-error {
+      border: 2px solid rgba(255, 220, 120, 0.95);
+      box-shadow: 0 0 0 3px rgba(255, 220, 120, 0.28);
+    }
+
+    .radio-card {
+      min-height: 48px;
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      border: 1px solid rgba(255, 255, 255, 0.38);
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.16);
+      padding: 0.62rem 0.75rem;
+      color: white;
+    }
+
+    .radio-option {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.35rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .radio-option input {
+      accent-color: #00577D;
+    }
+
+    .button-row {
+      display: flex;
+      justify-content: center;
+      gap: 14px;
+      margin: 1.2rem 0 1rem;
+      flex-wrap: wrap;
+    }
+
+    .frosted-button {
+      min-width: 106px;
+      padding: 0.58rem 1.15rem;
+      border-radius: 6px;
+      border: 1px solid rgba(255, 255, 255, 0.45);
+      background: rgba(255, 255, 255, 0.16);
+      color: white;
+      font-weight: 700;
+      transition:
+        background 0.2s ease,
+        transform 0.2s ease,
+        box-shadow 0.2s ease;
+    }
+
+    .frosted-button:hover,
+    .frosted-button:focus {
+      background: rgba(255, 255, 255, 0.26);
+      transform: translateY(-1px);
+      box-shadow: 0 0.45rem 1rem rgba(0, 0, 0, 0.14);
+    }
+
+    .answer-box {
+      margin-top: 0.7rem;
+      padding: 12px 14px;
+      border-radius: 10px;
+      background: rgba(0, 87, 125, 0.42);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      color: white;
+      text-align: center;
+      font-size: 1rem;
+      font-weight: 700;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .lsi-results {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 0.9rem;
+    }
+
+    .result-item {
+      border-radius: 10px;
+      background: rgba(255, 255, 255, 0.16);
+      border: 1px solid rgba(255, 255, 255, 0.24);
+      padding: 10px 12px;
+      color: white;
+      text-align: center;
+    }
+
+    .result-label {
+      display: block;
+      font-size: 0.84rem;
+      font-weight: 700;
+      opacity: 0.9;
+      margin-bottom: 0.2rem;
+    }
+
+    .result-value {
+      display: block;
+      font-size: 1.25rem;
+      font-weight: 800;
+      line-height: 1.1;
+    }
+
+    .modal-content {
+      border-radius: 16px;
+      border: 0;
+    }
+
+    .modal-header {
+      background: #00577D;
+      color: white;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+    }
+
+    .modal-body {
+      color: #243642;
+      line-height: 1.55;
+    }
+
+    .modal-body code {
+      color: #00577D;
+      font-weight: 700;
+    }
+
+    footer {
+      background-color: #00577D;
+      color: white;
+      text-align: center;
+      padding: 10px;
+    }
+
+    @media (max-width: 576px) {
+      .hero {
+        background-attachment: scroll;
+        padding: 24px 14px 90px;
+      }
+
+      .navbar-brand img {
+        height: 44px;
+      }
+
+      .breadcrumb-wrap {
+        font-size: 0.88rem;
+        line-height: 1.55;
+        margin-bottom: 0.8rem;
+      }
+
+      .calc-card {
+        max-width: 100%;
+        padding: 20px 14px 20px;
+      }
+
+      .calc-title {
+        font-size: 1.55rem;
+      }
+
+      .pair-row {
+        gap: 8px;
+      }
+
+      .field-label {
+        font-size: 0.9rem;
+      }
+
+      .calc-input,
+      .calc-select {
+        font-size: 0.95rem;
+        min-height: 46px;
+      }
+
+      .radio-card {
+        min-height: 46px;
+      }
+    }
+
+    @media (max-width: 430px) {
+      .pair-row {
+        grid-template-columns: 1fr;
+        gap: 0.85rem;
+        margin-bottom: 1rem;
+      }
+
+      .lsi-results {
+        grid-template-columns: 1fr;
+      }
+
+      .button-row {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .frosted-button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <nav class="navbar navbar-expand-lg navbar-dark">
+    <div class="container-fluid">
+
+      <a class="navbar-brand" href="https://alliancewater.com">
+        <img
+          src="../Images/logo.png"
+          alt="Alliance Training Center Logo"
+          class="navbar-logo"
+          height="50"
+        >
+      </a>
+
+      <button
+        class="navbar-toggler"
+        type="button"
+        data-bs-toggle="collapse"
+        data-bs-target="#navbarNav"
+        aria-controls="navbarNav"
+        aria-expanded="false"
+        aria-label="Toggle navigation"
+      >
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-auto">
+
+          <li class="nav-item">
+            <a class="nav-link" href="../index.html">Home</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="../calculator.html">Calculators</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../study_material.html">Study Material</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../math_trainer.html">Math Trainers</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../about.html">About</a>
+          </li>
+
+          <li class="nav-item">
+            <a class="nav-link" href="../contact.html">Contact</a>
+          </li>
+
+        </ul>
+      </div>
+
+    </div>
+  </nav>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+
+        <nav class="breadcrumb-wrap" aria-label="Breadcrumb">
+          <a href="../calculator.html">Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <a href="treatment_calculators.html">Treatment Calculators</a>
+          <span class="breadcrumb-separator">›</span>
+          <span aria-current="page">Langelier Saturation Index</span>
+        </nav>
+
+        <div class="calc-card">
+          <div class="card-top">
+            <h1 class="calc-title">Langelier Saturation Index</h1>
+
+            <button
+              type="button"
+              class="help-button"
+              data-bs-toggle="modal"
+              data-bs-target="#lsiHelpModal"
+            >
+              Help
+            </button>
+          </div>
+
+          <form id="lsiForm" onsubmit="return false;" novalidate>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="input_1" class="field-label">Temperature °C</label>
+                <input
+                  id="input_1"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  placeholder="Required"
+                  aria-label="Temperature Celsius"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="input_2" class="field-label">pH</label>
+                <input
+                  id="input_2"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  max="14"
+                  placeholder="Required"
+                  aria-label="pH"
+                >
+              </div>
+            </div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="input_3" class="field-label">Total Dissolved Solids</label>
+                <input
+                  id="input_3"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="mg/L"
+                  aria-label="Total Dissolved Solids"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <label for="input_4" class="field-label">Calcium Hardness</label>
+                <input
+                  id="input_4"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="Required"
+                  aria-label="Calcium Hardness"
+                >
+              </div>
+            </div>
+
+            <div class="pair-row">
+              <div class="field-wrap">
+                <label for="input_5" class="field-label">Total Alkalinity</label>
+                <input
+                  id="input_5"
+                  class="calc-input"
+                  type="number"
+                  step="0.01"
+                  min="0"
+                  placeholder="mg/L as CaCO₃"
+                  aria-label="Total Alkalinity"
+                >
+              </div>
+
+              <div class="field-wrap">
+                <span class="field-label">Calcium Unit</span>
+                <div class="radio-card" id="calciumUnitGroup">
+                  <label class="radio-option">
+                    <input name="caselect" type="radio" value="1">
+                    as Ca<sup>2+</sup>
+                  </label>
+
+                  <label class="radio-option">
+                    <input name="caselect" type="radio" value="2.5" checked>
+                    as CaCO<sub>3</sub>
+                  </label>
                 </div>
-            </form>
-            <br><br><br><br>
-            
+              </div>
+            </div>
 
-            <script>
+            <div class="button-row">
+              <button type="button" class="frosted-button" id="submitBtn">Submit</button>
+              <button type="button" class="frosted-button" id="resetBtn">Reset</button>
+            </div>
 
-                function resetForm() {
-                    document.getElementById("myForm").reset();
-                    document.getElementById("si").innerHTML = "";
-                    document.getElementById("siavg").innerHTML = "";
-                    document.getElementById("sia").innerHTML = "";
-                    document.getElementById("siv").innerHTML = "";
-                }                
+            <div id="outputText" class="answer-box" aria-live="polite" tabindex="-1">
+              Answer will appear here.
+            </div>
 
-                function calculate() {
- 	                var temp = document.getElementById("input_1").value;
- 	                var ph = document.getElementById("input_2").value;
- 	                var tds = document.getElementById("input_3").value;
- 	                var ca = document.getElementById("input_4").value; 
-                    var radioButtons = document.getElementsByName("caselect");
-                    var selectedValue = 1; // Default value if no radio button is selected
+            <div class="lsi-results" aria-label="Langelier Saturation Index Results">
+              <div class="result-item">
+                <span class="result-label">SI Calcite</span>
+                <span class="result-value" id="si">--</span>
+              </div>
 
-                    for (var i = 0; i < radioButtons.length; i++) {
-                        if (radioButtons[i].checked) {
-                            selectedValue = parseFloat(radioButtons[i].value);
-                            break;
-                        }
-                    }
+              <div class="result-item">
+                <span class="result-label">SI Aragonite</span>
+                <span class="result-value" id="sia">--</span>
+              </div>
 
-                    // Adjust calcium hardness based on the selected unit
-                    if (selectedValue === 2.5) {
-                        ca /= 2.5;
-                    }
-                    var alk = document.getElementById("input_5").value;
- 	                var eps = 60954.0 / (389.0 + temp * 1) - 68.937;
- 	                var aprime = 1820000.0 * Math.pow(((273.2 + temp * 1) * eps), -1.5);
- 	                var u = tds / 40000;
- 	                var sqrtu = Math.pow(u, .5);
- 	                var pfm = Math.round((aprime * (sqrtu / (sqrtu * 1.0 + 1.0) - .3 * u))*1000)/1000;
- 	                var t = temp * 1 + 273.2;
- 	                var log10t = Math.log(t) / Math.log(10);
- 	                var overt = 1 / t;
- 	                var pkw = 4471 * overt + .01706 * t - 6.0875;
- 	                var pks =  Math.round((171.9065 + .077993 * t - 2839.319 * overt - 71.595 * log10t)*100)/100;
- 	                var pksa = Math.round((171.9773 + .077993 * t - 2903.293 * overt - 71.595 * log10t)*100)/100;
- 	                var pksv = Math.round((172.1295 + .077993 * t - 3074.688 * overt - 71.595 * log10t)*100)/100;
-                    var pksavg = Math.round(((pks + pksa + pksv)/3)*100)/100;
-  	                var pk2 = Math.round((107.8871 + .03252849 * t - 5151.79 * overt - 38.92561 * log10t + 563713.9 * overt * overt)*100)/100;
- 	                if(ca == 0 || ca == "") { ca += .02;}
-       	                var pca = Math.round((-(Math.log(ca / 40000) / Math.log(10)))*100)/100;
- 	                if(alk == 0 || alk == "") { alk += .1;}
-                        var phco3 = (alk / 50000 + Math.pow(10, (pfm - ph * 1)) - Math.pow(10, (ph * 1 + pfm - pkw))) / (1 + .5 * Math.pow(10, (ph * 1 - pk2)));
- 	                    phco3 = Math.round( - Math.log(phco3) / Math.log(10) *100)/100;
-                        var phs = Math.round( (pk2 - pks + pca + phco3 + (5 * pfm))*100)/100;
-                        var phsa = Math.round( (pk2 - pksa + pca + phco3 + (5 * pfm))*100)/100;
-                        var phsv = Math.round( (pk2 - pksv + pca + phco3 + (5 * pfm))*100)/100;
-                        var phsavg = Math.round( (pk2 - pksavg + pca + phco3 + (5 * pfm))*100)/100;
-                        var SI = Math.round( (ph * 1 - phs * 1)*100)/100; 	
-                        var SIa = Math.round( (ph * 1 - phsa * 1)*100)/100;
-                        var SIv = Math.round( (ph * 1 - phsv * 1)*100)/100; 	
-                        var SIavg = Math.round( (ph * 1 - phsavg * 1)*100)/100;
-                        if(SIavg > 0) { document.getElementById("siavg").innerHTML = "+" + SIavg;}
-                        else
-                	        {document.getElementById("siavg").innerHTML = SIavg;}
-                        if(SIa > 0) { document.getElementById("sia").innerHTML = "+" + SIa;}
-                        else
-                	        { document.getElementById("sia").innerHTML = Math.round(SIa*100)/100;}
-                        if(SIv > 0)
-                	        { document.getElementById("siv").innerHTML = "+" + SIv;}
-	                    else
-               		        { document.getElementById("siv").innerHTML = SIv;}
-	                    if(SI > 0)
-               		        { document.getElementById("si").innerHTML = "+" + SI;}
-	                    else
-               		        { document.getElementById("si").innerHTML = SI;}
-                            //document.langlier.eps.value = Math.round(eps*100)/100;
-                            //document.langlier.aprime.value = Math.round(aprime*1000)/1000;
-                            //document.langlier.u.value = Math.round(u*1000)/1000;
-                            //document.langlier.pfm.value = Math.round(pfm*1000)/1000;
-                            //document.langlier.phco3.value = Math.round(phco3*100)/100;
-                            //document.langlier.pks.value =   pks;
-                            //document.langlier.pksa.value = pksa;
-                            //document.langlier.pksv.value = pksv;
-                            //document.langlier.pksavg.value = pksavg;
-                            //document.langlier.pk2.value = Math.round(pk2*100)/100;
-	                        //document.langlier.pca.value = Math.round(pca*100)/100;
-	                        //document.langlier.phs.value = Math.round(phs*100)/100;
+              <div class="result-item">
+                <span class="result-label">SI Vaterite</span>
+                <span class="result-value" id="siv">--</span>
+              </div>
 
-                };
-                    
-                    
-                
-            </script>
+              <div class="result-item">
+                <span class="result-label">SI Average</span>
+                <span class="result-value" id="siavg">--</span>
+              </div>
+            </div>
 
+          </form>
         </div>
+
+      </div>
+    </section>
+  </main>
+
+  <div
+    class="modal fade"
+    id="lsiHelpModal"
+    tabindex="-1"
+    aria-labelledby="lsiHelpModalLabel"
+    aria-hidden="true"
+  >
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+
+        <div class="modal-header">
+          <h2 class="modal-title fs-5" id="lsiHelpModalLabel">LSI Calculator Help</h2>
+          <button
+            type="button"
+            class="btn-close btn-close-white"
+            data-bs-dismiss="modal"
+            aria-label="Close">
+          </button>
+        </div>
+
+        <div class="modal-body">
+          <p>
+            Enter temperature, pH, total dissolved solids, calcium hardness, and total
+            alkalinity. TDS, calcium hardness, and alkalinity should be entered in mg/L.
+          </p>
+
+          <p>
+            Select whether calcium hardness is entered as <strong>Ca²⁺</strong> or
+            <strong>CaCO₃</strong>. If calcium is entered as CaCO₃, the calculator converts
+            it internally before calculating the index.
+          </p>
+
+          <p class="mb-0">
+            Positive values generally indicate scale-forming tendency, negative values
+            indicate undersaturation, and values near zero indicate approximate equilibrium.
+          </p>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    &copy; 2024 Alliance Water Resources. All rights reserved.
+  </footer>
+
+  <script
+    src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+  </script>
+
+  <script>
+    const lsiForm = document.getElementById("lsiForm");
+    const temperatureInput = document.getElementById("input_1");
+    const phInput = document.getElementById("input_2");
+    const tdsInput = document.getElementById("input_3");
+    const calciumInput = document.getElementById("input_4");
+    const alkalinityInput = document.getElementById("input_5");
+    const calciumUnitGroup = document.getElementById("calciumUnitGroup");
+    const outputText = document.getElementById("outputText");
+    const submitBtn = document.getElementById("submitBtn");
+    const resetBtn = document.getElementById("resetBtn");
+
+    const siOutput = document.getElementById("si");
+    const siaOutput = document.getElementById("sia");
+    const sivOutput = document.getElementById("siv");
+    const siAvgOutput = document.getElementById("siavg");
+
+    function isMobileView() {
+      return window.matchMedia("(max-width: 576px)").matches;
+    }
+
+    function moveMobileFocus(element) {
+      if (!isMobileView() || !element) {
+        return;
+      }
+
+      element.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+
+      setTimeout(() => {
+        element.focus({ preventScroll: true });
+      }, 250);
+    }
+
+    function clearErrors() {
+      temperatureInput.classList.remove("input-error");
+      phInput.classList.remove("input-error");
+      tdsInput.classList.remove("input-error");
+      calciumInput.classList.remove("input-error");
+      alkalinityInput.classList.remove("input-error");
+      calciumUnitGroup.classList.remove("input-error");
+    }
+
+    function resetResults() {
+      siOutput.textContent = "--";
+      siaOutput.textContent = "--";
+      sivOutput.textContent = "--";
+      siAvgOutput.textContent = "--";
+    }
+
+    function showOutput(message, focusAnswer = false) {
+      outputText.textContent = message;
+
+      if (focusAnswer) {
+        moveMobileFocus(outputText);
+      }
+    }
+
+    function showFieldError(field, message) {
+      clearErrors();
+      resetResults();
+      field.classList.add("input-error");
+      showOutput(message);
+      moveMobileFocus(field);
+    }
+
+    function formatSigned(value) {
+      const rounded = Math.round(value * 100) / 100;
+
+      if (rounded > 0) {
+        return `+${rounded}`;
+      }
+
+      return `${rounded}`;
+    }
+
+    function interpretSI(siValue) {
+      if (siValue > 0.1) {
+        return "Calcite SI suggests scale-forming tendency.";
+      }
+
+      if (siValue < -0.1) {
+        return "Calcite SI suggests undersaturation tendency.";
+      }
+
+      return "Calcite SI is near equilibrium.";
+    }
+
+    function getSelectedCalciumConversion() {
+      const selected = document.querySelector('input[name="caselect"]:checked');
+
+      if (!selected) {
+        return null;
+      }
+
+      return parseFloat(selected.value);
+    }
+
+    function calculateLSI() {
+      const temp = parseFloat(temperatureInput.value);
+      const ph = parseFloat(phInput.value);
+      const tds = parseFloat(tdsInput.value);
+      let ca = parseFloat(calciumInput.value);
+      let alk = parseFloat(alkalinityInput.value);
+      const calciumConversion = getSelectedCalciumConversion();
+
+      if (isNaN(temp) || temp <= -273.2) {
+        showFieldError(temperatureInput, "Enter a valid temperature in °C.");
+        return;
+      }
+
+      if (isNaN(ph) || ph < 0 || ph > 14) {
+        showFieldError(phInput, "Enter a valid pH between 0 and 14.");
+        return;
+      }
+
+      if (isNaN(tds) || tds < 0) {
+        showFieldError(tdsInput, "Enter total dissolved solids.");
+        return;
+      }
+
+      if (isNaN(ca) || ca < 0) {
+        showFieldError(calciumInput, "Enter calcium hardness.");
+        return;
+      }
+
+      if (isNaN(alk) || alk < 0) {
+        showFieldError(alkalinityInput, "Enter total alkalinity.");
+        return;
+      }
+
+      if (calciumConversion === null) {
+        showFieldError(calciumUnitGroup, "Select the calcium hardness unit.");
+        return;
+      }
+
+      clearErrors();
+
+      if (calciumConversion === 2.5) {
+        ca = ca / 2.5;
+      }
+
+      if (ca === 0) {
+        ca += 0.02;
+      }
+
+      if (alk === 0) {
+        alk += 0.1;
+      }
+
+      const eps = 60954.0 / (389.0 + temp * 1) - 68.937;
+      const aprime = 1820000.0 * Math.pow(((273.2 + temp * 1) * eps), -1.5);
+      const u = tds / 40000;
+      const sqrtu = Math.pow(u, 0.5);
+      const pfm = Math.round((aprime * (sqrtu / (sqrtu * 1.0 + 1.0) - 0.3 * u)) * 1000) / 1000;
+      const t = temp * 1 + 273.2;
+      const log10t = Math.log(t) / Math.log(10);
+      const overt = 1 / t;
+      const pkw = 4471 * overt + 0.01706 * t - 6.0875;
+      const pks = Math.round((171.9065 + 0.077993 * t - 2839.319 * overt - 71.595 * log10t) * 100) / 100;
+      const pksa = Math.round((171.9773 + 0.077993 * t - 2903.293 * overt - 71.595 * log10t) * 100) / 100;
+      const pksv = Math.round((172.1295 + 0.077993 * t - 3074.688 * overt - 71.595 * log10t) * 100) / 100;
+      const pksavg = Math.round(((pks + pksa + pksv) / 3) * 100) / 100;
+      const pk2 = Math.round((107.8871 + 0.03252849 * t - 5151.79 * overt - 38.92561 * log10t + 563713.9 * overt * overt) * 100) / 100;
+      const pca = Math.round((-(Math.log(ca / 40000) / Math.log(10))) * 100) / 100;
+
+      let phco3 = (alk / 50000 + Math.pow(10, (pfm - ph * 1)) - Math.pow(10, (ph * 1 + pfm - pkw))) / (1 + 0.5 * Math.pow(10, (ph * 1 - pk2)));
+      phco3 = Math.round(-Math.log(phco3) / Math.log(10) * 100) / 100;
+
+      const phs = Math.round((pk2 - pks + pca + phco3 + (5 * pfm)) * 100) / 100;
+      const phsa = Math.round((pk2 - pksa + pca + phco3 + (5 * pfm)) * 100) / 100;
+      const phsv = Math.round((pk2 - pksv + pca + phco3 + (5 * pfm)) * 100) / 100;
+      const phsavg = Math.round((pk2 - pksavg + pca + phco3 + (5 * pfm)) * 100) / 100;
+
+      const si = Math.round((ph * 1 - phs * 1) * 100) / 100;
+      const sia = Math.round((ph * 1 - phsa * 1) * 100) / 100;
+      const siv = Math.round((ph * 1 - phsv * 1) * 100) / 100;
+      const siavg = Math.round((ph * 1 - phsavg * 1) * 100) / 100;
+
+      siOutput.textContent = formatSigned(si);
+      siaOutput.textContent = formatSigned(sia);
+      sivOutput.textContent = formatSigned(siv);
+      siAvgOutput.textContent = formatSigned(siavg);
+
+      showOutput(interpretSI(si), true);
+    }
+
+    function resetCalculator() {
+      lsiForm.reset();
+      clearErrors();
+      resetResults();
+      outputText.textContent = "Answer will appear here.";
+
+      if (isMobileView()) {
+        moveMobileFocus(temperatureInput);
+      }
+    }
+
+    submitBtn.addEventListener("click", calculateLSI);
+    resetBtn.addEventListener("click", resetCalculator);
+
+    temperatureInput.addEventListener("input", clearErrors);
+    phInput.addEventListener("input", clearErrors);
+    tdsInput.addEventListener("input", clearErrors);
+    calciumInput.addEventListener("input", clearErrors);
+    alkalinityInput.addEventListener("input", clearErrors);
+  </script>
+
+</body>
+</html>
